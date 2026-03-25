@@ -1,0 +1,2127 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>福州财小哥-福建</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+            background-color: #f5f7fa;
+            color: #303133;
+            font-size: 14px;
+        }
+        #app {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+        .main-header {
+            background-color: #409eff;
+            color: white;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 60px;
+            flex-shrink: 0;
+        }
+        .header-left .logo {
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .header-center {
+            display: flex;
+            align-items: center;
+        }
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .header-action {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .header-action .btn-action {
+            background-color: #58a5f7;
+            border: none;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .btn-account-switch {
+            background-color: #fff;
+            border: 1px solid #dcdfe6;
+            color: #409eff;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            margin-left: 20px;
+        }
+        .user-menu .user-name {
+            margin: 0 10px;
+        }
+        .user-menu .logout {
+            color: white;
+            text-decoration: none;
+        }
+
+        /* Switch toggle */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 40px;
+            height: 20px;
+            margin-left: 8px;
+        }
+        .switch input { 
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 2px;
+            bottom: 2px;
+            background-color: white;
+            transition: .4s;
+        }
+        input:checked + .slider {
+            background-color: #409eff;
+        }
+         input:checked + .slider:before {
+            transform: translateX(20px);
+        }
+        .slider.round {
+            border-radius: 20px;
+        }
+        .slider.round:before {
+            border-radius: 50%;
+        }
+
+        .main-container {
+            display: flex;
+            flex-grow: 1;
+            overflow: hidden;
+        }
+        .sidebar {
+            width: 220px;
+            background-color: #fff;
+            flex-shrink: 0;
+            overflow-y: auto;
+            border-right: 1px solid #e6e6e6;
+        }
+        .menu ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .menu-item a {
+            display: block;
+            padding: 15px 20px;
+            color: #303133;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+        .menu-item a span {
+            margin-right: 10px;
+        }
+        .menu-item.active a {
+            color: #409eff;
+        }
+        .menu-item.has-submenu.open > a {
+            font-weight: bold;
+        }
+        .submenu {
+            padding-left: 20px;
+            background-color: #fff;
+        }
+        .submenu-item a {
+            padding-left: 30px;
+        }
+        .submenu-item.active {
+            background-color: #ecf5ff;
+            border-right: 3px solid #409eff;
+        }
+        .submenu-item.active a {
+             color: #409eff;
+        }
+
+        .main-content {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background-color: #f5f7fa;
+        }
+        .tabs {
+            display: flex;
+            border-bottom: 2px solid #e4e7ed;
+        }
+        .tab-item {
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: #f5f7fa;
+            border: 1px solid #e4e7ed;
+            border-bottom: none;
+            margin-right: 5px;
+            border-radius: 4px 4px 0 0;
+        }
+        .tab-item.active {
+            background-color: #fff;
+            border-bottom: 2px solid #fff;
+            margin-bottom: -2px;
+        }
+        .close-tab {
+            margin-left: 8px;
+            cursor: pointer;
+        }
+        .content-body {
+            background-color: #fff;
+            padding: 20px;
+            margin-top: -1px;
+            border: 1px solid #e4e7ed;
+            border-top: none;
+        }
+        .filters {
+            margin-bottom: 20px;
+        }
+        .filter-btn {
+            background-color: #fff;
+            border: 1px solid #dcdfe6;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        .filter-btn.active {
+            background-color: #409eff;
+            color: white;
+            border-color: #409eff;
+        }
+        .content-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .search-bar {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 15px;
+        }
+        .form-item {
+            display: flex;
+            align-items: center;
+        }
+        .form-item label {
+            margin-right: 10px;
+            font-size: 14px;
+        }
+        .form-item input, .form-item select {
+            border: 1px solid #dcdfe6;
+            border-radius: 4px;
+            padding: 8px 10px;
+        }
+        .btn-search, .btn-export {
+            background-color: #409eff;
+            color: white;
+            border: none;
+            padding: 9px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .btn-export {
+            background-color: #fff;
+            color: #409eff;
+            border: 1px solid #409eff;
+        }
+
+        .table-container {
+            width: 100%;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #e6e6e6;
+            padding: 12px 8px;
+            text-align: left;
+            font-size: 13px;
+        }
+        thead {
+            background-color: #f8f8f9;
+        }
+        th {
+            font-weight: bold;
+        }
+        tbody tr:nth-child(even) {
+            background-color: #fafafa;
+        }
+        td a {
+            color: #409eff;
+            text-decoration: none;
+            margin: 0 5px;
+        }
+        .pagination {
+            text-align: right;
+            margin-top: 20px;
+            color: #606266;
+        }
+
+        /* Drawer Styles */
+        .drawer-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+        .drawer-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .drawer {
+            position: fixed;
+            top: 0;
+            right: -400px; /* Start off-screen */
+            width: 400px;
+            height: 100%;
+            background-color: white;
+            z-index: 1001;
+            box-shadow: -2px 0 8px rgba(0,0,0,0.15);
+            transition: right 0.3s ease-in-out;
+            display: flex;
+            flex-direction: column;
+        }
+        .drawer.active {
+            right: 0;
+        }
+        .drawer-header {
+            padding: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            border-bottom: 1px solid #e8e8e8;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .drawer-close {
+            cursor: pointer;
+            font-size: 24px;
+            color: #909399;
+        }
+        .drawer-body {
+            padding: 20px;
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+        .drawer-form .form-item {
+            flex-direction: column;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+        .drawer-form .form-item label {
+            margin-bottom: 8px;
+        }
+        .drawer-form .form-item input,
+        .drawer-form .form-item select,
+        .drawer-form .form-item textarea {
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .select-group {
+            display: flex;
+            gap: 10px;
+            width: 100%;
+        }
+        .select-group select {
+            flex: 1;
+        }
+
+        /* Custom Checkbox Dropdown */
+        .custom-select-wrapper {
+            position: relative;
+            width: 100%;
+        }
+        .custom-select-btn {
+            width: 100%;
+            background-color: #fff;
+            border: 1px solid #dcdfe6;
+            border-radius: 4px;
+            padding: 8px 10px;
+            text-align: left;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-sizing: border-box;
+        }
+        .custom-select-btn::after {
+            content: '▼';
+            font-size: 12px;
+        }
+        .custom-select-panel {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            max-height: 200px;
+            overflow-y: auto;
+            background-color: #fff;
+            border: 1px solid #dcdfe6;
+            border-top: none;
+            border-radius: 0 0 4px 4px;
+            z-index: 10;
+            box-sizing: border-box;
+        }
+        .custom-select-panel.active {
+            display: block;
+        }
+        .custom-select-option {
+            padding: 8px 10px;
+            cursor: pointer;
+        }
+        .custom-select-option:hover {
+            background-color: #f5f7fa;
+        }
+        .custom-select-option input {
+            margin-right: 8px;
+        }
+        .drawer-footer {
+            padding: 10px 20px;
+            border-top: 1px solid #e8e8e8;
+            text-align: right;
+        }
+        .btn-cancel {
+            background-color: #fff;
+            color: #606266;
+            border: 1px solid #dcdfe6;
+            padding: 9px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        .page-content {
+            display: none;
+        }
+        .page-content.active {
+            display: block;
+        }
+
+        /* Edit Scene Drawer */
+        .drawer.large {
+            width: 80vw;
+            right: -80vw;
+        }
+        .drawer.large.active {
+            right: 0;
+        }
+        .drawer-body-columns {
+            display: flex;
+            gap: 20px;
+            height: 100%;
+        }
+        .drawer-column {
+            flex: 1;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        .drawer-column .config-panel {
+            border: 1px solid #e8e8e8;
+            border-radius: 4px;
+            padding: 15px;
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+        .indicator-tree ul {
+            list-style: none;
+            padding-left: 20px;
+        }
+        .indicator-tree li {
+            margin: 10px 0;
+        }
+        .threshold-config-block {
+            border: 1px solid #e8e8e8;
+            border-radius: 4px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        .threshold-config-block h4 {
+            margin-top: 0;
+            font-size: 14px;
+        }
+        .risk-level-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .risk-tag {
+            padding: 4px 10px;
+            color: white;
+            border-radius: 4px;
+            font-size: 12px;
+            width: 60px;
+            text-align: center;
+        }
+        .risk-tag.high { background-color: #f56c6c; }
+        .risk-tag.medium { background-color: #e6a23c; }
+        .risk-tag.low { background-color: #67c23a; }
+        .risk-level-row input {
+            flex: 1;
+        }
+
+        /* Dynamic Risk Monitoring Page */
+        .dynamic-risk-page-toolbar {
+            display: flex;
+            margin-bottom: 20px;
+        }
+        .dynamic-risk-page-toolbar .search-input {
+            width: 300px;
+            padding: 8px 12px;
+            border: 1px solid #dcdfe6;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+        .dynamic-risk-page-toolbar .filter-btn {
+            padding: 8px 15px;
+            border: 1px solid #dcdfe6;
+            background-color: #fff;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .risk-list-header, .risk-list-item {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1.5fr 0.8fr 0.5fr 0.5fr 0.5fr 1fr 1fr;
+            align-items: center;
+            padding: 15px;
+            gap: 10px;
+        }
+        .risk-list-header {
+            color: #909399;
+            font-size: 13px;
+        }
+        .risk-list-item {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            margin-bottom: 15px;
+        }
+        .company-info .name { font-weight: bold; }
+        .company-info .tax-id { font-size: 12px; color: #909399; }
+        .consultant-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .consultant-avatar {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background-color: #dbeaff;
+            color: #409eff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        .time-info { font-size: 12px; color: #606266; }
+        .risk-count {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+        .risk-count.high { background-color: #f56c6c; }
+        .risk-count.medium { background-color: #e6a23c; }
+        .risk-count.low { background-color: #67c23a; }
+        .status-tag {
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            border: 1px solid;
+        }
+        .status-tag.unresolved {
+            color: #f56c6c;
+            border-color: #fde2e2;
+            background-color: #fef0f0;
+        }
+        .action-btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
+            background-color: #ecf5ff;
+            color: #409eff;
+            cursor: pointer;
+        }
+
+        /* Todo Page */
+        .todo-header {
+            background-color: #fff;
+            padding: 15px 25px;
+            border-bottom: 1px solid #e6e6e6;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+        .back-link {
+            color: #303133;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .processing-status {
+            color: #67c23a;
+        }
+        .todo-main-layout {
+            display: flex;
+            flex-direction: row;
+            flex-grow: 1;
+            overflow: hidden;
+        }
+        .todo-sidebar {
+            width: 220px;
+            background-color: #fff;
+            flex-shrink: 0;
+            overflow-y: auto;
+            border-right: 1px solid #e6e6e6;
+            padding: 20px 0;
+        }
+        .stepper {
+            position: relative;
+            padding: 0 20px;
+        }
+        .step {
+            display: flex;
+            align-items: center;
+            position: relative;
+            padding: 15px 0;
+            cursor: pointer;
+        }
+        .step:not(:last-child) {
+            padding-bottom: 30px;
+        }
+        .step:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            left: 14px;
+            top: 45px;
+            height: calc(100% - 30px);
+            width: 1px;
+            background-color: #dcdfe6;
+        }
+        .step.active:not(:last-child)::after,
+        .step.completed:not(:last-child)::after {
+             background-color: #409eff;
+        }
+        .step-number {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background-color: #f5f7fa;
+            color: #c0c4cc;
+            border: 1px solid #dcdfe6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            margin-right: 15px;
+            z-index: 1;
+        }
+        .step-name { 
+            color: #909399; 
+        }
+        .step.active .step-number,
+        .step.completed .step-number {
+            background-color: #409eff;
+            color: #fff;
+            border-color: #409eff;
+        }
+        .step.active .step-name { 
+            color: #303133;
+            font-weight: bold;
+        }
+        .todo-content {
+            padding: 20px;
+            flex-grow: 1;
+            overflow-y: auto;
+            background-color: #f5f7fa;
+        }
+        .todo-panel {
+            display: none;
+        }
+        .todo-panel.active {
+            display: block;
+        }
+        .data-import-layout {
+            display: flex;
+            gap: 20px;
+        }
+        .data-import-main {
+            flex: 2;
+        }
+        .data-import-side {
+            flex: 1;
+        }
+        .sub-tabs {
+            margin-bottom: 20px;
+        }
+        .sub-tab-btn {
+            padding: 8px 20px;
+            border: 1px solid #dcdfe6;
+            background-color: #fff;
+            cursor: pointer;
+        }
+        .sub-tab-btn.active {
+            background-color: #ecf5ff;
+            color: #409eff;
+            border-color: #b3d8ff;
+        }
+        .sub-tab-content {
+            display: none;
+        }
+        .sub-tab-content.active {
+            display: block;
+        }
+        .upload-card {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 40px;
+            text-align: center;
+        }
+        .upload-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: #ecf5ff;
+            color: #409eff;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 30px;
+            margin-bottom: 20px;
+        }
+        .upload-card h3 {
+            margin: 0 0 10px 0;
+            font-size: 20px;
+        }
+        .upload-card p {
+            color: #909399;
+            margin-bottom: 30px;
+        }
+        .upload-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .upload-box {
+            border: 2px dashed #dcdfe6;
+            border-radius: 8px;
+            padding: 30px;
+            cursor: pointer;
+            transition: border-color 0.3s, color 0.3s;
+        }
+        .upload-box:hover {
+            border-color: #409eff;
+            color: #409eff;
+        }
+        .upload-box-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+        .upload-box-text {
+            font-size: 16px;
+        }
+        .collection-card, .history-card {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 25px;
+        }
+        .collection-card h4 {
+            margin-top: 0;
+        }
+        .collection-card .input-group {
+            margin-bottom: 20px;
+        }
+        .collection-card label {
+            display: block;
+            margin-bottom: 8px;
+            color: #606266;
+        }
+        .collection-card input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #dcdfe6;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .btn-full-collect {
+            width: 100%;
+            padding: 12px;
+            background-color: #4a4aff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .history-card h4 {
+            margin-top: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .history-card .view-more {
+            font-size: 12px;
+            color: #909399;
+        }
+        .history-item {
+            border-left: 2px solid #409eff;
+            padding-left: 15px;
+        }
+        .history-item .filename { font-weight: bold; }
+        .history-item .timestamp { font-size: 12px; color: #909399; margin: 5px 0; }
+        .history-item .status {
+            font-size: 12px;
+            color: #67c23a;
+        }
+        .td-center {
+            text-align: center;
+        }
+        /* AI Analysis Panel */
+        .ai-analysis-layout {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        .ai-chart-card {
+            flex: 1;
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 8px;
+        }
+        .ai-chart-card h5 {
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #303133;
+        }
+        .ai-chart-card .chart-icon {
+            color: #409eff;
+            font-size: 18px;
+        }
+        .chart-placeholder {
+            height: 200px;
+            background-color: #f5f7fa;
+            border: 1px dashed #dcdfe6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #909399;
+            border-radius: 4px;
+            margin-top: 15px;
+        }
+        .ai-insights-card {
+            background-color: #409eff;
+            color: white;
+            padding: 25px;
+            border-radius: 8px;
+        }
+        .ai-insights-card h5 {
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: white;
+        }
+        .ai-insights-card .insight-icon {
+            color: white;
+            font-size: 18px;
+        }
+        .ai-insights-content {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .ai-insights-item h6 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: rgba(255,255,255,0.8);
+        }
+        .ai-insights-item p {
+            font-size: 13px;
+            line-height: 1.6;
+            color: rgba(255,255,255,0.9);
+        }
+
+        .ai-anomalies-card {
+            background-color: #fff;
+            border: 1px solid #e6e6e6;
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+        .ai-anomalies-card h5 {
+            margin-top: 0;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 16px;
+        }
+        .ai-anomalies-card ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .ai-anomalies-card li {
+            padding: 15px 0;
+            border-bottom: 1px solid #f5f7fa;
+        }
+        .ai-anomalies-card li:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        .ai-anomalies-card li:first-child {
+            padding-top: 0;
+        }
+        .anomaly-item-main {
+            display: flex;
+            align-items: baseline;
+            gap: 10px;
+            margin-bottom: 5px;
+        }
+        .anomaly-title {
+            font-size: 14px;
+            color: #303133;
+        }
+        .anomaly-value {
+            font-size: 16px;
+            font-weight: bold;
+            color: #303133;
+        }
+        .ai-anomalies-card .change {
+            color: #f56c6c;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        .anomaly-description {
+            font-size: 13px;
+            color: #909399;
+            padding-left: 5px;
+        }
+
+        /* Risk Response Panel */
+        .solution-card {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 25px;
+        }
+        .solution-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .solution-card-header h4 {
+            margin: 0;
+        }
+        .solution-card-header .risk-count-text {
+            color: #909399;
+        }
+        .solution-step {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        .solution-step-number {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background-color: #ecf5ff;
+            color: #409eff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        .solution-step-content {
+            flex-grow: 1;
+        }
+        .solution-step-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .solution-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-left: auto;
+        }
+        .btn-execute {
+            background-color: #fff0e6;
+            color: #ff9900;
+            border: 1px solid #ff9900;
+            padding: 5px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .btn-mark-resolved {
+            background-color: #ecf5ff;
+            color: #409eff;
+            border: 1px solid #409eff;
+            padding: 5px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        /* Risk Identification Panel */
+        .risk-summary {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .risk-summary-item {
+            padding: 5px 15px;
+            border-radius: 4px;
+        }
+        .risk-summary-item.high {
+            background-color: #fef0f0;
+            color: #f56c6c;
+        }
+        .risk-summary-item.medium {
+            background-color: #fdf6ec;
+            color: #e6a23c;
+        }
+        .risk-summary-item.low {
+            background-color: #f0f9eb;
+            color: #67c23a;
+        }
+        .risk-card {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .risk-card-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #fef0f0;
+            color: #f56c6c;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 20px;
+        }
+        .risk-card-content {
+            flex-grow: 1;
+        }
+        .risk-card-title {
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .risk-card-title .high-tag {
+            font-size: 10px;
+            background-color: #f56c6c;
+            color: white;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+        .risk-card-description {
+            color: #606266;
+            margin: 8px 0;
+        }
+        .risk-card-details {
+            font-size: 12px;
+            color: #909399;
+        }
+        .risk-card-details span {
+            margin-right: 20px;
+        }
+        .risk-card-details strong {
+            color: #303133;
+        }
+        .risk-card-action .action-btn-outline {
+            background: none;
+            border: 1px solid #dcdfe6;
+            color: #606266;
+            padding: 5px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .page-level-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .btn-rescan {
+            background-color: #409eff;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <header class="main-header">
+            <div class="header-left">
+                <div class="logo">福州财小哥-福建</div>
+            </div>
+            <div class="header-center">
+            </div>
+            <div class="header-right">
+                <div class="header-action">
+                    <span>导入新户:</span>
+                    <button class="btn-action">导入</button>
+                </div>
+                <div class="header-action">
+                    <span>流失客户:</span>
+                    <button class="btn-action">导入</button>
+                </div>
+                <div class="user-menu">
+                    <button class="btn-account-switch">总代账号切换</button>
+                    <span class="user-name">福州财小哥</span>
+                    <a href="#" class="logout">退出</a>
+                </div>
+            </div>
+        </header>
+        <div class="main-container">
+            <aside class="sidebar">
+                <nav class="menu">
+                    <ul>
+                        <li class="menu-item active"><a href="#"><span>&#127968;</span> 工作台</a></li>
+                        <li class="menu-item has-submenu open">
+                            <a href="#"><span>&#128737;</span> 风控中心</a>
+                            <ul class="submenu">
+                                <li class="submenu-item active"><a href="#indicator-library">指标库</a></li>
+                                <li class="submenu-item"><a href="#scene-config">场景配置</a></li>
+                                <li class="submenu-item"><a href="#dynamic-risk-monitoring">动态风险监控</a></li>
+                            </ul>
+                        </li>
+                        <li class="menu-item has-submenu"><a href="#"><span>&#128187;</span> 基本管理</a></li>
+                        <li class="menu-item has-submenu"><a href="#"><span>&#129459;</span> 人社医保</a></li>
+                        <li class="menu-item has-submenu"><a href="#"><span>&#129530;</span> 电子税务</a></li>
+                        <li class="menu-item has-submenu"><a href="#"><span>&#128172;</span> 企业微信</a></li>
+                        <li class="menu-item has-submenu"><a href="#"><span>&#128276;</span> 通知服务</a></li>
+                        <li class="menu-item"><a href="#"><span>&#128203;</span> 任务日志</a></li>
+                        <li class="menu-item"><a href="#"><span>&#128202;</span> 消息记录分析</a></li>
+                        <li class="menu-item"><a href="#"><span>&#10148;</span> 微信发送记录</a></li>
+                        <li class="menu-item"><a href="#"><span>&#9200;</span> 定时管理</a></li>
+                    </ul>
+                </nav>
+            </aside>
+            <main class="main-content">
+                <div class="tabs" id="tabs-container">
+                </div>
+                <div id="indicator-library-page" class="page-content active">
+                    <div class="content-body">
+                        <div class="content-toolbar">
+                            <div class="search-bar">
+                                <div class="form-item">
+                                    <label>指标名称</label>
+                                    <input type="text" placeholder="">
+                                </div>
+                                <div class="form-item">
+                                    <label>适用范围</label>
+                                    <select><option>小规模纳税人</option></select>
+                                </div>
+                                <button class="btn-search">Q 搜索</button>
+                            </div>
+                            <button class="btn-export" id="add-indicator-btn">新增指标</button>
+                        </div>
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th><input type="checkbox"></th>
+                                        <th>指标编号</th>
+                                        <th>指标名称</th>
+                                        <th>计算公式</th>
+                                        <th>指标等级</th>
+                                        <th>父级指标</th>
+                                        <th>适用范围</th>
+                                        <th>创建人</th>
+                                        <th>创建时间</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><input type="checkbox"></td>
+                                        <td>ZB001</td>
+                                        <td>资产负债率</td>
+                                        <td>(总负债 / 总资产) * 100%</td>
+                                        <td>一级</td>
+                                        <td>-</td>
+                                        <td>一般纳税人</td>
+                                        <td>张三</td>
+                                        <td>2026-03-20 10:00:00</td>
+                                        <td><a href="#">查看</a><a href="#">编辑</a><a href="#">删除</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox"></td>
+                                        <td>ZB002</td>
+                                        <td>销售增长率</td>
+                                        <td>((本期销售额 - 上期销售额) / 上期销售额) * 100%</td>
+                                        <td>一级</td>
+                                        <td>-</td>
+                                        <td>小规模纳税人</td>
+                                        <td>李四</td>
+                                        <td>2026-03-21 11:30:00</td>
+                                        <td><a href="#">查看</a><a href="#">编辑</a><a href="#">删除</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox"></td>
+                                        <td>ZB003</td>
+                                        <td>流动比率</td>
+                                        <td>流动资产 / 流动负债</td>
+                                        <td>二级</td>
+                                        <td>资产负债率</td>
+                                        <td>一般纳税人</td>
+                                        <td>王五</td>
+                                        <td>2026-03-22 14:00:00</td>
+                                        <td><a href="#">查看</a><a href="#">编辑</a><a href="#">删除</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox"></td>
+                                        <td>ZB004</td>
+                                        <td>速动比率</td>
+                                        <td>(流动资产 - 存货) / 流动负债</td>
+                                        <td>三级</td>
+                                        <td>流动比率</td>
+                                        <td>小规模纳税人</td>
+                                        <td>赵六</td>
+                                        <td>2026-03-23 09:00:00</td>
+                                        <td><a href="#">查看</a><a href="#">编辑</a><a href="#">删除</a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="pagination">
+                                共 13 条
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="dynamic-risk-monitoring-page" class="page-content">
+                    <div class="content-body">
+                        <div class="content-toolbar">
+                            <div class="search-bar">
+                                <div class="form-item">
+                                    <input type="text" placeholder="搜索企业名称或识别号...">
+                                </div>
+                                <button class="btn-search">筛选</button>
+                            </div>
+                        </div>
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>企业名称</th>
+                                        <th>纳税人性质</th>
+                                        <th>专家顾问</th>
+                                        <th>检测时间</th>
+                                        <th>监测项</th>
+                                        <th>高风险</th>
+                                        <th>中风险</th>
+                                        <th>低风险</th>
+                                        <th>解决状态</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <div class="company-info">
+                                                <div class="name">上海宏泰贸易有限公司</div>
+                                                <div class="tax-id">91310115MA1K3X2B4L</div>
+                                            </div>
+                                        </td>
+                                        <td>一般纳税人</td>
+                                        <td>
+                                            <div class="consultant-info">
+                                                <div class="consultant-avatar">张</div>
+                                                <span>张三</span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="time-info">
+                                                <div>监测期间: 2023-01 至 2024-03</div>
+                                                <div>检查时间点: 2024-03-21 10:30:45</div>
+                                            </div>
+                                        </td>
+                                        <td class="td-center">24</td>
+                                        <td class="td-center"><span class="risk-count high">3</span></td>
+                                        <td class="td-center"><span class="risk-count medium">2</span></td>
+                                        <td class="td-center"><span class="risk-count low">5</span></td>
+                                        <td class="td-center"><span class="status-tag unresolved">未解决</span></td>
+                                        <td class="td-center"><button class="action-btn">查看待办</button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="scene-config-page" class="page-content">
+                    <div class="content-body">
+                        <div class="content-toolbar">
+                            <div class="search-bar">
+                                <div class="form-item">
+                                    <label>场景名称</label>
+                                    <input type="text" id="scene-name-search" placeholder="请输入场景名称">
+                                </div>
+                                <button class="btn-search">Q 搜索</button>
+                            </div>
+                            <button class="btn-export" id="new-scene-btn">新建场景</button>
+                        </div>
+                        <div class="table-container">
+                            <table id="scene-table">
+                                <thead>
+                                    <tr>
+                                        <th>场景名称</th>
+                                        <th>适用行业</th>
+                                        <th>适用地区</th>
+                                        <th>适用纳税人</th>
+                                        <th>指标数量</th>
+                                        <th>启用状态</th>
+                                        <th>创建人</th>
+                                        <th>创建时间</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>场景一</td>
+                                        <td>建筑业</td>
+                                        <td>全国</td>
+                                        <td>一般纳税人</td>
+                                        <td>5</td>
+                                        <td><label class="switch"><input type="checkbox" checked><span class="slider round"></span></label></td>
+                                        <td>张三</td>
+                                        <td>2026-03-20 10:00:00</td>
+                                        <td><a href="#" class="edit-scene-btn">编辑</a><a href="#" class="delete-scene">删除</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>场景二</td>
+                                        <td>服务业</td>
+                                        <td>福建</td>
+                                        <td>小规模纳税人</td>
+                                        <td>3</td>
+                                        <td><label class="switch"><input type="checkbox"><span class="slider round"></span></label></td>
+                                        <td>李四</td>
+                                        <td>2026-03-21 11:30:00</td>
+                                        <td><a href="#" class="edit-scene-btn">编辑</a><a href="#" class="delete-scene">删除</a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <div id="todo-page" style="display: none; flex-direction: column; height: 100vh;">
+        <header class="todo-header">
+            <a href="#" id="back-to-main-app" class="back-link">&larr; 返回任务中心</a>
+            <div class="processing-status">
+                <span>● 正在处理: </span>
+                <strong>上海宏泰贸易有限公司</strong>
+            </div>
+        </header>
+        <div class="todo-main-layout">
+            <aside class="todo-sidebar">
+                <div class="stepper" id="todo-stepper">
+                    <div class="step active" data-step="1">
+                        <div class="step-number">1</div>
+                        <div class="step-name">数据导入</div>
+                    </div>
+                    <div class="step" data-step="2">
+                        <div class="step-number">2</div>
+                        <div class="step-name">风险识别</div>
+                    </div>
+                    <div class="step" data-step="3">
+                        <div class="step-number">3</div>
+                        <div class="step-name">AI分析</div>
+                    </div>
+                    <div class="step" data-step="4">
+                        <div class="step-number">4</div>
+                        <div class="step-name">风险应对</div>
+                    </div>
+                </div>
+            </aside>
+            <main class="todo-content">
+                <div id="todo-panel-1" class="todo-panel active">
+                    <div class="data-import-layout">
+                        <div class="data-import-main">
+                            <div class="sub-tabs">
+                                <button class="sub-tab-btn active" data-tab="auto-collect">自动采集</button>
+                                <button class="sub-tab-btn" data-tab="manual-import">↑ 手工导入</button>
+                            </div>
+                            <div id="auto-collect-content" class="sub-tab-content active">
+                                <div class="collection-card">
+                                    <h4>电子税务局自动采集</h4>
+                                    <p>系统将通过安全加密通道自动获取申报及发票数据</p>
+                                    <div class="input-group">
+                                        <label for="tax-account">税务局登录账号</label>
+                                        <input type="text" id="tax-account" placeholder="请输入社会统一信用代码或手机号">
+                                    </div>
+                                    <div class="input-group">
+                                        <label for="tax-password">税务局登录密码</label>
+                                        <input type="password" id="tax-password" placeholder="请输入登录密码">
+                                    </div>
+                                    <button class="btn-full-collect">一键全量采集</button>
+                                </div>
+                            </div>
+                            <div id="manual-import-content" class="sub-tab-content">
+                                <div class="upload-card">
+                                    <div class="upload-icon">
+                                        <span>&#8635;</span>
+                                    </div>
+                                    <h3>上传业务文件</h3>
+                                    <p>支持 Excel / CSV 格式，单次最多上传 50MB</p>
+                                    <div class="upload-grid">
+                                        <div class="upload-box">
+                                            <div class="upload-box-icon">&#128196;</div>
+                                            <div class="upload-box-text">税务申报数据</div>
+                                        </div>
+                                        <div class="upload-box">
+                                            <div class="upload-box-icon">&#128196;</div>
+                                            <div class="upload-box-text">财务报表数据</div>
+                                        </div>
+                                        <div class="upload-box">
+                                            <div class="upload-box-icon">&#128196;</div>
+                                            <div class="upload-box-text">企业收票数据</div>
+                                        </div>
+                                        <div class="upload-box">
+                                            <div class="upload-box-icon">&#128196;</div>
+                                            <div class="upload-box-text">企业开票数据</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="data-import-side">
+                            <div class="history-card">
+                                <h4>采集记录 <span class="view-more">最近10条</span></h4>
+                                <div class="history-item">
+                                    <div class="filename">2023_Q4_财务报表.xlsx</div>
+                                    <div class="timestamp">2024-03-20 14:30</div>
+                                    <div class="status">导入成功</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="todo-panel-2" class="todo-panel">
+                    <div class="page-level-actions">
+                        <div class="risk-summary">
+                            <span class="risk-summary-item high">高危风险: 4</span>
+                            <span class="risk-summary-item medium">中危风险: 7</span>
+                            <span class="risk-summary-item low">低危风险: 10</span>
+                        </div>
+                        <button class="btn-rescan">立即重新扫描</button>
+                    </div>
+                    <div class="risk-card">
+                        <div class="risk-card-icon">&harr;</div>
+                        <div class="risk-card-content">
+                            <div class="risk-card-title">进销项匹配度异常 <span class="high-tag">HIGH</span></div>
+                            <div class="risk-card-description">监测到销项税率与进项税率大幅偏离。</div>
+                            <div class="risk-card-details">
+                                <span>风险金额: <strong>¥128,500.00</strong></span>
+                                <span>触发规则: <strong>进销项匹配模型</strong></span>
+                            </div>
+                        </div>
+                        <div class="risk-card-action">
+                            <button class="action-btn-outline">查看方案</button>
+                        </div>
+                    </div>
+                </div>
+                <div id="todo-panel-3" class="todo-panel">
+                    <div class="ai-analysis-layout">
+                        <div class="ai-chart-card">
+                            <h5><span class="chart-icon">📈</span> 风险趋势预测 (未来3个月)</h5>
+                            <div class="chart-placeholder">[图表占位] 动态风险评分趋势图 (模拟)</div>
+                        </div>
+                        <div class="ai-chart-card">
+                            <h5><span class="chart-icon">📊</span> 行业税负对比 (同行业: 制造)</h5>
+                            <div class="chart-placeholder">[图表占位] 增值税税负率与行业均值对比 (模拟)</div>
+                        </div>
+                    </div>
+                    <div class="ai-anomalies-card">
+                        <h5><span class="insight-icon">⚠️</span> 关键指标异动</h5>
+                        <ul>
+                            <li>
+                                <div class="anomaly-item-main">
+                                    <span class="anomaly-title">主营业务成本率:</span>
+                                    <span class="anomaly-value">75.2%</span>
+                                    <span class="change up">↑ 15% (环比)</span>
+                                </div>
+                                <div class="anomaly-description">远高于行业均值60%，可能存在成本结转异常。</div>
+                            </li>
+                            <li>
+                                <div class="anomaly-item-main">
+                                    <span class="anomaly-title">销售费用率:</span>
+                                    <span class="anomaly-value">22.5%</span>
+                                    <span class="change up">↑ 30% (环比)</span>
+                                </div>
+                                <div class="anomaly-description">增长迅猛，需关注是否存在广告、佣金支出异常。</div>
+                            </li>
+                            <li>
+                                <div class="anomaly-item-main">
+                                    <span class="anomaly-title">存货周转天数:</span>
+                                    <span class="anomaly-value">95天</span>
+                                    <span class="change up">↑ 40% (环比)</span>
+                                </div>
+                                <div class="anomaly-description">周转放缓，提示可能存在存货积压或滞销风险。</div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="ai-insights-card">
+                        <h5><span class="insight-icon">💡</span> AI智能深度洞察</h5>
+                        <div class="ai-insights-content">
+                            <div class="ai-insights-item">
+                                <h6>隐性风险挖掘</h6>
+                                <p>发现管理费用-差旅费自2024年Q1起环比增长120%，远超收入增幅。其中，3名非销售岗员工报销金额占总额65%，可能存在费用与业务无关、变相发放补贴的风险。建议对高额、高频次报销凭证进行抽查审核。</p>
+                            </div>
+                            <div class="ai-insights-item">
+                                <h6>节税优化建议</h6>
+                                <p>检测到2023年度研发费用占销售收入比例为5.8%，已满足高新技术企业认定标准（>4%）。贵司目前尚未获得此资质。预测成功认定后，企业所得税率可由25%降至15%，预计年均可节税约45万元。建议立即启动高新企业申报流程。</p>
+                            </div>
+                            <div class="ai-insights-item">
+                                <h6>合规健康度</h6>
+                                <p>AI综合评估合规健康分为82分（行业均值75分）。优势：发票开具规范，申报及时。风险点：存在部分进项发票认证周期超过180天的情况，可能面临无法抵扣的风险。建议建立进项发票台账，确保在有效期内完成认证。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="todo-panel-4" class="todo-panel">
+                    <div class="solution-card">
+                        <div class="solution-card-header">
+                            <h4>极简风险落地方案</h4>
+                            <span class="risk-count-text">针对 4 个高危风险点</span>
+                        </div>
+                        <div class="solution-step">
+                            <div class="solution-step-number">1</div>
+                            <div class="solution-step-content">
+                                <div class="solution-step-title">进销项匹配风险消除</div>
+                                <div>
+                                    <p>自查进项发票</p>
+                                    <p>整理合同单据</p>
+                                </div>
+                            </div>
+                            <div class="solution-actions">
+                                <button class="btn-execute">建议立即执行</button>
+                                <button class="btn-mark-resolved">标记已解决</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+        <div class="drawer" id="drawer">
+            <div class="drawer-header">
+                <span>新增指标</span>
+                <span class="drawer-close" id="drawer-close">&times;</span>
+            </div>
+            <div class="drawer-body">
+                <form class="drawer-form">
+                    <div class="form-item">
+                        <label for="indicator-id">指标编号</label>
+                        <input type="text" id="indicator-id">
+                    </div>
+                    <div class="form-item">
+                        <label for="indicator-name">指标名称</label>
+                        <input type="text" id="indicator-name">
+                    </div>
+                    <div class="form-item">
+                        <label for="calculation-logic">计算公式</label>
+                        <textarea id="calculation-logic" rows="4"></textarea>
+                    </div>
+                    <div class="form-item">
+                        <label for="indicator-level">指标层级</label>
+                        <select id="indicator-level">
+                            <option>一级</option>
+                            <option>二级</option>
+                            <option>三级</option>
+                        </select>
+                    </div>
+                    <div class="form-item">
+                        <label for="parent-indicator">父级指标</label>
+                        <select id="parent-indicator">
+                            <option>请选择</option>
+                            <!-- Options will be populated dynamically -->
+                        </select>
+                    </div>
+                    <div class="form-item">
+                        <label for="scope">适用范围</label>
+                        <select id="scope">
+                            <option>全部</option>
+                            <option>一般纳税人</option>
+                            <option>小规模纳税人</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="drawer-footer">
+                <button class="btn-export">保存</button>
+                <button class="btn-cancel" id="drawer-cancel">取消</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="drawer-overlay" id="scene-drawer-overlay">
+        <div class="drawer" id="scene-drawer">
+            <div class="drawer-header">
+                <span>新建场景</span>
+                <span class="drawer-close" id="scene-drawer-close">&times;</span>
+            </div>
+            <div class="drawer-body">
+                <form class="drawer-form">
+                    <div class="form-item">
+                        <label for="scene-name">场景名称</label>
+                        <input type="text" id="scene-name">
+                    </div>
+                    <div class="form-item">
+                        <label for="industry-select">适用行业</label>
+                        <select id="industry-select">
+                            <option>A. 农、林、牧、渔业</option>
+                            <option>B. 采矿业</option>
+                            <option>C. 制造业</option>
+                            <option>D. 电力、热力、燃气及水生产和供应业</option>
+                            <option>E. 建筑业</option>
+                            <option>F. 批发和零售业</option>
+                            <option>G. 交通运输、仓储和邮政业</option>
+                            <option>H. 住宿和餐饮业</option>
+                        </select>
+                    </div>
+                    <div class="form-item">
+                        <label for="region-select">适用地区</label>
+                        <div class="custom-select-wrapper" id="tax-region-select">
+                            <button type="button" class="custom-select-btn">请选择税区</button>
+                            <div class="custom-select-panel">
+                                <!-- Options will be populated by JS -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-item">
+                        <label for="taxpayer-type">适用纳税人</label>
+                        <select id="taxpayer-type">
+                            <option>全部</option>
+                            <option>一般纳税人</option>
+                            <option>小规模纳税人</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="drawer-footer">
+                <button class="btn-export">保存</button>
+                <button class="btn-cancel" id="scene-drawer-cancel">取消</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="drawer-overlay" id="edit-scene-drawer-overlay">
+        <div class="drawer large" id="edit-scene-drawer">
+            <div class="drawer-header">
+                <span>编辑场景</span>
+                <span class="drawer-close" id="edit-scene-drawer-close">&times;</span>
+            </div>
+            <div class="drawer-body drawer-body-columns">
+                <div class="drawer-column">
+                    <h4>第一步：选择指标</h4>
+                    <div class="config-panel indicator-tree">
+                        <ul>
+                            <li>
+                                <input type="checkbox" id="ind-1" data-indicator="增值税税负率">
+                                <label for="ind-1">1级指标：增值税税负率</label>
+                                <ul>
+                                    <li>
+                                        <input type="checkbox" id="ind-1-1" data-indicator="毛利率">
+                                        <label for="ind-1-1">2级指标：毛利率</label>
+                                        <ul>
+                                            <li>
+                                                <input type="checkbox" id="ind-1-1-1" data-indicator="存货周转率">
+                                                <label for="ind-1-1-1">3级指标：存货周转率</label>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <input type="checkbox" id="ind-1-2" data-indicator="成本费用率">
+                                        <label for="ind-1-2">2级指标：成本费用率</label>
+                                        <ul>
+                                            <li>
+                                                <input type="checkbox" id="ind-1-2-1" data-indicator="销售费用率">
+                                                <label for="ind-1-2-1">3级指标：销售费用率</label>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <input type="checkbox" id="ind-2" data-indicator="企业所得税贡献率">
+                                <label for="ind-2">1级指标：企业所得税贡献率</label>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="drawer-column">
+                    <h4>第二步：配置阈值与提示</h4>
+                    <div class="config-panel" id="threshold-config-panel">
+                        <div class="threshold-config-block" id="config-增值税税负率" style="display:none;">
+                            <h4>增值税税负率 (1级指标)</h4>
+                            <div class="risk-level-row"><span class="risk-tag high">高风险</span><input type="text" value="< 1%"><input type="text" value="增值税税负率严重偏低，可能存在隐匿收入"></div>
+                            <div class="risk-level-row"><span class="risk-tag medium">中风险</span><input type="text" value="< 3%"><input type="text" value="增值税税负率偏低，建议关注。"></div>
+                            <div class="risk-level-row"><span class="risk-tag low">低风险</span><input type="text" value="< 5%"><input type="text" value="增值税税负率略低于正常范围。"></div>
+                        </div>
+                        <div class="threshold-config-block" id="config-毛利率" style="display:none;">
+                            <h4>毛利率 (2级指标)</h4>
+                            <div class="risk-level-row"><span class="risk-tag high">高风险</span><input type="text" value="< 10%"><input type="text" value="毛利率异常偏低，可能存在成本虚增或收入"></div>
+                            <div class="risk-level-row"><span class="risk-tag medium">中风险</span><input type="text" value="< 20%"><input type="text" value="建议核查。"></div>
+                            <div class="risk-level-row"><span class="risk-tag low">低风险</span><input type="text" value="< 30%"><input type="text" value="毛利率略低于行业平均。"></div>
+                        </div>
+                        <div class="threshold-config-block" id="config-存货周转率" style="display:none;">
+                            <h4>存货周转率 (3级指标)</h4>
+                            <div class="risk-level-row"><span class="risk-tag high">高风险</span><input type="text" placeholder="例如: < 10%"><input type="text" placeholder="高风险提示内容"></div>
+                            <div class="risk-level-row"><span class="risk-tag medium">中风险</span><input type="text" placeholder="例如: < 20%"><input type="text" placeholder="中风险提示内容"></div>
+                            <div class="risk-level-row"><span class="risk-tag low">低风险</span><input type="text" placeholder="例如: < 30%"><input type="text" placeholder="低风险提示内容"></div>
+                        </div>
+                        <!-- Other config blocks would go here -->
+                    </div>
+                </div>
+            </div>
+            <div class="drawer-footer">
+                <button class="btn-export">保存</button>
+                <button class="btn-cancel" id="edit-scene-drawer-cancel">取消</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- DOM Elements ---
+        // Indicator Drawer
+        const indicatorDrawerOverlay = document.getElementById('drawer-overlay');
+        const indicatorDrawer = document.getElementById('drawer');
+        const openIndicatorDrawerBtn = document.getElementById('add-indicator-btn');
+        const closeIndicatorDrawerBtn = document.getElementById('drawer-close');
+        const cancelIndicatorDrawerBtn = document.getElementById('drawer-cancel');
+
+        // Scene Drawer
+        const sceneDrawerOverlay = document.getElementById('scene-drawer-overlay');
+        const sceneDrawer = document.getElementById('scene-drawer');
+        const openSceneDrawerBtn = document.getElementById('new-scene-btn');
+        const closeSceneDrawerBtn = document.getElementById('scene-drawer-close');
+        const cancelSceneDrawerBtn = document.getElementById('scene-drawer-cancel');
+
+        // Edit Scene Drawer
+        const editSceneDrawerOverlay = document.getElementById('edit-scene-drawer-overlay');
+        const editSceneDrawer = document.getElementById('edit-scene-drawer');
+        const closeEditSceneDrawerBtn = document.getElementById('edit-scene-drawer-close');
+        const cancelEditSceneDrawerBtn = document.getElementById('edit-scene-drawer-cancel');
+        const indicatorTree = document.querySelector('.indicator-tree');
+
+        // Page Navigation
+        const menuItems = document.querySelectorAll('.submenu-item a');
+        const pages = document.querySelectorAll('.page-content');
+        const tabsContainer = document.getElementById('tabs-container');
+        
+        // Scene Page
+        const sceneTable = document.getElementById('scene-table');
+        const sceneSearchInput = document.getElementById('scene-name-search');
+
+        // Todo Page
+        const appContainer = document.getElementById('app');
+        const todoPage = document.getElementById('todo-page');
+        const backToMainBtn = document.getElementById('back-to-main-app');
+        const todoStepper = document.getElementById('todo-stepper');
+
+        // --- Indicator Drawer Logic ---
+        function openIndicatorDrawer() {
+            if (indicatorDrawerOverlay && indicatorDrawer) {
+                indicatorDrawerOverlay.classList.add('active');
+                indicatorDrawer.classList.add('active');
+            }
+        }
+
+        function closeIndicatorDrawer() {
+            if (indicatorDrawerOverlay && indicatorDrawer) {
+                indicatorDrawerOverlay.classList.remove('active');
+                indicatorDrawer.classList.remove('active');
+            }
+        }
+
+        if (openIndicatorDrawerBtn) openIndicatorDrawerBtn.addEventListener('click', openIndicatorDrawer);
+        if (closeIndicatorDrawerBtn) closeIndicatorDrawerBtn.addEventListener('click', closeIndicatorDrawer);
+        if (cancelIndicatorDrawerBtn) cancelIndicatorDrawerBtn.addEventListener('click', closeIndicatorDrawer);
+        if (indicatorDrawerOverlay) indicatorDrawerOverlay.addEventListener('click', function(event) {
+            if (event.target === indicatorDrawerOverlay) {
+                closeIndicatorDrawer();
+            }
+        });
+
+        // --- Scene Drawer Logic ---
+        function openSceneDrawer() {
+            if (sceneDrawerOverlay && sceneDrawer) {
+                sceneDrawerOverlay.classList.add('active');
+                sceneDrawer.classList.add('active');
+            }
+        }
+
+        function closeSceneDrawer() {
+            if (sceneDrawerOverlay && sceneDrawer) {
+                sceneDrawerOverlay.classList.remove('active');
+                sceneDrawer.classList.remove('active');
+            }
+        }
+
+        if (openSceneDrawerBtn) openSceneDrawerBtn.addEventListener('click', openSceneDrawer);
+        if (closeSceneDrawerBtn) closeSceneDrawerBtn.addEventListener('click', closeSceneDrawer);
+        if (cancelSceneDrawerBtn) cancelSceneDrawerBtn.addEventListener('click', closeSceneDrawer);
+        if (sceneDrawerOverlay) sceneDrawerOverlay.addEventListener('click', function(event) {
+            if (event.target === sceneDrawerOverlay) {
+                closeSceneDrawer();
+            }
+        });
+
+        // --- Edit Scene Drawer Logic ---
+        function openEditSceneDrawer() {
+            if (editSceneDrawerOverlay && editSceneDrawer) {
+                editSceneDrawerOverlay.classList.add('active');
+                editSceneDrawer.classList.add('active');
+            }
+        }
+
+        function closeEditSceneDrawer() {
+            if (editSceneDrawerOverlay && editSceneDrawer) {
+                editSceneDrawerOverlay.classList.remove('active');
+                editSceneDrawer.classList.remove('active');
+            }
+        }
+
+        document.querySelectorAll('.edit-scene-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                openEditSceneDrawer();
+            });
+        });
+        if (closeEditSceneDrawerBtn) closeEditSceneDrawerBtn.addEventListener('click', closeEditSceneDrawer);
+        if (cancelEditSceneDrawerBtn) cancelEditSceneDrawerBtn.addEventListener('click', closeEditSceneDrawer);
+        if (editSceneDrawerOverlay) editSceneDrawerOverlay.addEventListener('click', function(event) {
+            if (event.target === editSceneDrawerOverlay) {
+                closeEditSceneDrawer();
+            }
+        });
+
+        // Indicator Tree Checkbox Logic
+        if (indicatorTree) {
+            indicatorTree.addEventListener('change', function(e) {
+                if (e.target.type === 'checkbox') {
+                    const checkbox = e.target;
+                    const isChecked = checkbox.checked;
+                    const indicatorName = checkbox.dataset.indicator;
+
+                    // Toggle config block visibility
+                    const configBlock = document.getElementById(`config-${indicatorName}`);
+                    if (configBlock) {
+                        configBlock.style.display = isChecked ? 'block' : 'none';
+                    }
+
+                    // Propagate change to children
+                    const childList = checkbox.closest('li').querySelector('ul');
+                    if (childList) {
+                        childList.querySelectorAll('input[type="checkbox"]').forEach(childCheckbox => {
+                            childCheckbox.checked = isChecked;
+                            // Manually trigger change event for children to update their config blocks
+                            childCheckbox.dispatchEvent(new Event('change'));
+                        });
+                    }
+
+                    // Propagate change to parents
+                    if (isChecked) {
+                        let parentLi = checkbox.closest('ul')?.closest('li');
+                        while (parentLi) {
+                            const parentCheckbox = parentLi.querySelector('input[type="checkbox"]');
+                            if (parentCheckbox) {
+                                parentCheckbox.checked = true;
+                                // Manually trigger change event for parent to update its config block
+                                parentCheckbox.dispatchEvent(new Event('change'));
+                            }
+                            parentLi = parentLi.closest('ul')?.closest('li');
+                        }
+                    }
+                }
+            });
+        }
+
+
+        // --- Custom Checkbox Dropdown Logic ---
+        function createCustomSelect(wrapperId, options) {
+            const wrapper = document.getElementById(wrapperId);
+            if (!wrapper) return;
+
+            const btn = wrapper.querySelector('.custom-select-btn');
+            const panel = wrapper.querySelector('.custom-select-panel');
+            
+            // Populate options
+            options.forEach(optionText => {
+                const optionEl = document.createElement('div');
+                optionEl.className = 'custom-select-option';
+                optionEl.innerHTML = `<input type="checkbox" value="${optionText}"> ${optionText}`;
+                panel.appendChild(optionEl);
+            });
+
+            // Toggle panel
+            btn.addEventListener('click', () => {
+                panel.classList.toggle('active');
+            });
+
+            // Update button text on selection
+            panel.addEventListener('change', () => {
+                const selectedCount = panel.querySelectorAll('input:checked').length;
+                if (selectedCount === 0) {
+                    btn.textContent = '请选择税区';
+                } else {
+                    btn.textContent = `已选择 ${selectedCount} 个税区`;
+                }
+            });
+
+            // Close on outside click
+            document.addEventListener('click', (e) => {
+                if (!wrapper.contains(e.target)) {
+                    panel.classList.remove('active');
+                }
+            });
+        }
+
+        const taxRegions = Array.from({ length: 36 }, (_, i) => `税区${i + 1}`);
+        createCustomSelect('tax-region-select', taxRegions);
+
+
+        // --- Tab and Page Navigation Logic ---
+        function switchToPage(pageId, pageName) {
+            if (!pageId || !pageName) return;
+
+            // Deactivate all pages, menu items, and tabs
+            pages.forEach(page => page.classList.remove('active'));
+            menuItems.forEach(menu => menu.parentElement.classList.remove('active'));
+            document.querySelectorAll('.tab-item').forEach(tab => tab.classList.remove('active'));
+
+            // Find or create tab
+            let targetTab = document.querySelector(`.tab-item[data-page-id="${pageId}"]`);
+            if (!targetTab) {
+                targetTab = document.createElement('div');
+                targetTab.className = 'tab-item';
+                targetTab.dataset.pageId = pageId;
+                targetTab.innerHTML = `${pageName} <span class="close-tab" data-page-id="${pageId}">&times;</span>`;
+                tabsContainer.appendChild(targetTab);
+
+                targetTab.addEventListener('click', function(e) {
+                    if (e.target.classList.contains('close-tab')) return;
+                    switchToPage(pageId, pageName);
+                });
+
+                targetTab.querySelector('.close-tab').addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    closeTab(pageId);
+                });
+            }
+
+            // Activate target elements
+            const targetPage = document.getElementById(`${pageId}-page`);
+            const targetMenuItem = document.querySelector(`a[href="#${pageId}"]`);
+
+            if (targetPage) targetPage.classList.add('active');
+            if (targetTab) targetTab.classList.add('active');
+            if (targetMenuItem) targetMenuItem.parentElement.classList.add('active');
+        }
+
+        function closeTab(pageId) {
+            const tabToClose = document.querySelector(`.tab-item[data-page-id="${pageId}"]`);
+            if (tabToClose) {
+                const wasActive = tabToClose.classList.contains('active');
+                const nextTab = tabToClose.previousElementSibling || tabToClose.nextElementSibling;
+                
+                tabToClose.remove();
+                
+                const pageToClose = document.getElementById(`${pageId}-page`);
+                if (pageToClose) pageToClose.classList.remove('active');
+
+                const menuToDeactivate = document.querySelector(`a[href="#${pageId}"]`);
+                if (menuToDeactivate) menuToDeactivate.parentElement.classList.remove('active');
+
+                if (wasActive && nextTab) {
+                    const nextPageId = nextTab.dataset.pageId;
+                    const nextPageName = nextTab.textContent.replace(' ×', '').trim();
+                    switchToPage(nextPageId, nextPageName);
+                }
+            }
+        }
+
+        menuItems.forEach(item => {
+            item.addEventListener('click', function(event) {
+                event.preventDefault();
+                const pageId = this.getAttribute('href').substring(1);
+                const pageName = this.textContent.trim();
+                switchToPage(pageId, pageName);
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize with the default active page
+            const initialActiveMenu = document.querySelector('.submenu-item.active a');
+            if (initialActiveMenu) {
+                const pageId = initialActiveMenu.getAttribute('href').substring(1);
+                const pageName = initialActiveMenu.textContent.trim();
+                switchToPage(pageId, pageName);
+            }
+        });
+
+        // --- Scene Config Page Logic ---
+        if (sceneTable) {
+            sceneTable.addEventListener('click', function(event) {
+                if (event.target.classList.contains('delete-scene')) {
+                    event.preventDefault();
+                    if (confirm('确定要删除此场景吗？')) {
+                        event.target.closest('tr').remove();
+                    }
+                }
+            });
+        }
+
+        if (sceneSearchInput) {
+            sceneSearchInput.addEventListener('keyup', function() {
+                const filter = this.value.toUpperCase();
+                const rows = sceneTable.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+                for (let i = 0; i < rows.length; i++) {
+                    const sceneNameCell = rows[i].getElementsByTagName('td')[0];
+                    if (sceneNameCell) {
+                        const txtValue = sceneNameCell.textContent || sceneNameCell.innerText;
+                        rows[i].style.display = txtValue.toUpperCase().indexOf(filter) > -1 ? "" : "none";
+                    }
+                }
+            });
+        }
+
+        // --- Todo Page Logic ---
+        function showTodoPage() {
+            if (appContainer) appContainer.style.display = 'none';
+            if (todoPage) todoPage.style.display = 'flex';
+        }
+
+        function showMainApp() {
+            if (appContainer) appContainer.style.display = 'flex';
+            if (todoPage) todoPage.style.display = 'none';
+        }
+
+        document.querySelectorAll('.action-btn').forEach(btn => {
+            if(btn.textContent === '查看待办'){
+                 btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    showTodoPage();
+                });
+            }
+        });
+
+        if(backToMainBtn) {
+            backToMainBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                showMainApp();
+            });
+        }
+
+        if(todoStepper){
+            todoStepper.addEventListener('click', (e) => {
+                const targetStep = e.target.closest('.step');
+                if(!targetStep) return;
+
+                const stepNumber = targetStep.dataset.step;
+
+                // Update stepper
+                todoStepper.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+                targetStep.classList.add('active');
+
+                // Update panel
+                document.querySelectorAll('.todo-panel').forEach(p => p.classList.remove('active'));
+                const targetPanel = document.getElementById(`todo-panel-${stepNumber}`);
+                if(targetPanel) targetPanel.classList.add('active');
+            });
+        }
+
+        // --- Data Import Tab Logic ---
+        const subTabsContainer = document.querySelector('.sub-tabs');
+        if (subTabsContainer) {
+            subTabsContainer.addEventListener('click', (e) => {
+                const targetTabBtn = e.target.closest('.sub-tab-btn');
+                if (!targetTabBtn) return;
+
+                const tabId = targetTabBtn.dataset.tab;
+                if (!tabId) return;
+
+                // Update tab buttons
+                subTabsContainer.querySelectorAll('.sub-tab-btn').forEach(btn => btn.classList.remove('active'));
+                targetTabBtn.classList.add('active');
+
+                // Update tab content
+                const mainContent = targetTabBtn.closest('.data-import-main');
+                mainContent.querySelectorAll('.sub-tab-content').forEach(content => content.classList.remove('active'));
+                const targetContent = mainContent.querySelector(`#${tabId}-content`);
+                if (targetContent) targetContent.classList.add('active');
+            });
+        }
+    </script>
+</body>
+</html>
