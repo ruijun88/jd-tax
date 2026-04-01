@@ -1204,7 +1204,11 @@
                                         <td>一般纳税人</td>
                                         <td>张三</td>
                                         <td>2026-03-20 10:00:00</td>
-                                        <td><a href="#">查看</a><a href="#">编辑</a><a href="#">删除</a></td>
+                                        <td>
+    <a href="#" class="indicator-action-link" data-action="view">查看</a>
+    <a href="#" class="indicator-action-link" data-action="edit">编辑</a>
+    <a href="#" class="indicator-action-link" data-action="delete">删除</a>
+</td>
                                     </tr>
                                     <tr>
                                         <td><input type="checkbox"></td>
@@ -1216,7 +1220,11 @@
                                         <td>小规模纳税人</td>
                                         <td>李四</td>
                                         <td>2026-03-21 11:30:00</td>
-                                        <td><a href="#">查看</a><a href="#">编辑</a><a href="#">删除</a></td>
+                                        <td>
+    <a href="#" class="indicator-action-link" data-action="view">查看</a>
+    <a href="#" class="indicator-action-link" data-action="edit">编辑</a>
+    <a href="#" class="indicator-action-link" data-action="delete">删除</a>
+</td>
                                     </tr>
                                     <tr>
                                         <td><input type="checkbox"></td>
@@ -1228,7 +1236,11 @@
                                         <td>一般纳税人</td>
                                         <td>王五</td>
                                         <td>2026-03-22 14:00:00</td>
-                                        <td><a href="#">查看</a><a href="#">编辑</a><a href="#">删除</a></td>
+                                        <td>
+    <a href="#" class="indicator-action-link" data-action="view">查看</a>
+    <a href="#" class="indicator-action-link" data-action="edit">编辑</a>
+    <a href="#" class="indicator-action-link" data-action="delete">删除</a>
+</td>
                                     </tr>
                                     <tr>
                                         <td><input type="checkbox"></td>
@@ -1240,7 +1252,11 @@
                                         <td>小规模纳税人</td>
                                         <td>赵六</td>
                                         <td>2026-03-23 09:00:00</td>
-                                        <td><a href="#">查看</a><a href="#">编辑</a><a href="#">删除</a></td>
+                                        <td>
+    <a href="#" class="indicator-action-link" data-action="view">查看</a>
+    <a href="#" class="indicator-action-link" data-action="edit">编辑</a>
+    <a href="#" class="indicator-action-link" data-action="delete">删除</a>
+</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -1381,88 +1397,24 @@
         <div class="todo-main-layout">
             <aside class="todo-sidebar">
                 <div class="stepper" id="todo-stepper">
+
                     <div class="step active" data-step="1">
                         <div class="step-number">1</div>
-                        <div class="step-name">数据导入</div>
+                        <div class="step-name">风险识别</div>
                     </div>
                     <div class="step" data-step="2">
                         <div class="step-number">2</div>
-                        <div class="step-name">风险识别</div>
+                        <div class="step-name">AI分析</div>
                     </div>
                     <div class="step" data-step="3">
                         <div class="step-number">3</div>
-                        <div class="step-name">AI分析</div>
-                    </div>
-                    <div class="step" data-step="4">
-                        <div class="step-number">4</div>
                         <div class="step-name">风险应对</div>
                     </div>
                 </div>
             </aside>
             <main class="todo-content">
+
                 <div id="todo-panel-1" class="todo-panel active">
-                    <div class="data-import-layout">
-                        <div class="data-import-main">
-                            <div class="sub-tabs">
-                                <button class="sub-tab-btn active" data-tab="auto-collect">自动采集</button>
-                                <button class="sub-tab-btn" data-tab="manual-import">↑ 手工导入</button>
-                            </div>
-                            <div id="auto-collect-content" class="sub-tab-content active">
-                                <div class="collection-card">
-                                    <h4>电子税务局自动采集</h4>
-                                    <p>系统将通过安全加密通道自动获取申报及发票数据</p>
-                                    <div class="input-group">
-                                        <label for="tax-account">税务局登录账号</label>
-                                        <input type="text" id="tax-account" placeholder="请输入社会统一信用代码或手机号">
-                                    </div>
-                                    <div class="input-group">
-                                        <label for="tax-password">税务局登录密码</label>
-                                        <input type="password" id="tax-password" placeholder="请输入登录密码">
-                                    </div>
-                                    <button class="btn-full-collect">一键全量采集</button>
-                                </div>
-                            </div>
-                            <div id="manual-import-content" class="sub-tab-content">
-                                <div class="upload-card">
-                                    <div class="upload-icon">
-                                        <span>&#8635;</span>
-                                    </div>
-                                    <h3>上传业务文件</h3>
-                                    <p>支持 Excel / CSV 格式，单次最多上传 50MB</p>
-                                    <div class="upload-grid">
-                                        <div class="upload-box">
-                                            <div class="upload-box-icon">&#128196;</div>
-                                            <div class="upload-box-text">税务申报数据</div>
-                                        </div>
-                                        <div class="upload-box">
-                                            <div class="upload-box-icon">&#128196;</div>
-                                            <div class="upload-box-text">财务报表数据</div>
-                                        </div>
-                                        <div class="upload-box">
-                                            <div class="upload-box-icon">&#128196;</div>
-                                            <div class="upload-box-text">企业收票数据</div>
-                                        </div>
-                                        <div class="upload-box">
-                                            <div class="upload-box-icon">&#128196;</div>
-                                            <div class="upload-box-text">企业开票数据</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="data-import-side">
-                            <div class="history-card">
-                                <h4>采集记录 <span class="view-more">最近10条</span></h4>
-                                <div class="history-item">
-                                    <div class="filename">2023_Q4_财务报表.xlsx</div>
-                                    <div class="timestamp">2024-03-20 14:30</div>
-                                    <div class="status">导入成功</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div id="todo-panel-2" class="todo-panel">
                     <div class="page-level-actions">
                         <div class="risk-summary">
                             <span class="risk-summary-item high">高危风险: 4</span>
@@ -1486,7 +1438,7 @@
                         </div>
                     </div>
                 </div>
-                <div id="todo-panel-3" class="todo-panel">
+                <div id="todo-panel-2" class="todo-panel">
                     <div class="ai-analysis-layout">
                         <div class="ai-chart-card">
                             <h5><span class="chart-icon">📈</span> 风险趋势预测 (未来3个月)</h5>
@@ -1544,7 +1496,7 @@
                         </div>
                     </div>
                 </div>
-                <div id="todo-panel-4" class="todo-panel">
+                <div id="todo-panel-3" class="todo-panel">
                     <div class="solution-card">
                         <div class="solution-card-header">
                             <h4>极简风险落地方案</h4>
@@ -1569,7 +1521,8 @@
             </main>
         </div>
     </div>
-        <div class="drawer" id="drawer">
+        <div class="drawer-overlay" id="drawer-overlay"></div>
+    <div class="drawer" id="drawer">
             <div class="drawer-header">
                 <span>新增指标</span>
                 <span class="drawer-close" id="drawer-close">&times;</span>
@@ -1756,6 +1709,16 @@
         const closeIndicatorDrawerBtn = document.getElementById('drawer-close');
         const cancelIndicatorDrawerBtn = document.getElementById('drawer-cancel');
 
+        // New DOM Elements for Indicator Drawer Form
+        const indicatorDrawerTitle = indicatorDrawer ? indicatorDrawer.querySelector('.drawer-header span') : null;
+        const indicatorIdInput = document.getElementById('indicator-id');
+        const indicatorNameInput = document.getElementById('indicator-name');
+        const calculationLogicTextarea = document.getElementById('calculation-logic');
+        const indicatorLevelSelect = document.getElementById('indicator-level');
+        const parentIndicatorSelect = document.getElementById('parent-indicator');
+        const scopeSelect = document.getElementById('scope');
+        const indicatorDrawerSaveBtn = indicatorDrawer ? indicatorDrawer.querySelector('.drawer-footer .btn-export') : null;
+
         // Scene Drawer
         const sceneDrawerOverlay = document.getElementById('scene-drawer-overlay');
         const sceneDrawer = document.getElementById('scene-drawer');
@@ -1786,10 +1749,52 @@
         const todoStepper = document.getElementById('todo-stepper');
 
         // --- Indicator Drawer Logic ---
-        function openIndicatorDrawer() {
+        function openIndicatorDrawer(mode = 'add', indicatorData = {}) {
             if (indicatorDrawerOverlay && indicatorDrawer) {
                 indicatorDrawerOverlay.classList.add('active');
                 indicatorDrawer.classList.add('active');
+
+                // Reset form and title
+                indicatorDrawerTitle.textContent = '新增指标';
+                indicatorIdInput.value = '';
+                indicatorNameInput.value = '';
+                calculationLogicTextarea.value = '';
+                indicatorLevelSelect.value = '一级'; // Default value, adjust as needed
+                parentIndicatorSelect.value = '请选择'; // Default value
+                scopeSelect.value = '全部'; // Default value
+                indicatorDrawerSaveBtn.style.display = 'block'; // Show save button by default
+
+                // Set all fields to editable by default
+                indicatorIdInput.readOnly = false;
+                indicatorNameInput.readOnly = false;
+                calculationLogicTextarea.readOnly = false;
+                indicatorLevelSelect.disabled = false;
+                parentIndicatorSelect.disabled = false;
+                scopeSelect.disabled = false;
+
+                if (mode === 'view' || mode === 'edit') {
+                    // Populate form with indicatorData
+                    indicatorIdInput.value = indicatorData.id || '';
+                    indicatorNameInput.value = indicatorData.name || '';
+                    calculationLogicTextarea.value = indicatorData.logic || '';
+                    indicatorLevelSelect.value = indicatorData.level || '一级';
+                    parentIndicatorSelect.value = indicatorData.parent || '请选择';
+                    scopeSelect.value = indicatorData.scope || '全部';
+
+                    if (mode === 'view') {
+                        indicatorDrawerTitle.textContent = '查看指标';
+                        // Set all fields to read-only
+                        indicatorIdInput.readOnly = true;
+                        indicatorNameInput.readOnly = true;
+                        calculationLogicTextarea.readOnly = true;
+                        indicatorLevelSelect.disabled = true;
+                        parentIndicatorSelect.disabled = true;
+                        scopeSelect.disabled = true;
+                        indicatorDrawerSaveBtn.style.display = 'none'; // Hide save button
+                    } else if (mode === 'edit') {
+                        indicatorDrawerTitle.textContent = '编辑指标';
+                    }
+                }
             }
         }
 
@@ -1806,6 +1811,49 @@
         if (indicatorDrawerOverlay) indicatorDrawerOverlay.addEventListener('click', function(event) {
             if (event.target === indicatorDrawerOverlay) {
                 closeIndicatorDrawer();
+            }
+        });
+
+        // --- Indicator Action Buttons Logic ---
+        document.getElementById('indicator-library-page').addEventListener('click', function(event) {
+            const target = event.target;
+            if (target.classList.contains('indicator-action-link')) {
+                event.preventDefault();
+                const action = target.dataset.action;
+                const row = target.closest('tr');
+                if (row) {
+                    const indicatorId = row.querySelector('td:nth-child(2)').textContent.trim();
+                    const indicatorName = row.querySelector('td:nth-child(3)').textContent.trim();
+                    const indicatorLevel = row.querySelector('td:nth-child(4)').textContent.trim();
+                    const parentIndicator = row.querySelector('td:nth-child(5)').textContent.trim();
+                    const calculationLogic = row.querySelector('td:nth-child(6)').textContent.trim();
+                    const scope = row.querySelector('td:nth-child(7)').textContent.trim();
+
+                    const indicatorData = {
+                        id: indicatorId,
+                        name: indicatorName,
+                        level: indicatorLevel,
+                        parent: parentIndicator,
+                        logic: calculationLogic,
+                        scope: scope
+                    };
+
+                    switch (action) {
+                        case 'view':
+                            openIndicatorDrawer('view', indicatorData);
+                            break;
+                        case 'edit':
+                            openIndicatorDrawer('edit', indicatorData);
+                            break;
+                        case 'delete':
+                            if (confirm(`确定要删除指标: ${indicatorId} 吗？`)) {
+                                if (row) {
+                                    row.remove();
+                                }
+                            }
+                            break;
+                    }
+                }
             }
         });
 
