@@ -1241,12 +1241,7 @@
             <div class="header-center">
             </div>
             <div class="header-right">
-                <div class="header-action">
-                    <span>流失客户:</span>
-                    <button class="btn-action">导入</button>
-                </div>
                 <div class="user-menu">
-                    <button class="btn-account-switch">总代账号切换</button>
                     <span class="user-name">福州财小哥</span>
                     <a href="#" class="logout">退出</a>
                 </div>
@@ -2131,6 +2126,18 @@
                 closeEditSceneDrawer();
             }
         });
+
+        if (indicatorTree) {
+            indicatorTree.addEventListener('change', (e) => {
+                if (e.target.type === 'checkbox') {
+                    const indicatorName = e.target.dataset.indicator;
+                    const configBlock = document.getElementById(`config-${indicatorName}`);
+                    if (configBlock) {
+                        configBlock.style.display = e.target.checked ? 'block' : 'none';
+                    }
+                }
+            });
+        }
 
         // --- Add Customer Drawer Logic ---
         function populateSceneDropdown() {
