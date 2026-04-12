@@ -613,6 +613,11 @@
             border-color: #fde2e2;
             background-color: #fef0f0;
         }
+        .status-tag.resolved {
+            color: #67c23a;
+            border-color: #e1f3d8;
+            background-color: #f0f9eb;
+        }
         .action-btn {
             padding: 6px 12px;
             border: none;
@@ -719,6 +724,11 @@
         }
         .todo-panel.active {
             display: block;
+        }
+        .panel-title {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 20px;
         }
         .data-import-layout {
             display: flex;
@@ -1110,6 +1120,7 @@
         .risk-summary-item {
             padding: 5px 15px;
             border-radius: 4px;
+            cursor: pointer;
         }
         .risk-summary-item.high {
             background-color: #fef0f0;
@@ -1122,6 +1133,10 @@
         .risk-summary-item.low {
             background-color: #f0f9eb;
             color: #67c23a;
+        }
+        .risk-summary-item.active-filter {
+            box-shadow: 0 0 0 2px rgba(64, 158, 255, 0.5);
+            font-weight: bold;
         }
         .risk-card {
             background-color: #fff;
@@ -1494,11 +1509,12 @@
             <main class="todo-content">
 
                 <div id="todo-panel-1" class="todo-panel active">
+                    <h3 class="panel-title">风险识别</h3>
                     <div class="page-level-actions">
                         <div class="risk-summary">
-                            <span class="risk-summary-item high">高危风险: 4</span>
-                            <span class="risk-summary-item medium">中危风险: 7</span>
-                            <span class="risk-summary-item low">低危风险: 10</span>
+                            <span class="risk-summary-item high" data-risk-level="high">高危风险: 4</span>
+                            <span class="risk-summary-item medium" data-risk-level="medium">中危风险: 7</span>
+                            <span class="risk-summary-item low" data-risk-level="low">低危风险: 10</span>
                         </div>
                         <button class="btn-rescan">立即重新扫描</button>
                     </div>
@@ -1518,6 +1534,7 @@
                     </div>
                 </div>
                 <div id="todo-panel-2" class="todo-panel">
+                    <h3 class="panel-title">AI分析</h3>
                     <div class="ai-analysis-layout">
                         <div class="ai-chart-card">
                             <h5><span class="chart-icon">📈</span> 风险趋势预测 (未来3个月)</h5>
@@ -1580,6 +1597,7 @@
                     </div>
                 </div>
                 <div id="todo-panel-3" class="todo-panel">
+                    <h3 class="panel-title">风险应对</h3>
                     <div class="solution-card">
                         <div class="solution-card-header">
                             <h4>极简风险落地方案</h4>
@@ -2246,12 +2264,50 @@
         });
 
         // --- Todo Page Logic ---
-        document.querySelectorAll('.action-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                appContainer.style.display = 'none';
-                todoPage.style.display = 'flex';
+        const dynamicRiskPage = document.getElementById('dynamic-risk-monitoring-page');
+        if (dynamicRiskPage) {
+            dynamicRiskPage.addEventListener('click', function(event) {
+                if (event.target.classList.contains('action-btn')) {
+                    appContainer.style.display = 'none';
+                    todoPage.style.display = 'flex';
+                    addRiskCardDemoData();
+                    addSolutionStepDemoData();
+                }
             });
-        });
+        }
+
+        // --- Risk Card Filtering Logic ---
+        const todoPanel1 = document.getElementById('todo-panel-1');
+        let currentFilter = null;
+        if (todoPanel1) {
+            todoPanel1.addEventListener('click', function(event) {
+                const target = event.target;
+                if (!target.classList.contains('risk-summary-item')) return;
+
+                const levelToFilter = target.dataset.riskLevel;
+
+                // Toggle filter
+                if (currentFilter === levelToFilter) {
+                    currentFilter = null; // Clear filter if clicking the same one
+                    target.classList.remove('active-filter');
+                } else {
+                    currentFilter = levelToFilter;
+                    // Update active class
+                    todoPanel1.querySelectorAll('.risk-summary-item').forEach(item => item.classList.remove('active-filter'));
+                    target.classList.add('active-filter');
+                }
+
+                const allRiskCards = todoPanel1.querySelectorAll('.risk-card');
+                allRiskCards.forEach(card => {
+                    if (!currentFilter) {
+                        card.style.display = 'flex'; // Show all
+                    } else {
+                        const cardTag = card.querySelector(`.${currentFilter}-tag`);
+                        card.style.display = cardTag ? 'flex' : 'none';
+                    }
+                });
+            });
+        }
 
         if (backToMainBtn) {
             backToMainBtn.addEventListener('click', (e) => {
@@ -2413,7 +2469,19 @@
 
         function initializePageData() {
             // Data for dynamic-risk-monitoring
-            pageData['dynamic-risk-monitoring'].push({html: `<tr><td><input type="checkbox" class="customer-checkbox"></td><td><div class="company-info"><div class="name">上海宏泰贸易有限公司</div><div class="tax-id">91310115MA1K3X2B4L</div></div></td><td>一般纳税人</td><td><div class="consultant-info"><div class="consultant-avatar">张</div><span>张三</span></div></td><td><div class="time-info"><div>监测期间: 2023-01 至 2024-03</div><div>检查时间点: 2024-03-21 10:30:45</div></div></td><td class="td-center">待检测</td><td class="td-center">场景一</td><td class="td-center">24</td><td class="td-center"><span class="risk-count high">3</span></td><td class="td-center"><span class="risk-count medium">2</span></td><td class="td-center"><span class="risk-count low">5</span></td><td class="td-center"><span class="status-tag unresolved">未解决</span></td><td class="td-center"><button class="action-btn">查看待办</button></td></tr>`});
+            const riskMonitoringData = [
+                {html: `<tr><td><input type="checkbox" class="customer-checkbox"></td><td><div class="company-info"><div class="name">上海宏泰贸易有限公司</div><div class="tax-id">91310115MA1K3X2B4L</div></div></td><td>一般纳税人</td><td><div class="consultant-info"><div class="consultant-avatar">张</div><span>张三</span></div></td><td><div class="time-info"><div>监测期间: 2023-01 至 2024-03</div><div>检查时间点: 2024-03-21 10:30:45</div></div></td><td class="td-center">待检测</td><td class="td-center">场景一</td><td class="td-center">24</td><td class="td-center"><span class="risk-count high">3</span></td><td class="td-center"><span class="risk-count medium">2</span></td><td class="td-center"><span class="risk-count low">5</span></td><td class="td-center"><span class="status-tag unresolved">未解决</span></td><td class="td-center"><button class="action-btn">查看待办</button></td></tr>`},
+                {html: `<tr><td><input type="checkbox" class="customer-checkbox"></td><td><div class="company-info"><div class="name">北京科创未来科技有限公司</div><div class="tax-id">91110108MA01Q84B0A</div></div></td><td>一般纳税人</td><td><div class="consultant-info"><div class="consultant-avatar">李</div><span>李四</span></div></td><td><div class="time-info"><div>监测期间: 2023-05 至 2024-05</div><div>检查时间点: 2024-05-20 11:00:00</div></div></td><td class="td-center">已完成</td><td class="td-center">场景二</td><td class="td-center">15</td><td class="td-center"><span class="risk-count high">0</span></td><td class="td-center"><span class="risk-count medium">1</span></td><td class="td-center"><span class="risk-count low">3</span></td><td class="td-center"><span class="status-tag resolved">已解决</span></td><td class="td-center"><button class="action-btn">查看报告</button></td></tr>`},
+                {html: `<tr><td><input type="checkbox" class="customer-checkbox"></td><td><div class="company-info"><div class="name">深圳速达物流有限公司</div><div class="tax-id">91440300MA5G8W1P5C</div></div></td><td>小规模纳税人</td><td><div class="consultant-info"><div class="consultant-avatar">王</div><span>王五</span></div></td><td><div class="time-info"><div>监测期间: 2024-01 至 2024-06</div><div>检查时间点: 2024-06-01 09:00:15</div></div></td><td class="td-center">检测中</td><td class="td-center">场景三</td><td class="td-center">30</td><td class="td-center"><span class="risk-count high">5</span></td><td class="td-center"><span class="risk-count medium">8</span></td><td class="td-center"><span class="risk-count low">10</span></td><td class="td-center"><span class="status-tag unresolved">未解决</span></td><td class="td-center"><button class="action-btn">查看待办</button></td></tr>`},
+                {html: `<tr><td><input type="checkbox" class="customer-checkbox"></td><td><div class="company-info"><div class="name">杭州美味餐饮管理有限公司</div><div class="tax-id">91330106MA2J3W4R7X</div></div></td><td>一般纳税人</td><td><div class="consultant-info"><div class="consultant-avatar">赵</div><span>赵六</span></div></td><td><div class="time-info"><div>监测期间: 2023-11 至 2024-04</div><div>检查时间点: 2024-04-25 14:50:30</div></div></td><td class="td-center">已完成</td><td class="td-center">场景一</td><td class="td-center">18</td><td class="td-center"><span class="risk-count high">1</span></td><td class="td-center"><span class="risk-count medium">0</span></td><td class="td-center"><span class="risk-count low">2</span></td><td class="td-center"><span class="status-tag resolved">已解决</span></td><td class="td-center"><button class="action-btn">查看报告</button></td></tr>`},
+                {html: `<tr><td><input type="checkbox" class="customer-checkbox"></td><td><div class="company-info"><div class="name">成都智造精密仪器有限公司</div><div class="tax-id">91510107MA62452PXX</div></div></td><td>一般纳税人</td><td><div class="consultant-info"><div class="consultant-avatar">孙</div><span>孙七</span></div></td><td><div class="time-info"><div>监测期间: 2024-02 至 2024-05</div><div>检查时间点: 2024-05-30 16:20:00</div></div></td><td class="td-center">待检测</td><td class="td-center">场景四</td><td class="td-center">22</td><td class="td-center"><span class="risk-count high">2</span></td><td class="td-center"><span class="risk-count medium">4</span></td><td class="td-center"><span class="risk-count low">6</span></td><td class="td-center"><span class="status-tag unresolved">未解决</span></td><td class="td-center"><button class="action-btn">查看待办</button></td></tr>`},
+                {html: `<tr><td><input type="checkbox" class="customer-checkbox"></td><td><div class="company-info"><div class="name">武汉光谷软件技术有限公司</div><div class="tax-id">91420111MA4L2G8C8W</div></div></td><td>小规模纳税人</td><td><div class="consultant-info"><div class="consultant-avatar">周</div><span>周八</span></div></td><td><div class="time-info"><div>监测期间: 2023-08 至 2024-01</div><div>检查时间点: 2024-01-28 10:10:10</div></div></td><td class="td-center">已完成</td><td class="td-center">场景二</td><td class="td-center">12</td><td class="td-center"><span class="risk-count high">0</span></td><td class="td-center"><span class="risk-count medium">0</span></td><td class="td-center"><span class="risk-count low">1</span></td><td class="td-center"><span class="status-tag resolved">已解决</span></td><td class="td-center"><button class="action-btn">查看报告</button></td></tr>`},
+                {html: `<tr><td><input type="checkbox" class="customer-checkbox"></td><td><div class="company-info"><div class="name">西安古都文化传播有限公司</div><div class="tax-id">91610132MA71K2L4XG</div></div></td><td>一般纳税人</td><td><div class="consultant-info"><div class="consultant-avatar">吴</div><span>吴九</span></div></td><td><div class="time-info"><div>监测期间: 2024-03 至 2024-06</div><div>检查时间点: 2024-06-02 11:45:00</div></div></td><td class="td-center">待检测</td><td class="td-center">场景五</td><td class="td-center">28</td><td class="td-center"><span class="risk-count high">4</span></td><td class="td-center"><span class="risk-count medium">6</span></td><td class="td-center"><span class="risk-count low">9</span></td><td class="td-center"><span class="status-tag unresolved">未解决</span></td><td class="td-center"><button class="action-btn">查看待办</button></td></tr>`},
+                {html: `<tr><td><input type="checkbox" class="customer-checkbox"></td><td><div class="company-info"><div class="name">南京智能制造集团</div><div class="tax-id">91320115MA1W9Y4B0C</div></div></td><td>一般纳税人</td><td><div class="consultant-info"><div class="consultant-avatar">郑</div><span>郑十</span></div></td><td><div class="time-info"><div>监测期间: 2023-01 至 2023-12</div><div>检查时间点: 2024-01-15 18:00:00</div></div></td><td class="td-center">已完成</td><td class="td-center">场景一</td><td class="td-center">35</td><td class="td-center"><span class="risk-count high">8</span></td><td class="td-center"><span class="risk-count medium">10</span></td><td class="td-center"><span class="risk-count low">12</span></td><td class="td-center"><span class="status-tag">部分解决</span></td><td class="td-center"><button class="action-btn">查看待办</button></td></tr>`},
+                {html: `<tr><td><input type="checkbox" class="customer-checkbox"></td><td><div class="company-info"><div class="name">福州三坊七巷旅游开发有限公司</div><div class="tax-id">91350102MA34L2W1XX</div></div></td><td>小规模纳税人</td><td><div class="consultant-info"><div class="consultant-avatar">陈</div><span>陈十一</span></div></td><td><div class="time-info"><div>监测期间: 2024-04 至 2024-06</div><div>检查时间点: 2024-06-03 10:00:00</div></div></td><td class="td-center">检测失败</td><td class="td-center">场景三</td><td class="td-center">N/A</td><td class="td-center"><span class="risk-count high">-</span></td><td class="td-center"><span class="risk-count medium">-</span></td><td class="td-center"><span class="risk-count low">-</span></td><td class="td-center"><span class="status-tag">错误</span></td><td class="td-center"><button class="action-btn">重试</button></td></tr>`},
+                {html: `<tr><td><input type="checkbox" class="customer-checkbox"></td><td><div class="company-info"><div class="name">厦门阳光海岸贸易有限公司</div><div class="tax-id">91350203MA332N1B6C</div></div></td><td>一般纳税人</td><td><div class="consultant-info"><div class="consultant-avatar">林</div><span>林十二</span></div></td><td><div class="time-info"><div>监测期间: 2023-06 至 2024-06</div><div>检查时间点: 2024-06-04 14:00:00</div></div></td><td class="td-center">待检测</td><td class="td-center">场景六</td><td class="td-center">19</td><td class="td-center"><span class="risk-count high">1</span></td><td class="td-center"><span class="risk-count medium">3</span></td><td class="td-center"><span class="risk-count low">4</span></td><td class="td-center"><span class="status-tag unresolved">未解决</span></td><td class="td-center"><button class="action-btn">查看待办</button></td></tr>`}
+            ];
+            pageData['dynamic-risk-monitoring'] = riskMonitoringData;
 
             // Data for scene-config
             pageData['scene-config'].push({html: `<tr><td>场景一</td><td>建筑业</td><td>全国</td><td>一般纳税人</td><td>5</td><td><label class="switch"><input type="checkbox" checked><span class="slider round"></span></label></td><td>张三</td><td>2026-03-20 10:00:00</td><td><a href="#" class="edit-scene-btn">编辑</a><a href="#" class="delete-scene">删除</a></td></tr>`});
@@ -2485,6 +2553,129 @@
             });
 
             pageData['indicator-library'].push(...demoRows);
+        }
+
+        let riskCardsAdded = false;
+        function addRiskCardDemoData() {
+            if (riskCardsAdded) return;
+
+            const container = document.getElementById('todo-panel-1');
+            if (!container) return;
+
+            const demoData = [
+                { icon: '📄', title: '大额费用支出无合同', tagClass: 'high', tagText: 'HIGH', description: '监测到多笔超过5万元的费用支出未关联有效合同。', amount: '150,000.00', rule: '关联合同缺失模型' },
+                { icon: '📉', title: '连续3个月亏损', tagClass: 'high', tagText: 'HIGH', description: '企业已连续3个财报周期出现经营性亏损。', amount: '890,000.00', rule: '盈利能力模型' },
+                { icon: '📈', title: '成本异常波动', tagClass: 'medium', tagText: 'MEDIUM', description: '主营业务成本环比上月增长50%，远超收入增长。', amount: '320,000.00', rule: '成本分析模型' },
+                { icon: '🏢', title: '供应商集中度过高', tagClass: 'medium', tagText: 'MEDIUM', description: '前三大供应商采购额占总采购额的85%。', amount: '-', rule: '供应链风险模型' },
+                { icon: '👥', title: '客户集中度过高', tagClass: 'low', tagText: 'LOW', description: '来自单一客户的销售收入占总收入的60%。', amount: '-', rule: '客户依赖度模型' },
+                { icon: '🧾', title: '印花税申报异常', tagClass: 'high', tagText: 'HIGH', description: '实收资本增加100万，未足额申报印花税。', amount: '500.00', rule: '印花税智能核对' },
+                { icon: '👤', title: '个人账户收款', tagClass: 'high', tagText: 'HIGH', description: '发现多笔来自对公客户的款项直接进入法人个人账户。', amount: '250,000.00', rule: '资金流水模型' },
+                { icon: '⏳', title: '长期挂账应付款', tagClass: 'medium', tagText: 'MEDIUM', description: '存在账龄超过3年的大额应付账款未支付。', amount: '480,000.00', rule: '账龄分析模型' },
+                { icon: '🏚️', title: '固定资产减值异常', tagClass: 'low', tagText: 'LOW', description: '部分已停用生产线未计提相应的固定资产减值准备。', amount: '1,200,000.00', rule: '资产减值测试' },
+                { icon: '🔬', title: '研发费用资本化不合规', tagClass: 'high', tagText: 'HIGH', description: '将尚处于研究阶段的支出计入了开发支出进行资本化。', amount: '650,000.00', rule: '研发支出核算模型' },
+                { icon: '📄', title: '大额费用支出无合同', tagClass: 'high', tagText: 'HIGH', description: '监测到多笔超过5万元的费用支出未关联有效合同。', amount: '150,000.00', rule: '关联合同缺失模型' },
+                { icon: '📉', title: '连续3个月亏损', tagClass: 'high', tagText: 'HIGH', description: '企业已连续3个财报周期出现经营性亏损。', amount: '890,000.00', rule: '盈利能力模型' },
+                { icon: '📈', title: '成本异常波动', tagClass: 'medium', tagText: 'MEDIUM', description: '主营业务成本环比上月增长50%，远超收入增长。', amount: '320,000.00', rule: '成本分析模型' },
+                { icon: '🏢', title: '供应商集中度过高', tagClass: 'medium', tagText: 'MEDIUM', description: '前三大供应商采购额占总采购额的85%。', amount: '-', rule: '供应链风险模型' },
+                { icon: '👥', title: '客户集中度过高', tagClass: 'low', tagText: 'LOW', description: '来自单一客户的销售收入占总收入的60%。', amount: '-', rule: '客户依赖度模型' },
+                { icon: '🧾', title: '印花税申报异常', tagClass: 'high', tagText: 'HIGH', description: '实收资本增加100万，未足额申报印花税。', amount: '500.00', rule: '印花税智能核对' },
+                { icon: '👤', title: '个人账户收款', tagClass: 'high', tagText: 'HIGH', description: '发现多笔来自对公客户的款项直接进入法人个人账户。', amount: '250,000.00', rule: '资金流水模型' },
+                { icon: '⏳', title: '长期挂账应付款', tagClass: 'medium', tagText: 'MEDIUM', description: '存在账龄超过3年的大额应付账款未支付。', amount: '480,000.00', rule: '账龄分析模型' },
+                { icon: '🏚️', title: '固定资产减值异常', tagClass: 'low', tagText: 'LOW', description: '部分已停用生产线未计提相应的固定资产减值准备。', amount: '1,200,000.00', rule: '资产减值测试' },
+                { icon: '🔬', title: '研发费用资本化不合规', tagClass: 'high', tagText: 'HIGH', description: '将尚处于研究阶段的支出计入了开发支出进行资本化。', amount: '650,000.00', rule: '研发支出核算模型' },
+            ];
+
+            const riskCardsHTML = demoData.map(data => `
+                <div class="risk-card" style="margin-top: 15px;">
+                    <div class="risk-card-icon">${data.icon}</div>
+                    <div class="risk-card-content">
+                        <div class="risk-card-title">${data.title} <span class="${data.tagClass}-tag">${data.tagText}</span></div>
+                        <div class="risk-card-description">${data.description}</div>
+                        <div class="risk-card-details">
+                            <span>风险金额: <strong>¥${data.amount}</strong></span>
+                            <span>触发规则: <strong>${data.rule}</strong></span>
+                        </div>
+                    </div>
+                    <div class="risk-card-action">
+                        <button class="action-btn-outline">查看方案</button>
+                    </div>
+                </div>
+            `).join('');
+
+            const lastRiskCard = container.querySelector('.risk-card:last-of-type');
+            if (lastRiskCard) {
+                lastRiskCard.insertAdjacentHTML('afterend', riskCardsHTML);
+            }
+            
+            riskCardsAdded = true;
+
+            // Update risk summary counts
+            const highRiskCount = container.querySelectorAll('.high-tag').length;
+            const mediumRiskCount = container.querySelectorAll('.medium-tag').length;
+            const lowRiskCount = container.querySelectorAll('.low-tag').length;
+
+            const summaryContainer = document.querySelector('.risk-summary');
+            if (summaryContainer) {
+                summaryContainer.querySelector('.high').textContent = `高危风险: ${highRiskCount}`;
+                summaryContainer.querySelector('.medium').textContent = `中危风险: ${mediumRiskCount}`;
+                summaryContainer.querySelector('.low').textContent = `低危风险: ${lowRiskCount}`;
+            }
+        }
+
+        let solutionsAdded = false;
+        function addSolutionStepDemoData() {
+            if (solutionsAdded) return;
+
+            const container = document.querySelector('#todo-panel-3 .solution-card');
+            if (!container) return;
+
+            const demoData = [
+                { title: '大额费用支出无合同风险消除', details: ['补充合同或情况说明', '建立大额支出合同审批流程'] },
+                { title: '连续亏损风险应对', details: ['分析亏损原因', '调整经营策略', '申请税收优惠'] },
+                { title: '成本异常波动风险核查', details: ['核对主要原材料采购价格', '检查生产成本核算凭证'] },
+                { title: '供应商集中度过高风险化解', details: ['拓展2-3家备选供应商', '与核心供应商签订长期协议'] },
+                { title: '客户集中度过高风险化解', details: ['积极开拓新客户', '提供增值服务以提高客户粘性'] },
+                { title: '印花税申报风险修正', details: ['补充申报印花税', '财务人员进行印花税法培训'] },
+                { title: '个人账户收款风险整改', details: ['将款项转入对公账户', '向客户发函说明对公账户信息'] },
+                { title: '长期挂账应付款项处理', details: ['核实账务真实性', '联系债权人进行确认或处理'] },
+                { title: '固定资产减值风险应对', details: ['聘请评估机构进行资产评估', '按评估结果计提减值准备'] },
+                { title: '研发费用资本化风险调整', details: ['将不合规资本化的费用转入当期损益', '重新梳理研发项目阶段'] },
+                { title: '大额费用支出无合同风险消除', details: ['补充合同或情况说明', '建立大额支出合同审批流程'] },
+                { title: '连续亏损风险应对', details: ['分析亏损原因', '调整经营策略', '申请税收优惠'] },
+                { title: '成本异常波动风险核查', details: ['核对主要原材料采购价格', '检查生产成本核算凭证'] },
+                { title: '供应商集中度过高风险化解', details: ['拓展2-3家备选供应商', '与核心供应商签订长期协议'] },
+                { title: '客户集中度过高风险化解', details: ['积极开拓新客户', '提供增值服务以提高客户粘性'] },
+                { title: '印花税申报风险修正', details: ['补充申报印花税', '财务人员进行印花税法培训'] },
+                { title: '个人账户收款风险整改', details: ['将款项转入对公账户', '向客户发函说明对公账户信息'] },
+                { title: '长期挂账应付款项处理', details: ['核实账务真实性', '联系债权人进行确认或处理'] },
+                { title: '固定资产减值异常风险应对', details: ['聘请评估机构进行资产评估', '按评估结果计提减值准备'] },
+                { title: '研发费用资本化风险调整', details: ['将不合规资本化的费用转入当期损益', '重新梳理研发项目阶段'] },
+            ];
+
+            const solutionStepsHTML = demoData.map((data, index) => {
+                const detailsHTML = data.details.map(d => `<p><span class="detail-icon">🕔</span> ${d}</p>`).join('');
+                return `
+                <div class="solution-step" data-status="pending">
+                    <div class="solution-step-number">${index + 2}</div>
+                    <div class="solution-step-content">
+                        <div class="solution-step-title">${data.title}</div>
+                        <div class="solution-step-details">${detailsHTML}</div>
+                    </div>
+                    <div class="solution-actions">
+                        <div class="actions-pending">
+                            <button class="btn-execute">建议立即执行</button>
+                            <button class="btn-mark-resolved">标记已解决</button>
+                        </div>
+                        <div class="actions-resolved">
+                            <span class="resolved-status">✓ 风险已清除</span>
+                            <a href="#" class="resolved-history-link">撤销标记</a>
+                        </div>
+                    </div>
+                </div>
+            `}).join('');
+
+            container.insertAdjacentHTML('beforeend', solutionStepsHTML);
+            solutionsAdded = true;
         }
 
         // --- Page/Tab Navigation Logic ---
