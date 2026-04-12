@@ -1558,7 +1558,7 @@
                 </form>
             </div>
             <div class="drawer-footer">
-                <button class="btn-export" id="save-customer-btn">保存</button>
+                <button class="btn-export">保存</button>
                 <button class="btn-cancel" id="drawer-cancel">取消</button>
             </div>
         </div>
@@ -1723,10 +1723,16 @@
                             <option>赵六</option>
                         </select>
                     </div>
+                    <div class="form-item">
+                        <label for="selected-scene">选择场景</label>
+                        <select id="selected-scene">
+                            <!-- Options will be populated dynamically by JS -->
+                        </select>
+                    </div>
                 </form>
             </div>
             <div class="drawer-footer">
-                <button class="btn-export">保存</button>
+                <button class="btn-export" id="add-customer-save-btn">保存</button>
                 <button class="btn-cancel" id="add-customer-drawer-cancel">取消</button>
             </div>
         </div>
@@ -1771,7 +1777,7 @@
         const openAddCustomerBtn = document.getElementById('add-customer-btn');
         const closeAddCustomerDrawerBtn = document.getElementById('add-customer-drawer-close');
         const cancelAddCustomerDrawerBtn = document.getElementById('add-customer-drawer-cancel');
-        const saveCustomerBtn = document.getElementById('save-customer-btn');
+        const saveCustomerBtn = document.getElementById('add-customer-save-btn');
 
         // Page Navigation
         const menuItems = document.querySelectorAll('.submenu-item a');
@@ -1845,7 +1851,7 @@
             }
         }
 
-        if (openIndicatorDrawerBtn) openIndicatorDrawerBtn.addEventListener('click', openIndicatorDrawer);
+        if (openIndicatorDrawerBtn) openIndicatorDrawerBtn.addEventListener('click', () => openIndicatorDrawer('add'));
         if (closeIndicatorDrawerBtn) closeIndicatorDrawerBtn.addEventListener('click', closeIndicatorDrawer);
         if (cancelIndicatorDrawerBtn) cancelIndicatorDrawerBtn.addEventListener('click', closeIndicatorDrawer);
         if (indicatorDrawerOverlay) indicatorDrawerOverlay.addEventListener('click', function(event) {
@@ -1862,20 +1868,14 @@
                 const action = target.dataset.action;
                 const row = target.closest('tr');
                 if (row) {
-                    const indicatorId = row.querySelector('td:nth-child(2)').textContent.trim();
-                    const indicatorName = row.querySelector('td:nth-child(3)').textContent.trim();
-                    const indicatorLevel = row.querySelector('td:nth-child(4)').textContent.trim();
-                    const parentIndicator = row.querySelector('td:nth-child(5)').textContent.trim();
-                    const calculationLogic = row.querySelector('td:nth-child(6)').textContent.trim();
-                    const scope = row.querySelector('td:nth-child(7)').textContent.trim();
-
+                    const cells = row.querySelectorAll('td');
                     const indicatorData = {
-                        id: indicatorId,
-                        name: indicatorName,
-                        level: indicatorLevel,
-                        parent: parentIndicator,
-                        logic: calculationLogic,
-                        scope: scope
+                        id: cells[1].textContent.trim(),
+                        name: cells[2].textContent.trim(),
+                        logic: cells[3].textContent.trim(),
+                        level: cells[4].textContent.trim(),
+                        parent: cells[5].textContent.trim(),
+                        scope: cells[6].textContent.trim(),
                     };
 
                     switch (action) {
@@ -1886,10 +1886,8 @@
                             openIndicatorDrawer('edit', indicatorData);
                             break;
                         case 'delete':
-                            if (confirm(`确定要删除指标: ${indicatorId} 吗？`)) {
-                                if (row) {
-                                    row.remove();
-                                }
+                            if (confirm(`确定要删除指标: ${indicatorData.name} 吗？`)) {
+                                row.remove();
                             }
                             break;
                     }
@@ -1951,8 +1949,27 @@
         });
 
         // --- Add Customer Drawer Logic ---
+        function populateSceneDropdown() {
+            const sceneSelect = document.getElementById('selected-scene');
+            if (!sceneSelect || !sceneTable) return;
+
+            sceneSelect.innerHTML = '<option value="">请选择场景</option>'; // Clear existing options and add a placeholder
+            const sceneRows = sceneTable.querySelectorAll('tbody tr');
+            sceneRows.forEach(row => {
+                const sceneNameCell = row.querySelector('td:first-child');
+                if (sceneNameCell) {
+                    const sceneName = sceneNameCell.textContent.trim();
+                    const option = document.createElement('option');
+                    option.value = sceneName;
+                    option.textContent = sceneName;
+                    sceneSelect.appendChild(option);
+                }
+            });
+        }
+
         function openAddCustomerDrawer() {
             if (addCustomerDrawerOverlay && addCustomerDrawer) {
+                populateSceneDropdown(); // Populate dropdown when opening
                 addCustomerDrawerOverlay.classList.add('active');
                 addCustomerDrawer.classList.add('active');
             }
@@ -1975,323 +1992,209 @@
         });
 
         if (saveCustomerBtn) {
-            console.log('Save button found and listener is being attached.');
             saveCustomerBtn.addEventListener('click', function() {
-                console.log('Save button CLICKED.');
                 // 1. Get data from the form
                 const customerName = document.getElementById('customer-name').value;
                 const taxpayerId = document.getElementById('taxpayer-id').value;
                 const taxpayerNature = document.getElementById('taxpayer-nature').value;
                 const expertConsultant = document.getElementById('expert-consultant').value;
-                console.log('Data from form:', { customerName, taxpayerId, taxpayerNature, expertConsultant });
+                const selectedScene = document.getElementById('selected-scene').value;
 
                 // Basic validation
                 if (!customerName || !taxpayerId) {
-                    console.error('Validation failed: Customer name or Taxpayer ID is empty.');
                     alert('企业名称和纳税人识别号不能为空！');
                     return;
                 }
 
-                // 2. Create a new table row
-                const newRow = document.createElement('tr');
-                newRow.innerHTML = `
-                    <td>
-                        <div class="company-info">
-                            <div class="name">${customerName}</div>
-                            <div class="tax-id">${taxpayerId}</div>
-                        </div>
-                    </td>
-                    <td>${taxpayerNature}</td>
-                    <td>
-                        <div class="consultant-info">
-                            <div class="consultant-avatar">${expertConsultant.charAt(0)}</div>
-                            <span>${expertConsultant}</span>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="time-info">
-                            <div>监测期间: -</div>
-                            <div>检查时间点: -</div>
-                        </div>
-                    </td>
-                    <td class="td-center">0</td>
-                    <td class="td-center"><span class="risk-count">0</span></td>
-                    <td class="td-center"><span class="risk-count">0</span></td>
-                    <td class="td-center"><span class="risk-count">0</span></td>
-                    <td class="td-center"><span class="status-tag">-</span></td>
-                    <td class="td-center"><button class="action-btn">查看待办</button></td>
-                `;
-                console.log('New table row created.');
+                // 2. Add to the main table
+                const customerTableBody = document.querySelector('#dynamic-risk-monitoring-page table tbody');
+                if (customerTableBody) {
+                    const newRow = document.createElement('tr');
+                    const consultantInitial = expertConsultant ? expertConsultant.charAt(0) : '';
 
-                // 3. Add the new row to the table
-                const riskTableBody = document.querySelector('#dynamic-risk-monitoring-page table tbody');
-                if (riskTableBody) {
-                    riskTableBody.prepend(newRow); // Add to the top of the list
-                    console.log('New row prepended to the table body.');
-                } else {
-                    console.error('Table body for dynamic risk monitoring not found!');
+                    const now = new Date();
+                    const checkTime = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
+
+                    newRow.innerHTML = `
+                        <td>
+                            <div class="company-info">
+                                <div class="name">${customerName}</div>
+                                <div class="tax-id">${taxpayerId}</div>
+                            </div>
+                        </td>
+                        <td>${taxpayerNature}</td>
+                        <td>
+                            <div class="consultant-info">
+                                <div class="consultant-avatar">${consultantInitial}</div>
+                                <span>${expertConsultant}</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="time-info">
+                                <div>监测期间: -</div>
+                                <div>检查时间点: ${checkTime}</div>
+                            </div>
+                        </td>
+                        <td class="td-center">0</td>
+                        <td class="td-center"><span class="risk-count high">0</span></td>
+                        <td class="td-center"><span class="risk-count medium">0</span></td>
+                        <td class="td-center"><span class="risk-count low">0</span></td>
+                        <td class="td-center"><span class="status-tag">未开始</span></td>
+                        <td class="td-center"><button class="action-btn">查看待办</button></td>
+                    `;
+                    customerTableBody.appendChild(newRow);
                 }
 
-                // 4. Close the drawer
-                console.log('Attempting to close the drawer...');
+                // 3. Close the drawer
                 closeAddCustomerDrawer();
+
+                // 4. Clear the form
+                document.getElementById('customer-name').value = '';
+                document.getElementById('taxpayer-id').value = '';
+                document.getElementById('taxpayer-nature').value = '一般纳税人';
+                document.getElementById('expert-consultant').value = '张三';
+                document.getElementById('selected-scene').value = '';
             });
         }
 
-        // Indicator Tree Checkbox Logic
-        if (indicatorTree) {
-            indicatorTree.addEventListener('change', function(e) {
-                if (e.target.type === 'checkbox') {
-                    const checkbox = e.target;
-                    const isChecked = checkbox.checked;
-                    const indicatorName = checkbox.dataset.indicator;
+        // --- Page/Tab Navigation Logic ---
+        const openTabs = {};
 
-                    // Toggle config block visibility
-                    const configBlock = document.getElementById(`config-${indicatorName}`);
-                    if (configBlock) {
-                        configBlock.style.display = isChecked ? 'block' : 'none';
-                    }
-
-                    // Propagate change to children
-                    const childList = checkbox.closest('li').querySelector('ul');
-                    if (childList) {
-                        childList.querySelectorAll('input[type="checkbox"]').forEach(childCheckbox => {
-                            childCheckbox.checked = isChecked;
-                            // Manually trigger change event for children to update their config blocks
-                            childCheckbox.dispatchEvent(new Event('change'));
-                        });
-                    }
-
-                    // Propagate change to parents
-                    if (isChecked) {
-                        let parentLi = checkbox.closest('ul')?.closest('li');
-                        while (parentLi) {
-                            const parentCheckbox = parentLi.querySelector('input[type="checkbox"]');
-                            if (parentCheckbox) {
-                                parentCheckbox.checked = true;
-                                // Manually trigger change event for parent to update its config block
-                                parentCheckbox.dispatchEvent(new Event('change'));
-                            }
-                            parentLi = parentLi.closest('ul')?.closest('li');
-                        }
-                    }
-                }
-            });
+        function showPage(pageId) {
+            pages.forEach(p => p.classList.remove('active'));
+            const pageToShow = document.getElementById(pageId + '-page');
+            if (pageToShow) {
+                pageToShow.classList.add('active');
+            }
         }
 
-
-        // --- Custom Checkbox Dropdown Logic ---
-        function createCustomSelect(wrapperId, options) {
-            const wrapper = document.getElementById(wrapperId);
-            if (!wrapper) return;
-
-            const btn = wrapper.querySelector('.custom-select-btn');
-            const panel = wrapper.querySelector('.custom-select-panel');
-            
-            // Populate options
-            options.forEach(optionText => {
-                const optionEl = document.createElement('div');
-                optionEl.className = 'custom-select-option';
-                optionEl.innerHTML = `<input type="checkbox" value="${optionText}"> ${optionText}`;
-                panel.appendChild(optionEl);
-            });
-
-            // Toggle panel
-            btn.addEventListener('click', () => {
-                panel.classList.toggle('active');
-            });
-
-            // Update button text on selection
-            panel.addEventListener('change', () => {
-                const selectedCount = panel.querySelectorAll('input:checked').length;
-                if (selectedCount === 0) {
-                    btn.textContent = '请选择税区';
+        function updateActiveMenu(href) {
+            menuItems.forEach(item => {
+                if (item.getAttribute('href') === href) {
+                    item.parentElement.classList.add('active');
                 } else {
-                    btn.textContent = `已选择 ${selectedCount} 个税区`;
-                }
-            });
-
-            // Close on outside click
-            document.addEventListener('click', (e) => {
-                if (!wrapper.contains(e.target)) {
-                    panel.classList.remove('active');
+                    item.parentElement.classList.remove('active');
                 }
             });
         }
 
-        const taxRegions = Array.from({ length: 36 }, (_, i) => `税区${i + 1}`);
-        createCustomSelect('tax-region-select', taxRegions);
-
-
-        // --- Tab and Page Navigation Logic ---
-        function switchToPage(pageId, pageName) {
-            if (!pageId || !pageName) return;
-
-            // Deactivate all pages, menu items, and tabs
-            pages.forEach(page => page.classList.remove('active'));
-            menuItems.forEach(menu => menu.parentElement.classList.remove('active'));
-            document.querySelectorAll('.tab-item').forEach(tab => tab.classList.remove('active'));
-
-            // Find or create tab
-            let targetTab = document.querySelector(`.tab-item[data-page-id="${pageId}"]`);
-            if (!targetTab) {
-                targetTab = document.createElement('div');
-                targetTab.className = 'tab-item';
-                targetTab.dataset.pageId = pageId;
-                targetTab.innerHTML = `${pageName} <span class="close-tab" data-page-id="${pageId}">&times;</span>`;
-                tabsContainer.appendChild(targetTab);
-
-                targetTab.addEventListener('click', function(e) {
-                    if (e.target.classList.contains('close-tab')) return;
-                    switchToPage(pageId, pageName);
-                });
-
-                targetTab.querySelector('.close-tab').addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    closeTab(pageId);
-                });
+        function createTab(pageId, tabName) {
+            if (openTabs[pageId]) {
+                // Tab already exists, just switch to it
+                switchTab(pageId);
+                return;
             }
 
-            // Activate target elements
-            const targetPage = document.getElementById(`${pageId}-page`);
-            const targetMenuItem = document.querySelector(`a[href="#${pageId}"]`);
+            const tab = document.createElement('div');
+            tab.className = 'tab-item';
+            tab.dataset.pageId = pageId;
+            tab.textContent = tabName;
 
-            if (targetPage) targetPage.classList.add('active');
-            if (targetTab) targetTab.classList.add('active');
-            if (targetMenuItem) targetMenuItem.parentElement.classList.add('active');
+            const closeBtn = document.createElement('span');
+            closeBtn.className = 'close-tab';
+            closeBtn.innerHTML = ' &times;';
+            closeBtn.onclick = (e) => {
+                e.stopPropagation();
+                closeTab(pageId);
+            };
+
+            tab.appendChild(closeBtn);
+            tab.onclick = () => switchTab(pageId);
+
+            tabsContainer.appendChild(tab);
+            openTabs[pageId] = tab;
+            switchTab(pageId);
+        }
+
+        function switchTab(pageId) {
+            // Deactivate all tabs and pages
+            document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
+            pages.forEach(p => p.classList.remove('active'));
+
+            // Activate the selected tab and page
+            const tabToActivate = openTabs[pageId];
+            const pageToShow = document.getElementById(pageId + '-page');
+
+            if (tabToActivate) tabToActivate.classList.add('active');
+            if (pageToShow) pageToShow.classList.add('active');
+            
+            updateActiveMenu('#' + pageId);
         }
 
         function closeTab(pageId) {
-            const tabToClose = document.querySelector(`.tab-item[data-page-id="${pageId}"]`);
-            if (tabToClose) {
-                const wasActive = tabToClose.classList.contains('active');
-                const nextTab = tabToClose.previousElementSibling || tabToClose.nextElementSibling;
-                
-                tabToClose.remove();
-                
-                const pageToClose = document.getElementById(`${pageId}-page`);
-                if (pageToClose) pageToClose.classList.remove('active');
+            const tabToRemove = openTabs[pageId];
+            if (tabToRemove) {
+                const wasActive = tabToRemove.classList.contains('active');
+                tabToRemove.remove();
+                delete openTabs[pageId];
 
-                const menuToDeactivate = document.querySelector(`a[href="#${pageId}"]`);
-                if (menuToDeactivate) menuToDeactivate.parentElement.classList.remove('active');
-
-                if (wasActive && nextTab) {
-                    const nextPageId = nextTab.dataset.pageId;
-                    const nextPageName = nextTab.textContent.replace(' ×', '').trim();
-                    switchToPage(nextPageId, nextPageName);
+                if (wasActive && Object.keys(openTabs).length > 0) {
+                    // If the closed tab was active, switch to the last remaining tab
+                    const lastTabId = Object.keys(openTabs)[Object.keys(openTabs).length - 1];
+                    switchTab(lastTabId);
+                } else if (Object.keys(openTabs).length === 0) {
+                    // If no tabs are left, hide all pages
+                    pages.forEach(p => p.classList.remove('active'));
+                    updateActiveMenu(''); // No active menu
                 }
             }
         }
 
         menuItems.forEach(item => {
-            item.addEventListener('click', function(event) {
-                event.preventDefault();
-                const pageId = this.getAttribute('href').substring(1);
-                const pageName = this.textContent.trim();
-                switchToPage(pageId, pageName);
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                const href = this.getAttribute('href');
+                const pageId = href.substring(1);
+                const tabName = this.textContent;
+                
+                createTab(pageId, tabName);
             });
         });
 
-        document.addEventListener('DOMContentLoaded', () => {
-            // Initialize with the default active page
-            const initialActiveMenu = document.querySelector('.submenu-item.active a');
-            if (initialActiveMenu) {
-                const pageId = initialActiveMenu.getAttribute('href').substring(1);
-                const pageName = initialActiveMenu.textContent.trim();
-                switchToPage(pageId, pageName);
-            }
+        // Initialize with the first menu item
+        if (menuItems.length > 0) {
+            const firstMenuItem = menuItems[0];
+            const initialPageId = firstMenuItem.getAttribute('href').substring(1);
+            const initialTabName = firstMenuItem.textContent;
+            createTab(initialPageId, initialTabName);
+        }
+
+        // --- Collapsible Menu ---
+        document.querySelectorAll('.has-submenu > a').forEach(menu => {
+            menu.addEventListener('click', function(e) {
+                e.preventDefault();
+                this.parentElement.classList.toggle('open');
+            });
         });
-
-        // --- Scene Config Page Logic ---
-        if (sceneTable) {
-            sceneTable.addEventListener('click', function(event) {
-                if (event.target.classList.contains('delete-scene')) {
-                    event.preventDefault();
-                    if (confirm('确定要删除此场景吗？')) {
-                        event.target.closest('tr').remove();
-                    }
-                }
-            });
-        }
-
-        if (sceneSearchInput) {
-            sceneSearchInput.addEventListener('keyup', function() {
-                const filter = this.value.toUpperCase();
-                const rows = sceneTable.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
-                for (let i = 0; i < rows.length; i++) {
-                    const sceneNameCell = rows[i].getElementsByTagName('td')[0];
-                    if (sceneNameCell) {
-                        const txtValue = sceneNameCell.textContent || sceneNameCell.innerText;
-                        rows[i].style.display = txtValue.toUpperCase().indexOf(filter) > -1 ? "" : "none";
-                    }
-                }
-            });
-        }
 
         // --- Todo Page Logic ---
-        function showTodoPage() {
-            if (appContainer) appContainer.style.display = 'none';
-            if (todoPage) todoPage.style.display = 'flex';
-        }
-
-        function showMainApp() {
-            if (appContainer) appContainer.style.display = 'flex';
-            if (todoPage) todoPage.style.display = 'none';
-        }
-
         document.querySelectorAll('.action-btn').forEach(btn => {
-            if(btn.textContent === '查看待办'){
-                 btn.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    showTodoPage();
-                });
-            }
+            btn.addEventListener('click', () => {
+                appContainer.style.display = 'none';
+                todoPage.style.display = 'flex';
+            });
         });
 
-        if(backToMainBtn) {
+        if (backToMainBtn) {
             backToMainBtn.addEventListener('click', (e) => {
                 e.preventDefault();
-                showMainApp();
+                appContainer.style.display = 'flex';
+                todoPage.style.display = 'none';
             });
         }
 
-        if(todoStepper){
+        if (todoStepper) {
             todoStepper.addEventListener('click', (e) => {
-                const targetStep = e.target.closest('.step');
-                if(!targetStep) return;
-
-                const stepNumber = targetStep.dataset.step;
-
-                // Update stepper
-                todoStepper.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
-                targetStep.classList.add('active');
-
-                // Update panel
-                document.querySelectorAll('.todo-panel').forEach(p => p.classList.remove('active'));
-                const targetPanel = document.getElementById(`todo-panel-${stepNumber}`);
-                if(targetPanel) targetPanel.classList.add('active');
-            });
-        }
-
-        // --- Data Import Tab Logic ---
-        const subTabsContainer = document.querySelector('.sub-tabs');
-        if (subTabsContainer) {
-            subTabsContainer.addEventListener('click', (e) => {
-                const targetTabBtn = e.target.closest('.sub-tab-btn');
-                if (!targetTabBtn) return;
-
-                const tabId = targetTabBtn.dataset.tab;
-                if (!tabId) return;
-
-                // Update tab buttons
-                subTabsContainer.querySelectorAll('.sub-tab-btn').forEach(btn => btn.classList.remove('active'));
-                targetTabBtn.classList.add('active');
-
-                // Update tab content
-                const mainContent = targetTabBtn.closest('.data-import-main');
-                mainContent.querySelectorAll('.sub-tab-content').forEach(content => content.classList.remove('active'));
-                const targetContent = mainContent.querySelector(`#${tabId}-content`);
-                if (targetContent) targetContent.classList.add('active');
+                const step = e.target.closest('.step');
+                if (step) {
+                    const stepNumber = step.dataset.step;
+                    // Deactivate all steps and panels
+                    todoStepper.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+                    document.querySelectorAll('.todo-panel').forEach(p => p.classList.remove('active'));
+                    // Activate clicked step and corresponding panel
+                    step.classList.add('active');
+                    document.getElementById(`todo-panel-${stepNumber}`).classList.add('active');
+                }
             });
         }
     </script>
