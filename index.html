@@ -296,6 +296,34 @@
             color: #606266;
         }
 
+        .pagination-controls {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            margin-top: 20px;
+            gap: 15px;
+        }
+        .pagination-controls span {
+            font-size: 13px;
+            color: #606266;
+        }
+        .pagination-controls select {
+            border: 1px solid #dcdfe6;
+            border-radius: 4px;
+            padding: 5px 8px;
+        }
+        .pagination-controls button {
+            background-color: #fff;
+            border: 1px solid #dcdfe6;
+            padding: 5px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .pagination-controls button:disabled {
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
         /* Drawer Styles */
         .drawer-overlay {
             position: fixed;
@@ -1298,72 +1326,11 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>ZB001</td>
-                                        <td>资产负债率</td>
-                                        <td>(总负债 / 总资产) * 100%</td>
-                                        <td>一级</td>
-                                        <td>-</td>
-                                        <td>一般纳税人</td>
-                                        <td>张三</td>
-                                        <td>2026-03-20 10:00:00</td>
-                                        <td>
-    <a href="#" class="indicator-action-link" data-action="view">查看</a>
-    <a href="#" class="indicator-action-link" data-action="edit">编辑</a>
-    <a href="#" class="indicator-action-link" data-action="delete">删除</a>
-</td>
-                                    </tr>
-                                    <tr>
-                                        <td>ZB002</td>
-                                        <td>销售增长率</td>
-                                        <td>((本期销售额 - 上期销售额) / 上期销售额) * 100%</td>
-                                        <td>一级</td>
-                                        <td>-</td>
-                                        <td>小规模纳税人</td>
-                                        <td>李四</td>
-                                        <td>2026-03-21 11:30:00</td>
-                                        <td>
-    <a href="#" class="indicator-action-link" data-action="view">查看</a>
-    <a href="#" class="indicator-action-link" data-action="edit">编辑</a>
-    <a href="#" class="indicator-action-link" data-action="delete">删除</a>
-</td>
-                                    </tr>
-                                    <tr>
-                                        <td>ZB003</td>
-                                        <td>流动比率</td>
-                                        <td>流动资产 / 流动负债</td>
-                                        <td>二级</td>
-                                        <td>资产负债率</td>
-                                        <td>一般纳税人</td>
-                                        <td>王五</td>
-                                        <td>2026-03-22 14:00:00</td>
-                                        <td>
-    <a href="#" class="indicator-action-link" data-action="view">查看</a>
-    <a href="#" class="indicator-action-link" data-action="edit">编辑</a>
-    <a href="#" class="indicator-action-link" data-action="delete">删除</a>
-</td>
-                                    </tr>
-                                    <tr>
-                                        <td>ZB004</td>
-                                        <td>速动比率</td>
-                                        <td>(流动资产 - 存货) / 流动负债</td>
-                                        <td>三级</td>
-                                        <td>流动比率</td>
-                                        <td>小规模纳税人</td>
-                                        <td>赵六</td>
-                                        <td>2026-03-23 09:00:00</td>
-                                        <td>
-    <a href="#" class="indicator-action-link" data-action="view">查看</a>
-    <a href="#" class="indicator-action-link" data-action="edit">编辑</a>
-    <a href="#" class="indicator-action-link" data-action="delete">删除</a>
-</td>
-                                    </tr>
+                                    <!-- Dynamic content will be generated here -->
                                 </tbody>
                             </table>
-                            <div class="pagination">
-                                共 13 条
-                            </div>
                         </div>
+                        <div class="pagination-controls" id="pagination-indicator-library"></div>
                     </div>
                 </div>
 
@@ -1401,39 +1368,11 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td><input type="checkbox" class="customer-checkbox"></td>
-                                        <td>
-                                            <div class="company-info">
-                                                <div class="name">上海宏泰贸易有限公司</div>
-                                                <div class="tax-id">91310115MA1K3X2B4L</div>
-                                            </div>
-                                        </td>
-                                        <td>一般纳税人</td>
-                                        <td>
-                                            <div class="consultant-info">
-                                                <div class="consultant-avatar">张</div>
-                                                <span>张三</span>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="time-info">
-                                                <div>监测期间: 2023-01 至 2024-03</div>
-                                                <div>检查时间点: 2024-03-21 10:30:45</div>
-                                            </div>
-                                        </td>
-                                        <td class="td-center">待检测</td>
-                                        <td class="td-center">场景一</td>
-                                        <td class="td-center">24</td>
-                                        <td class="td-center"><span class="risk-count high">3</span></td>
-                                        <td class="td-center"><span class="risk-count medium">2</span></td>
-                                        <td class="td-center"><span class="risk-count low">5</span></td>
-                                        <td class="td-center"><span class="status-tag unresolved">未解决</span></td>
-                                        <td class="td-center"><button class="action-btn">查看待办</button></td>
-                                    </tr>
+                                    <!-- Dynamic content will be generated here -->
                                 </tbody>
                             </table>
                         </div>
+                        <div class="pagination-controls" id="pagination-dynamic-risk-monitoring"></div>
                     </div>
                 </div>
 
@@ -1465,31 +1404,11 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>场景一</td>
-                                        <td>建筑业</td>
-                                        <td>全国</td>
-                                        <td>一般纳税人</td>
-                                        <td>5</td>
-                                        <td><label class="switch"><input type="checkbox" checked><span class="slider round"></span></label></td>
-                                        <td>张三</td>
-                                        <td>2026-03-20 10:00:00</td>
-                                        <td><a href="#" class="edit-scene-btn">编辑</a><a href="#" class="delete-scene">删除</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td>场景二</td>
-                                        <td>服务业</td>
-                                        <td>福建</td>
-                                        <td>小规模纳税人</td>
-                                        <td>3</td>
-                                        <td><label class="switch"><input type="checkbox"><span class="slider round"></span></label></td>
-                                        <td>李四</td>
-                                        <td>2026-03-21 11:30:00</td>
-                                        <td><a href="#" class="edit-scene-btn">编辑</a><a href="#" class="delete-scene">删除</a></td>
-                                    </tr>
+                                    <!-- Dynamic content will be generated here -->
                                 </tbody>
                             </table>
                         </div>
+                        <div class="pagination-controls" id="pagination-scene-config"></div>
                     </div>
                 </div>
 
@@ -2049,12 +1968,12 @@
                 if (row) {
                     const cells = row.querySelectorAll('td');
                     const indicatorData = {
-                        id: cells[1].textContent.trim(),
-                        name: cells[2].textContent.trim(),
-                        logic: cells[3].textContent.trim(),
-                        level: cells[4].textContent.trim(),
-                        parent: cells[5].textContent.trim(),
-                        scope: cells[6].textContent.trim(),
+                        id: cells[0].textContent.trim(),
+                        name: cells[1].textContent.trim(),
+                        logic: cells[2].textContent.trim(),
+                        level: cells[3].textContent.trim(),
+                        parent: cells[4].textContent.trim(),
+                        scope: cells[5].textContent.trim(),
                     };
 
                     switch (action) {
@@ -2098,11 +2017,54 @@
             }
         });
 
+        let isTreeRendered = false;
+        function renderIndicatorTreeList() {
+            if (isTreeRendered) return;
+
+            addIndicatorDemoData();
+
+            const treeContainer = document.querySelector('.indicator-tree ul');
+            if (!treeContainer) return;
+
+            const indicators = pageData['indicator-library'];
+            const indicatorMap = new Map(indicators.map(item => [item.name, { ...item, children: [] }]));
+            const rootIndicators = [];
+
+            for (const indicator of indicatorMap.values()) {
+                if (indicator.parent && indicator.parent !== '-' && indicatorMap.has(indicator.parent)) {
+                    indicatorMap.get(indicator.parent).children.push(indicator);
+                } else {
+                    rootIndicators.push(indicator);
+                }
+            }
+
+            function buildTreeHtml(nodes) {
+                if (nodes.length === 0) return '';
+                let html = '<ul>';
+                for (const node of nodes) {
+                    const uniqueId = `tree-ind-${node.id}`;
+                    html += `
+                        <li>
+                            <input type="checkbox" id="${uniqueId}" data-indicator="${node.name}" data-level="${node.level}">
+                            <label for="${uniqueId}">${node.level}指标：${node.name}</label>
+                            ${buildTreeHtml(node.children)}
+                        </li>
+                    `;
+                }
+                html += '</ul>';
+                return html;
+            }
+
+            treeContainer.innerHTML = buildTreeHtml(rootIndicators);
+            isTreeRendered = true;
+        }
+
         // --- Edit Scene Drawer Logic ---
         function openEditSceneDrawer() {
             if (editSceneDrawerOverlay && editSceneDrawer) {
                 editSceneDrawerOverlay.classList.add('active');
                 editSceneDrawer.classList.add('active');
+                renderIndicatorTreeList();
             }
         }
 
@@ -2113,11 +2075,11 @@
             }
         }
 
-        document.querySelectorAll('.edit-scene-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.preventDefault();
+        document.getElementById('scene-config-page').addEventListener('click', function(event) {
+            if (event.target.classList.contains('edit-scene-btn')) {
+                event.preventDefault();
                 openEditSceneDrawer();
-            });
+            }
         });
         if (closeEditSceneDrawerBtn) closeEditSceneDrawerBtn.addEventListener('click', closeEditSceneDrawer);
         if (cancelEditSceneDrawerBtn) cancelEditSceneDrawerBtn.addEventListener('click', closeEditSceneDrawer);
@@ -2131,9 +2093,31 @@
             indicatorTree.addEventListener('change', (e) => {
                 if (e.target.type === 'checkbox') {
                     const indicatorName = e.target.dataset.indicator;
-                    const configBlock = document.getElementById(`config-${indicatorName}`);
-                    if (configBlock) {
-                        configBlock.style.display = e.target.checked ? 'block' : 'none';
+                    const indicatorLevel = e.target.dataset.level;
+                    const configPanel = document.getElementById('threshold-config-panel');
+                    const configBlockId = `config-${indicatorName}`;
+                    let configBlock = document.getElementById(configBlockId);
+
+                    if (e.target.checked) {
+                        if (!configBlock) {
+                            // Create the config block if it doesn't exist
+                            const newBlock = document.createElement('div');
+                            newBlock.className = 'threshold-config-block';
+                            newBlock.id = configBlockId;
+                            newBlock.innerHTML = `
+                                <h4>${indicatorName} (${indicatorLevel}指标)</h4>
+                                <div class="risk-level-row"><span class="risk-tag high">高风险</span><input type="text" placeholder="例如: < 10%"><input type="text" placeholder="高风险提示内容"></div>
+                                <div class="risk-level-row"><span class="risk-tag medium">中风险</span><input type="text" placeholder="例如: < 20%"><input type="text" placeholder="中风险提示内容"></div>
+                                <div class="risk-level-row"><span class="risk-tag low">低风险</span><input type="text" placeholder="例如: < 30%"><input type="text" placeholder="低风险提示内容"></div>
+                            `;
+                            configPanel.appendChild(newBlock);
+                        } else {
+                            configBlock.style.display = 'block';
+                        }
+                    } else {
+                        if (configBlock) {
+                            configBlock.style.display = 'none';
+                        }
                     }
                 }
             });
@@ -2251,113 +2235,7 @@
             });
         }
 
-        // --- Page/Tab Navigation Logic ---
-        const openTabs = {};
 
-        function showPage(pageId) {
-            pages.forEach(p => p.classList.remove('active'));
-            const pageToShow = document.getElementById(pageId + '-page');
-            if (pageToShow) {
-                pageToShow.classList.add('active');
-            }
-        }
-
-        function updateActiveMenu(href) {
-            menuItems.forEach(item => {
-                if (item.getAttribute('href') === href) {
-                    item.parentElement.classList.add('active');
-                } else {
-                    item.parentElement.classList.remove('active');
-                }
-            });
-        }
-
-        function createTab(pageId, tabName) {
-            if (openTabs[pageId]) {
-                // Tab already exists, just switch to it
-                switchTab(pageId);
-                return;
-            }
-
-            const tab = document.createElement('div');
-            tab.className = 'tab-item';
-            tab.dataset.pageId = pageId;
-            tab.textContent = tabName;
-
-            const closeBtn = document.createElement('span');
-            closeBtn.className = 'close-tab';
-            closeBtn.innerHTML = ' &times;';
-            closeBtn.onclick = (e) => {
-                e.stopPropagation();
-                closeTab(pageId);
-            };
-
-            tab.appendChild(closeBtn);
-            tab.onclick = () => switchTab(pageId);
-
-            tabsContainer.appendChild(tab);
-            openTabs[pageId] = tab;
-            switchTab(pageId);
-        }
-
-        function switchTab(pageId) {
-            // Deactivate all tabs and pages
-            document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
-            pages.forEach(p => p.classList.remove('active'));
-
-            // Activate the selected tab and page
-            const tabToActivate = openTabs[pageId];
-            const pageToShow = document.getElementById(pageId + '-page');
-
-            if (tabToActivate) tabToActivate.classList.add('active');
-            if (pageToShow) {
-                pageToShow.classList.add('active');
-                if (pageId === 'workbench') {
-                    renderRiskChart();
-                    renderRiskTypeChart();
-                }
-            }
-            
-            updateActiveMenu('#' + pageId);
-        }
-
-        function closeTab(pageId) {
-            const tabToRemove = openTabs[pageId];
-            if (tabToRemove) {
-                const wasActive = tabToRemove.classList.contains('active');
-                tabToRemove.remove();
-                delete openTabs[pageId];
-
-                if (wasActive && Object.keys(openTabs).length > 0) {
-                    // If the closed tab was active, switch to the last remaining tab
-                    const lastTabId = Object.keys(openTabs)[Object.keys(openTabs).length - 1];
-                    switchTab(lastTabId);
-                } else if (Object.keys(openTabs).length === 0) {
-                    // If no tabs are left, hide all pages
-                    pages.forEach(p => p.classList.remove('active'));
-                    updateActiveMenu(''); // No active menu
-                }
-            }
-        }
-
-        menuItems.forEach(item => {
-            item.addEventListener('click', function(e) {
-                e.preventDefault();
-                const href = this.getAttribute('href');
-                const pageId = href.substring(1);
-                const tabName = this.textContent;
-                
-                createTab(pageId, tabName);
-            });
-        });
-
-        // Initialize with the first menu item
-        if (menuItems.length > 0) {
-            const firstMenuItem = menuItems[0];
-            const initialPageId = firstMenuItem.getAttribute('href').substring(1);
-            const initialTabName = firstMenuItem.textContent;
-            createTab(initialPageId, initialTabName);
-        }
 
         // --- Collapsible Menu ---
         document.querySelectorAll('.has-submenu > a').forEach(menu => {
@@ -2438,9 +2316,284 @@
             });
         }
 
-        const workbenchMonthSelect = document.getElementById('workbench-month-select');
-        if (workbenchMonthSelect) {
-            workbenchMonthSelect.addEventListener('change', renderRiskTypeChart);
+        // --- Global State & Data ---
+        const pageData = {
+            'dynamic-risk-monitoring': [],
+            'indicator-library': [],
+            'scene-config': []
+        };
+
+        const paginationState = {
+            'dynamic-risk-monitoring': { currentPage: 1, itemsPerPage: 20 },
+            'indicator-library': { currentPage: 1, itemsPerPage: 20 },
+            'scene-config': { currentPage: 1, itemsPerPage: 20 }
+        };
+
+        // --- Pagination Logic ---
+        function renderPage(pageId) {
+            const state = paginationState[pageId];
+            const data = pageData[pageId];
+            const tableBody = document.querySelector(`#${pageId}-page table tbody`);
+            const controlsContainer = document.getElementById(`pagination-${pageId}`);
+
+            if (!tableBody || !controlsContainer) return;
+
+            // Clear current content
+            tableBody.innerHTML = '';
+            controlsContainer.innerHTML = '';
+
+            if (!data || data.length === 0) {
+                controlsContainer.innerHTML = '<span>共 0 条</span>';
+                return;
+            }
+
+            const totalItems = data.length;
+            const totalPages = Math.ceil(totalItems / state.itemsPerPage);
+            state.currentPage = Math.min(state.currentPage, totalPages) || 1;
+
+            const startIndex = (state.currentPage - 1) * state.itemsPerPage;
+            const endIndex = startIndex + state.itemsPerPage;
+            const pageItems = data.slice(startIndex, endIndex);
+
+            // Render table rows
+            let rowsHtml = '';
+            if (pageId === 'indicator-library') {
+                rowsHtml = pageItems.map(d => `<tr><td>${d.id}</td><td>${d.name}</td><td>${d.formula}</td><td>${d.level}</td><td>${d.parent}</td><td>${d.scope}</td><td>${d.creator}</td><td>${d.date}</td><td><a href="#" class="indicator-action-link" data-action="view">查看</a> <a href="#" class="indicator-action-link" data-action="edit">编辑</a> <a href="#" class="indicator-action-link" data-action="delete">删除</a></td></tr>`).join('');
+            } else {
+                rowsHtml = pageItems.map(item => item.html).join('');
+            }
+            tableBody.innerHTML = rowsHtml;
+
+            // Render controls
+            let controlsHTML = `
+                <span>共 ${totalItems} 条</span>
+                <select class="items-per-page">
+                    <option value="20">20条/页</option>
+                    <option value="50">50条/页</option>
+                    <option value="100">100条/页</option>
+                    <option value="500">500条/页</option>
+                </select>
+                <button class="prev-page" ${state.currentPage === 1 ? 'disabled' : ''}>上一页</button>
+                <span>第 ${state.currentPage} / ${totalPages} 页</span>
+                <button class="next-page" ${state.currentPage === totalPages ? 'disabled' : ''}>下一页</button>
+            `;
+            controlsContainer.innerHTML = controlsHTML;
+            controlsContainer.querySelector('.items-per-page').value = state.itemsPerPage;
+        }
+
+        function setupPagination(pageId) {
+            const controlsContainer = document.getElementById(`pagination-${pageId}`);
+            if (!controlsContainer) return;
+
+            controlsContainer.addEventListener('click', (e) => {
+                const state = paginationState[pageId];
+                if (e.target.classList.contains('prev-page') && state.currentPage > 1) {
+                    state.currentPage--;
+                    renderPage(pageId);
+                } else if (e.target.classList.contains('next-page')) {
+                    const totalPages = Math.ceil(pageData[pageId].length / state.itemsPerPage);
+                    if (state.currentPage < totalPages) {
+                        state.currentPage++;
+                        renderPage(pageId);
+                    }
+                }
+            });
+
+            controlsContainer.addEventListener('change', (e) => {
+                if (e.target.classList.contains('items-per-page')) {
+                    paginationState[pageId].itemsPerPage = parseInt(e.target.value, 10);
+                    paginationState[pageId].currentPage = 1; // Reset to first page
+                    renderPage(pageId);
+                }
+            });
+
+            renderPage(pageId);
+        }
+
+
+        function initializePageData() {
+            // Data for dynamic-risk-monitoring
+            pageData['dynamic-risk-monitoring'].push({html: `<tr><td><input type="checkbox" class="customer-checkbox"></td><td><div class="company-info"><div class="name">上海宏泰贸易有限公司</div><div class="tax-id">91310115MA1K3X2B4L</div></div></td><td>一般纳税人</td><td><div class="consultant-info"><div class="consultant-avatar">张</div><span>张三</span></div></td><td><div class="time-info"><div>监测期间: 2023-01 至 2024-03</div><div>检查时间点: 2024-03-21 10:30:45</div></div></td><td class="td-center">待检测</td><td class="td-center">场景一</td><td class="td-center">24</td><td class="td-center"><span class="risk-count high">3</span></td><td class="td-center"><span class="risk-count medium">2</span></td><td class="td-center"><span class="risk-count low">5</span></td><td class="td-center"><span class="status-tag unresolved">未解决</span></td><td class="td-center"><button class="action-btn">查看待办</button></td></tr>`});
+
+            // Data for scene-config
+            pageData['scene-config'].push({html: `<tr><td>场景一</td><td>建筑业</td><td>全国</td><td>一般纳税人</td><td>5</td><td><label class="switch"><input type="checkbox" checked><span class="slider round"></span></label></td><td>张三</td><td>2026-03-20 10:00:00</td><td><a href="#" class="edit-scene-btn">编辑</a><a href="#" class="delete-scene">删除</a></td></tr>`});
+            pageData['scene-config'].push({html: `<tr><td>场景二</td><td>服务业</td><td>福建</td><td>小规模纳税人</td><td>3</td><td><label class="switch"><input type="checkbox"><span class="slider round"></span></label></td><td>李四</td><td>2026-03-21 11:30:00</td><td><a href="#" class="edit-scene-btn">编辑</a><a href="#" class="delete-scene">删除</a></td></tr>`});
+
+            // Data for indicator-library
+            const indicatorBaseData = [
+                { id: 'ZB001', name: '资产负债率', formula: '(总负债 / 总资产) * 100%', level: '一级', parent: '-', scope: '一般纳税人', creator: '张三', date: '2026-03-20 10:00:00' },
+                { id: 'ZB002', name: '销售增长率', formula: '((本期销售额 - 上期销售额) / 上期销售额) * 100%', level: '一级', parent: '-', scope: '小规模纳税人', creator: '李四', date: '2026-03-21 11:30:00' },
+                { id: 'ZB003', name: '流动比率', formula: '流动资产 / 流动负债', level: '二级', parent: '资产负债率', scope: '一般纳税人', creator: '王五', date: '2026-03-22 14:00:00' },
+                { id: 'ZB004', name: '速动比率', formula: '(流动资产 - 存货) / 流动负债', level: '三级', parent: '流动比率', scope: '小规模纳税人', creator: '赵六', date: '2026-03-23 09:00:00' }
+            ];
+            pageData['indicator-library'] = indicatorBaseData;
+        }
+
+        function addIndicatorDemoData() {
+            if (pageData['indicator-library'].length > 4) return; // Demo data already added
+
+            const parentIndicatorData = [
+                { id: 'P001', name: '盈利能力分析', formula: '综合计算', level: '一级', parent: '-', scope: '全部', creator: '系统', date: '2025-01-01 09:00:00' },
+                { id: 'P002', name: '资产运营效率', formula: '综合计算', level: '一级', parent: '-', scope: '全部', creator: '系统', date: '2025-01-01 09:00:00' },
+                { id: 'P003', name: '税务合规性', formula: '综合计算', level: '一级', parent: '-', scope: '全部', creator: '系统', date: '2025-01-01 09:00:00' },
+                { id: 'P004', name: '现金流健康度', formula: '综合计算', level: '一级', parent: '-', scope: '全部', creator: '系统', date: '2025-01-01 09:00:00' },
+                { id: 'P005', name: '偿债能力分析', formula: '综合计算', level: '一级', parent: '-', scope: '全部', creator: '系统', date: '2025-01-01 09:00:00' },
+                { id: 'P006', name: '成本控制水平', formula: '综合计算', level: '一级', parent: '-', scope: '全部', creator: '系统', date: '2025-01-01 09:00:00' }
+            ];
+            pageData['indicator-library'].push(...parentIndicatorData);
+
+            const indicatorNames = ["销售收入异常波动", "毛利率偏低", "费用占收入比过高", "存货周转率下降", "应收账款账龄过长", "预付账款长期挂账", "大额现金交易", "增值税税负率异常", "企业所得税贡献率低", "印花税申报异常"];
+            const formulas = ["(本期销售额 - 上期销售额) / 上期销售额", "(主营业务收入 - 主营业务成本) / 主营业务收入 * 100%", "(销售费用 + 管理费用 + 财务费用) / 营业收入 * 100%", "营业成本 / 平均存货余额", "应收账款周转天数", "预付账款 / (营业成本 / 365)", "SUM(单笔大于5万现金收支)", "当期应纳增值税 / 当期销售收入 * 100%", "当期应纳所得税 / 利润总额 * 100%", "SUM(应税凭证金额) * 税率"];
+            const scopes = ['一般纳税人', '小规模纳税人', '全部'];
+            const creators = ['张三', '李四', '王五', '赵六', '孙七', '周八'];
+            
+            let demoRows = [];
+            let globalIndex = pageData['indicator-library'].length + 4; // Start index after initial data + parents
+            
+            const level2Indicators = [];
+
+            // Create Level 2 indicators
+            parentIndicatorData.forEach((p, parentIndex) => {
+                for (let i = 0; i < 6; i++) { // Create 6 L2 children for each L1 parent
+                    const indicatorId = `ZB${String(globalIndex++).padStart(3, '0')}`;
+                    const indicatorName = `${indicatorNames[i % indicatorNames.length]} L2 #${parentIndex}-${i}`;
+                    const formula = formulas[i % formulas.length];
+                    const level = '二级';
+                    const parent = p.name;
+                    const scope = scopes[i % scopes.length];
+                    const creator = creators[i % creators.length];
+                    const date = `2025-01-02 10:00:00`;
+                    const newIndicator = { id: indicatorId, name: indicatorName, formula, level, parent, scope, creator, date };
+                    demoRows.push(newIndicator);
+                    level2Indicators.push(newIndicator);
+                }
+            });
+
+            // Create Level 3 indicators
+            level2Indicators.forEach((p, parentIndex) => {
+                for (let i = 0; i < 5; i++) { // Create 5 L3 children for each L2 parent
+                    const indicatorId = `ZB${String(globalIndex++).padStart(3, '0')}`;
+                    const indicatorName = `${indicatorNames[(i+3) % indicatorNames.length]} L3 #${parentIndex}-${i}`;
+                    const formula = formulas[(i+3) % formulas.length];
+                    const level = '三级';
+                    const parent = p.name;
+                    const scope = scopes[i % scopes.length];
+                    const creator = creators[i % creators.length];
+                    const date = `2025-01-03 10:00:00`;
+                    demoRows.push({ id: indicatorId, name: indicatorName, formula, level, parent, scope, creator, date });
+                }
+            });
+
+            pageData['indicator-library'].push(...demoRows);
+        }
+
+        // --- Page/Tab Navigation Logic ---
+        const openTabs = {};
+
+        function showPage(pageId) {
+            pages.forEach(p => p.classList.remove('active'));
+            const pageToShow = document.getElementById(pageId + '-page');
+            if (pageToShow) {
+                pageToShow.classList.add('active');
+            }
+        }
+
+        function updateActiveMenu(href) {
+            menuItems.forEach(item => {
+                if (item.getAttribute('href') === href) {
+                    item.parentElement.classList.add('active');
+                } else {
+                    item.parentElement.classList.remove('active');
+                }
+            });
+        }
+
+        function createTab(pageId, tabName) {
+            if (openTabs[pageId]) {
+                switchTab(pageId);
+                return;
+            }
+
+            const tab = document.createElement('div');
+            tab.className = 'tab-item';
+            tab.dataset.pageId = pageId;
+            tab.textContent = tabName;
+
+            const closeBtn = document.createElement('span');
+            closeBtn.className = 'close-tab';
+            closeBtn.innerHTML = ' &times;';
+            closeBtn.onclick = (e) => {
+                e.stopPropagation();
+                closeTab(pageId);
+            };
+
+            tab.appendChild(closeBtn);
+            tab.onclick = () => switchTab(pageId);
+
+            tabsContainer.appendChild(tab);
+            openTabs[pageId] = tab;
+            switchTab(pageId);
+        }
+
+        function switchTab(pageId) {
+            document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
+            pages.forEach(p => p.classList.remove('active'));
+
+            const tabToActivate = openTabs[pageId];
+            const pageToShow = document.getElementById(pageId + '-page');
+
+            if (tabToActivate) tabToActivate.classList.add('active');
+            if (pageToShow) {
+                pageToShow.classList.add('active');
+                if (pageId === 'workbench') {
+                    renderRiskChart();
+                    renderRiskTypeChart();
+                } else if (pageId === 'indicator-library') {
+                    addIndicatorDemoData();
+                    setupPagination(pageId);
+                } else if (pageId === 'dynamic-risk-monitoring' || pageId === 'scene-config') {
+                    setupPagination(pageId);
+                }
+            }
+            
+            updateActiveMenu('#' + pageId);
+        }
+
+        function closeTab(pageId) {
+            const tabToRemove = openTabs[pageId];
+            if (tabToRemove) {
+                const wasActive = tabToRemove.classList.contains('active');
+                tabToRemove.remove();
+                delete openTabs[pageId];
+
+                if (wasActive && Object.keys(openTabs).length > 0) {
+                    const lastTabId = Object.keys(openTabs)[Object.keys(openTabs).length - 1];
+                    switchTab(lastTabId);
+                } else if (Object.keys(openTabs).length === 0) {
+                    pages.forEach(p => p.classList.remove('active'));
+                    updateActiveMenu('');
+                }
+            }
+        }
+
+        menuItems.forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                const href = this.getAttribute('href');
+                const pageId = href.substring(1);
+                const tabName = this.textContent;
+                
+                createTab(pageId, tabName);
+            });
+        });
+
+        // Initialize with the first menu item
+        initializePageData(); // IMPORTANT: Initialize data before creating the first tab
+        if (menuItems.length > 0) {
+            const firstMenuItem = menuItems[0];
+            const initialPageId = firstMenuItem.getAttribute('href').substring(1);
+            const initialTabName = firstMenuItem.textContent;
+            createTab(initialPageId, initialTabName);
         }
 
         // --- Batch Checkbox Logic ---
