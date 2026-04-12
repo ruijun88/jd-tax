@@ -1266,6 +1266,7 @@
                                 </div>
                                 <button class="btn-search">筛选</button>
                             </div>
+                            <button class="btn-export" id="add-customer-btn">新增客户</button>
                         </div>
                         <div class="table-container">
                             <table>
@@ -1557,7 +1558,7 @@
                 </form>
             </div>
             <div class="drawer-footer">
-                <button class="btn-export">保存</button>
+                <button class="btn-export" id="save-customer-btn">保存</button>
                 <button class="btn-cancel" id="drawer-cancel">取消</button>
             </div>
         </div>
@@ -1690,6 +1691,47 @@
         </div>
     </div>
 
+    <div class="drawer-overlay" id="add-customer-drawer-overlay">
+        <div class="drawer" id="add-customer-drawer">
+            <div class="drawer-header">
+                <span>新增客户</span>
+                <span class="drawer-close" id="add-customer-drawer-close">&times;</span>
+            </div>
+            <div class="drawer-body">
+                <form class="drawer-form">
+                    <div class="form-item">
+                        <label for="customer-name">企业名称</label>
+                        <input type="text" id="customer-name" placeholder="请输入企业名称">
+                    </div>
+                    <div class="form-item">
+                        <label for="taxpayer-id">纳税人识别号</label>
+                        <input type="text" id="taxpayer-id" placeholder="请输入纳税人识别号">
+                    </div>
+                    <div class="form-item">
+                        <label for="taxpayer-nature">纳税人性质</label>
+                        <select id="taxpayer-nature">
+                            <option>一般纳税人</option>
+                            <option>小规模纳税人</option>
+                        </select>
+                    </div>
+                    <div class="form-item">
+                        <label for="expert-consultant">专家顾问</label>
+                        <select id="expert-consultant">
+                            <option>张三</option>
+                            <option>李四</option>
+                            <option>王五</option>
+                            <option>赵六</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="drawer-footer">
+                <button class="btn-export">保存</button>
+                <button class="btn-cancel" id="add-customer-drawer-cancel">取消</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         // --- DOM Elements ---
         // Indicator Drawer
@@ -1722,6 +1764,14 @@
         const closeEditSceneDrawerBtn = document.getElementById('edit-scene-drawer-close');
         const cancelEditSceneDrawerBtn = document.getElementById('edit-scene-drawer-cancel');
         const indicatorTree = document.querySelector('.indicator-tree');
+
+        // Add Customer Drawer
+        const addCustomerDrawerOverlay = document.getElementById('add-customer-drawer-overlay');
+        const addCustomerDrawer = document.getElementById('add-customer-drawer');
+        const openAddCustomerBtn = document.getElementById('add-customer-btn');
+        const closeAddCustomerDrawerBtn = document.getElementById('add-customer-drawer-close');
+        const cancelAddCustomerDrawerBtn = document.getElementById('add-customer-drawer-cancel');
+        const saveCustomerBtn = document.getElementById('save-customer-btn');
 
         // Page Navigation
         const menuItems = document.querySelectorAll('.submenu-item a');
@@ -1899,6 +1949,94 @@
                 closeEditSceneDrawer();
             }
         });
+
+        // --- Add Customer Drawer Logic ---
+        function openAddCustomerDrawer() {
+            if (addCustomerDrawerOverlay && addCustomerDrawer) {
+                addCustomerDrawerOverlay.classList.add('active');
+                addCustomerDrawer.classList.add('active');
+            }
+        }
+
+        function closeAddCustomerDrawer() {
+            if (addCustomerDrawerOverlay && addCustomerDrawer) {
+                addCustomerDrawerOverlay.classList.remove('active');
+                addCustomerDrawer.classList.remove('active');
+            }
+        }
+
+        if (openAddCustomerBtn) openAddCustomerBtn.addEventListener('click', openAddCustomerDrawer);
+        if (closeAddCustomerDrawerBtn) closeAddCustomerDrawerBtn.addEventListener('click', closeAddCustomerDrawer);
+        if (cancelAddCustomerDrawerBtn) cancelAddCustomerDrawerBtn.addEventListener('click', closeAddCustomerDrawer);
+        if (addCustomerDrawerOverlay) addCustomerDrawerOverlay.addEventListener('click', function(event) {
+            if (event.target === addCustomerDrawerOverlay) {
+                closeAddCustomerDrawer();
+            }
+        });
+
+        if (saveCustomerBtn) {
+            console.log('Save button found and listener is being attached.');
+            saveCustomerBtn.addEventListener('click', function() {
+                console.log('Save button CLICKED.');
+                // 1. Get data from the form
+                const customerName = document.getElementById('customer-name').value;
+                const taxpayerId = document.getElementById('taxpayer-id').value;
+                const taxpayerNature = document.getElementById('taxpayer-nature').value;
+                const expertConsultant = document.getElementById('expert-consultant').value;
+                console.log('Data from form:', { customerName, taxpayerId, taxpayerNature, expertConsultant });
+
+                // Basic validation
+                if (!customerName || !taxpayerId) {
+                    console.error('Validation failed: Customer name or Taxpayer ID is empty.');
+                    alert('企业名称和纳税人识别号不能为空！');
+                    return;
+                }
+
+                // 2. Create a new table row
+                const newRow = document.createElement('tr');
+                newRow.innerHTML = `
+                    <td>
+                        <div class="company-info">
+                            <div class="name">${customerName}</div>
+                            <div class="tax-id">${taxpayerId}</div>
+                        </div>
+                    </td>
+                    <td>${taxpayerNature}</td>
+                    <td>
+                        <div class="consultant-info">
+                            <div class="consultant-avatar">${expertConsultant.charAt(0)}</div>
+                            <span>${expertConsultant}</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="time-info">
+                            <div>监测期间: -</div>
+                            <div>检查时间点: -</div>
+                        </div>
+                    </td>
+                    <td class="td-center">0</td>
+                    <td class="td-center"><span class="risk-count">0</span></td>
+                    <td class="td-center"><span class="risk-count">0</span></td>
+                    <td class="td-center"><span class="risk-count">0</span></td>
+                    <td class="td-center"><span class="status-tag">-</span></td>
+                    <td class="td-center"><button class="action-btn">查看待办</button></td>
+                `;
+                console.log('New table row created.');
+
+                // 3. Add the new row to the table
+                const riskTableBody = document.querySelector('#dynamic-risk-monitoring-page table tbody');
+                if (riskTableBody) {
+                    riskTableBody.prepend(newRow); // Add to the top of the list
+                    console.log('New row prepended to the table body.');
+                } else {
+                    console.error('Table body for dynamic risk monitoring not found!');
+                }
+
+                // 4. Close the drawer
+                console.log('Attempting to close the drawer...');
+                closeAddCustomerDrawer();
+            });
+        }
 
         // Indicator Tree Checkbox Logic
         if (indicatorTree) {
