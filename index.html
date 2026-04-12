@@ -862,10 +862,10 @@
             margin-top: 15px;
         }
         .ai-insights-card {
-            background-color: #409eff;
+            background: linear-gradient(135deg, #4a4aff, #3031d7);
             color: white;
             padding: 25px;
-            border-radius: 8px;
+            border-radius: 12px;
         }
         .ai-insights-card h5 {
             margin-top: 0;
@@ -883,6 +883,14 @@
             grid-template-columns: repeat(3, 1fr);
             gap: 20px;
             margin-top: 20px;
+        }
+        .ai-insights-item {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 10px;
+            padding: 20px;
         }
         .ai-insights-item h6 {
             margin-top: 0;
@@ -991,6 +999,18 @@
         .solution-step-content {
             flex-grow: 1;
         }
+        .solution-step-details p {
+            font-size: 13px;
+            color: #606266;
+            margin: 8px 0;
+            display: flex;
+            align-items: center;
+        }
+        .solution-step-details .detail-icon {
+            color: #909399;
+            margin-right: 8px;
+            font-size: 14px;
+        }
         .solution-step-title {
             font-weight: bold;
             margin-bottom: 5px;
@@ -1002,20 +1022,55 @@
             margin-left: auto;
         }
         .btn-execute {
-            background-color: #fff0e6;
-            color: #ff9900;
-            border: 1px solid #ff9900;
+            background-color: #fef0f0;
+            color: #f56c6c;
+            border: 1px solid #fde2e2;
             padding: 5px 15px;
-            border-radius: 4px;
+            border-radius: 15px;
             cursor: pointer;
+            font-size: 12px;
         }
         .btn-mark-resolved {
             background-color: #ecf5ff;
             color: #409eff;
-            border: 1px solid #409eff;
+            border: 1px solid #d9ecff;
             padding: 5px 15px;
             border-radius: 4px;
             cursor: pointer;
+            font-size: 12px;
+            margin-top: 8px;
+        }
+        .actions-resolved {
+            display: none;
+            text-align: right;
+        }
+        .resolved-status {
+            color: #67c23a;
+            font-size: 13px;
+        }
+        .resolved-history-link {
+            color: #909399;
+            font-size: 12px;
+            text-decoration: none;
+            display: block;
+            margin-top: 8px;
+        }
+
+        /* Resolved State */
+        .solution-step[data-status="resolved"] .solution-step-number {
+            background-color: #f0f9eb;
+            color: #67c23a;
+        }
+        .solution-step[data-status="resolved"] .solution-step-title,
+        .solution-step[data-status="resolved"] .solution-step-details p,
+        .solution-step[data-status="resolved"] .solution-step-details .detail-icon {
+            color: #c0c4cc;
+        }
+        .solution-step[data-status="resolved"] .actions-pending {
+            display: none;
+        }
+        .solution-step[data-status="resolved"] .actions-resolved {
+            display: block;
         }
 
         /* Risk Identification Panel */
@@ -1483,6 +1538,13 @@
                                 <canvas id="risk-chart"></canvas>
                             </div>
                         </div>
+
+                        <div class="chart-container" style="margin-top: 20px;">
+                            <h3><span style="color: #409eff; margin-right: 8px;">📋</span>风险类型汇总</h3>
+                            <div style="height: 300px;">
+                                <canvas id="risk-type-chart"></canvas>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </main>
@@ -1545,11 +1607,15 @@
                     <div class="ai-analysis-layout">
                         <div class="ai-chart-card">
                             <h5><span class="chart-icon">📈</span> 风险趋势预测 (未来3个月)</h5>
-                            <div class="chart-placeholder">[图表占位] 动态风险评分趋势图 (模拟)</div>
+                            <div style="height: 200px;">
+                                <canvas id="risk-prediction-chart"></canvas>
+                            </div>
                         </div>
                         <div class="ai-chart-card">
                             <h5><span class="chart-icon">📊</span> 行业税负对比 (同行业: 制造)</h5>
-                            <div class="chart-placeholder">[图表占位] 增值税税负率与行业均值对比 (模拟)</div>
+                            <div style="height: 200px;">
+                                <canvas id="tax-burden-chart"></canvas>
+                            </div>
                         </div>
                     </div>
                     <div class="ai-anomalies-card">
@@ -1582,19 +1648,19 @@
                         </ul>
                     </div>
                     <div class="ai-insights-card">
-                        <h5><span class="insight-icon">💡</span> AI智能深度洞察</h5>
+                        <h5><span class="insight-icon">✧</span> AI智能深度洞察</h5>
                         <div class="ai-insights-content">
                             <div class="ai-insights-item">
                                 <h6>隐性风险挖掘</h6>
-                                <p>发现管理费用-差旅费自2024年Q1起环比增长120%，远超收入增幅。其中，3名非销售岗员工报销金额占总额65%，可能存在费用与业务无关、变相发放补贴的风险。建议对高额、高频次报销凭证进行抽查审核。</p>
+                                <p>近期员工报销异常增加，可能存在变相发放津贴风险，建议加强费用真实性审核。</p>
                             </div>
                             <div class="ai-insights-item">
                                 <h6>节税优化建议</h6>
-                                <p>检测到2023年度研发费用占销售收入比例为5.8%，已满足高新技术企业认定标准（>4%）。贵司目前尚未获得此资质。预测成功认定后，企业所得税率可由25%降至15%，预计年均可节税约45万元。建议立即启动高新企业申报流程。</p>
+                                <p>企业研发投入占比符合“高新”标准，但尚未申请相关资质，潜在减税额度约 45 万元。</p>
                             </div>
                             <div class="ai-insights-item">
                                 <h6>合规健康度</h6>
-                                <p>AI综合评估合规健康分为82分（行业均值75分）。优势：发票开具规范，申报及时。风险点：存在部分进项发票认证周期超过180天的情况，可能面临无法抵扣的风险。建议建立进项发票台账，确保在有效期内完成认证。</p>
+                                <p>当前健康分：82分。整体合规性良好，但需关注进销项期限匹配，避免滞后申报。</p>
                             </div>
                         </div>
                     </div>
@@ -1605,18 +1671,24 @@
                             <h4>极简风险落地方案</h4>
                             <span class="risk-count-text">针对 4 个高危风险点</span>
                         </div>
-                        <div class="solution-step">
+                        <div class="solution-step" data-status="pending">
                             <div class="solution-step-number">1</div>
                             <div class="solution-step-content">
                                 <div class="solution-step-title">进销项匹配风险消除</div>
-                                <div>
-                                    <p>自查进项发票</p>
-                                    <p>整理合同单据</p>
+                                <div class="solution-step-details">
+                                    <p><span class="detail-icon">🕔</span> 自查进项发票</p>
+                                    <p><span class="detail-icon">🕔</span> 整理合同单据</p>
                                 </div>
                             </div>
                             <div class="solution-actions">
-                                <button class="btn-execute">建议立即执行</button>
-                                <button class="btn-mark-resolved">标记已解决</button>
+                                <div class="actions-pending">
+                                    <button class="btn-execute">建议立即执行</button>
+                                    <button class="btn-mark-resolved">标记已解决</button>
+                                </div>
+                                <div class="actions-resolved">
+                                    <span class="resolved-status">✓ 风险已清除</span>
+                                    <a href="#" class="resolved-history-link">撤销标记</a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -2235,6 +2307,7 @@
                 pageToShow.classList.add('active');
                 if (pageId === 'workbench') {
                     renderRiskChart();
+                    renderRiskTypeChart();
                 }
             }
             
@@ -2314,8 +2387,53 @@
                     // Activate clicked step and corresponding panel
                     step.classList.add('active');
                     document.getElementById(`todo-panel-${stepNumber}`).classList.add('active');
+
+                    if (stepNumber === '2') {
+                        renderRiskPredictionChart();
+                        renderTaxBurdenChart();
+                    }
                 }
             });
+        }
+
+        // --- Risk Solution Logic ---
+        const solutionPanel = document.getElementById('todo-panel-3');
+        if (solutionPanel) {
+            solutionPanel.addEventListener('click', (e) => {
+                const target = e.target;
+
+                // Handle "Mark as Resolved"
+                if (target.classList.contains('btn-mark-resolved')) {
+                    e.preventDefault();
+                    const solutionStep = target.closest('.solution-step');
+                    if (solutionStep) {
+                        solutionStep.dataset.status = 'resolved';
+                        const stepNumberDiv = solutionStep.querySelector('.solution-step-number');
+                        if (stepNumberDiv) {
+                            stepNumberDiv.innerHTML = '✓';
+                        }
+                    }
+                }
+
+                // Handle "Undo Mark"
+                if (target.classList.contains('resolved-history-link')) {
+                    e.preventDefault();
+                    const solutionStep = target.closest('.solution-step');
+                    if (solutionStep) {
+                        solutionStep.dataset.status = 'pending';
+                        const stepNumberDiv = solutionStep.querySelector('.solution-step-number');
+                        if (stepNumberDiv) {
+                            // Assuming the step number is always 1 for this example
+                            stepNumberDiv.innerHTML = '1';
+                        }
+                    }
+                }
+            });
+        }
+
+        const workbenchMonthSelect = document.getElementById('workbench-month-select');
+        if (workbenchMonthSelect) {
+            workbenchMonthSelect.addEventListener('change', renderRiskTypeChart);
         }
 
         // --- Batch Checkbox Logic ---
@@ -2383,6 +2501,158 @@
                 }
             };
             // Store the chart instance on the canvas element to manage its lifecycle
+            ctx.chart = new Chart(ctx, config);
+        }
+
+        function renderRiskTypeChart() {
+            const ctx = document.getElementById('risk-type-chart');
+            if (!ctx) return;
+            if (ctx.chart) {
+                ctx.chart.destroy();
+            }
+
+            const monthInput = document.getElementById('workbench-month-select');
+            const selectedMonth = monthInput ? parseInt(monthInput.value.split('-')[1], 10) : new Date().getMonth() + 1;
+            const monthIndex = selectedMonth - 1;
+            const previousMonthIndex = monthIndex - 1;
+
+            const riskTypes = ['增值税风险', '所得税风险', '财务风险', '发票风险', '工商风险', '企业信用风险', '经营风险'];
+            const allMonthsData = {
+                '增值税风险': [5, 4, 8, 6, 7, 4],
+                '所得税风险': [3, 2, 5, 4, 5, 3],
+                '财务风险': [8, 7, 10, 8, 9, 6],
+                '发票风险': [10, 8, 12, 9, 11, 7],
+                '工商风险': [2, 1, 3, 2, 2, 1],
+                '企业信用风险': [7, 6, 9, 7, 8, 5],
+                '经营风险': [10, 9, 18, 6, 13, 4],
+            };
+
+            const currentMonthData = riskTypes.map(type => allMonthsData[type][monthIndex] || 0);
+            const previousMonthData = riskTypes.map(type => (previousMonthIndex >= 0) ? (allMonthsData[type][previousMonthIndex] || 0) : 0);
+
+            const data = {
+                labels: riskTypes,
+                datasets: [
+                    {
+                        label: '上月',
+                        data: previousMonthData,
+                        backgroundColor: '#c9c9c9',
+                    },
+                    {
+                        label: '本月',
+                        data: currentMonthData,
+                        backgroundColor: '#409eff',
+                    }
+                ]
+            };
+
+            const config = {
+                type: 'bar',
+                data: data,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top',
+                        },
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            };
+
+            ctx.chart = new Chart(ctx, config);
+        }
+
+        function renderRiskPredictionChart() {
+            const ctx = document.getElementById('risk-prediction-chart');
+            if (!ctx) return;
+            if (ctx.chart) {
+                ctx.chart.destroy();
+            }
+
+            const data = {
+                labels: ['未来1月', '未来2月', '未来3月'],
+                datasets: [{
+                    label: '风险评分',
+                    data: [60, 75, 80],
+                    fill: true,
+                    borderColor: '#f56c6c',
+                    backgroundColor: 'rgba(245, 108, 108, 0.1)',
+                    tension: 0.4,
+                    pointBackgroundColor: '#f56c6c',
+                    pointRadius: 5,
+                    pointHoverRadius: 7
+                }]
+            };
+
+            const config = {
+                type: 'line',
+                data: data,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100
+                        }
+                    }
+                }
+            };
+            ctx.chart = new Chart(ctx, config);
+        }
+
+        function renderTaxBurdenChart() {
+            const ctx = document.getElementById('tax-burden-chart');
+            if (!ctx) return;
+            if (ctx.chart) {
+                ctx.chart.destroy();
+            }
+
+            const data = {
+                labels: ['本企业', '行业平均', '优秀企业'],
+                datasets: [{
+                    label: '税负率',
+                    data: [5.2, 4.8, 3.5],
+                    backgroundColor: [
+                        '#298dff',
+                        '#79bbff',
+                        '#a0cfff'
+                    ],
+                    barPercentage: 0.5
+                }]
+            };
+
+            const config = {
+                type: 'bar',
+                data: data,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 10
+                        }
+                    }
+                }
+            };
             ctx.chart = new Chart(ctx, config);
         }
     </script>
