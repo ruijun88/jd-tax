@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>财小哥</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         body, html {
             margin: 0;
@@ -1111,6 +1112,69 @@
             border-radius: 4px;
             cursor: pointer;
         }
+
+        /* Workbench Styles */
+        .summary-cards {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .card {
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        .card-title {
+            color: #909399;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        .card-value {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .card-value.red {
+            color: #f56c6c;
+        }
+        .card-value.orange {
+            color: #e6a23c;
+        }
+        .card-value.green {
+            color: #67c23a;
+        }
+        .card-footer {
+            font-size: 13px;
+            color: #606266;
+        }
+        .card-footer.increase {
+            color: #67c23a;
+        }
+        .card-footer.warning {
+            color: #e6a23c;
+        }
+        .chart-container {
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        .chart-container h3 {
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+        }
+
+        .page-filter-bar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            align-items: center;
+        }
     </style>
 </head>
 <body>
@@ -1140,9 +1204,10 @@
                         <li class="menu-item has-submenu open">
                             <a href="#"><span>&#128737;</span> 风控中心</a>
                             <ul class="submenu">
-                                <li class="submenu-item active"><a href="#indicator-library">指标库</a></li>
-                                <li class="submenu-item"><a href="#scene-config">场景配置</a></li>
+                                <li class="submenu-item active"><a href="#workbench">工作台</a></li>
                                 <li class="submenu-item"><a href="#dynamic-risk-monitoring">动态风险监控</a></li>
+                                <li class="submenu-item"><a href="#indicator-library">指标库</a></li>
+                                <li class="submenu-item"><a href="#scene-config">场景配置</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -1171,7 +1236,6 @@
                             <table>
                                 <thead>
                                     <tr>
-                                        <th><input type="checkbox"></th>
                                         <th>指标编号</th>
                                         <th>指标名称</th>
                                         <th>计算公式</th>
@@ -1185,7 +1249,6 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td><input type="checkbox"></td>
                                         <td>ZB001</td>
                                         <td>资产负债率</td>
                                         <td>(总负债 / 总资产) * 100%</td>
@@ -1201,7 +1264,6 @@
 </td>
                                     </tr>
                                     <tr>
-                                        <td><input type="checkbox"></td>
                                         <td>ZB002</td>
                                         <td>销售增长率</td>
                                         <td>((本期销售额 - 上期销售额) / 上期销售额) * 100%</td>
@@ -1217,7 +1279,6 @@
 </td>
                                     </tr>
                                     <tr>
-                                        <td><input type="checkbox"></td>
                                         <td>ZB003</td>
                                         <td>流动比率</td>
                                         <td>流动资产 / 流动负债</td>
@@ -1233,7 +1294,6 @@
 </td>
                                     </tr>
                                     <tr>
-                                        <td><input type="checkbox"></td>
                                         <td>ZB004</td>
                                         <td>速动比率</td>
                                         <td>(流动资产 - 存货) / 流动负债</td>
@@ -1266,16 +1326,22 @@
                                 </div>
                                 <button class="btn-search">筛选</button>
                             </div>
-                            <button class="btn-export" id="add-customer-btn">新增客户</button>
+                            <div>
+                                <button class="btn-export" id="batch-check-btn" style="margin-right: 10px;">批量检查</button>
+                                <button class="btn-export" id="add-customer-btn">新增客户</button>
+                            </div>
                         </div>
                         <div class="table-container">
                             <table>
                                 <thead>
                                     <tr>
+                                        <th><input type="checkbox" id="select-all-customers"></th>
                                         <th>企业名称</th>
                                         <th>纳税人性质</th>
                                         <th>专家顾问</th>
                                         <th>检测时间</th>
+                                        <th>检测状态</th>
+                                        <th>场景</th>
                                         <th>监测项</th>
                                         <th>高风险</th>
                                         <th>中风险</th>
@@ -1286,6 +1352,7 @@
                                 </thead>
                                 <tbody>
                                     <tr>
+                                        <td><input type="checkbox" class="customer-checkbox"></td>
                                         <td>
                                             <div class="company-info">
                                                 <div class="name">上海宏泰贸易有限公司</div>
@@ -1305,6 +1372,8 @@
                                                 <div>检查时间点: 2024-03-21 10:30:45</div>
                                             </div>
                                         </td>
+                                        <td class="td-center">待检测</td>
+                                        <td class="td-center">场景一</td>
                                         <td class="td-center">24</td>
                                         <td class="td-center"><span class="risk-count high">3</span></td>
                                         <td class="td-center"><span class="risk-count medium">2</span></td>
@@ -1370,6 +1439,49 @@
                                     </tr>
                                 </tbody>
                             </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="workbench-page" class="page-content">
+                    <div class="content-body">
+                        <div class="page-filter-bar">
+                            <div class="form-item">
+                                <input type="month" id="workbench-month-select" value="2026-04">
+                            </div>
+                        </div>
+                        <div class="summary-cards">
+                            <div class="card">
+                                <div class="card-title">企业总数</div>
+                                <div class="card-value">128</div>
+                                <div class="card-footer increase">▲ 12% 较上月</div>
+                            </div>
+                            <div class="card">
+                                <div class="card-title">高风险企业</div>
+                                <div class="card-value red">8</div>
+                                <div class="card-footer warning">▲ 较昨日 +2</div>
+                            </div>
+                            <div class="card">
+                                <div class="card-title">中风险企业</div>
+                                <div class="card-value orange">15</div>
+                                <div class="card-footer">较昨日 -1</div>
+                            </div>
+                            <div class="card">
+                                <div class="card-title">低风险企业</div>
+                                <div class="card-value green">30</div>
+                                <div class="card-footer">较昨日 +5</div>
+                            </div>
+                            <div class="card">
+                                <div class="card-title">本月处理风险</div>
+                                <div class="card-value">45</div>
+                                <div class="card-footer">✔ 完成率 85%</div>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <h3><span style="color: #409eff; margin-right: 8px;">📊</span>近期风险概览</h3>
+                            <div style="height: 300px;">
+                                <canvas id="risk-chart"></canvas>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -2016,6 +2128,7 @@
                     const checkTime = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
 
                     newRow.innerHTML = `
+                        <td><input type="checkbox" class="customer-checkbox"></td>
                         <td>
                             <div class="company-info">
                                 <div class="name">${customerName}</div>
@@ -2031,11 +2144,13 @@
                         </td>
                         <td>
                             <div class="time-info">
-                                <div>监测期间: -</div>
-                                <div>检查时间点: ${checkTime}</div>
-                            </div>
-                        </td>
-                        <td class="td-center">0</td>
+                                    <div>监测期间: -</div>
+                                    <div>检查时间点: ${checkTime}</div>
+                                </div>
+                            </td>
+                            <td class="td-center">待检测</td>
+                            <td class="td-center">${selectedScene}</td>
+                            <td class="td-center">0</td>
                         <td class="td-center"><span class="risk-count high">0</span></td>
                         <td class="td-center"><span class="risk-count medium">0</span></td>
                         <td class="td-center"><span class="risk-count low">0</span></td>
@@ -2116,7 +2231,12 @@
             const pageToShow = document.getElementById(pageId + '-page');
 
             if (tabToActivate) tabToActivate.classList.add('active');
-            if (pageToShow) pageToShow.classList.add('active');
+            if (pageToShow) {
+                pageToShow.classList.add('active');
+                if (pageId === 'workbench') {
+                    renderRiskChart();
+                }
+            }
             
             updateActiveMenu('#' + pageId);
         }
@@ -2196,6 +2316,74 @@
                     document.getElementById(`todo-panel-${stepNumber}`).classList.add('active');
                 }
             });
+        }
+
+        // --- Batch Checkbox Logic ---
+        const selectAllCustomersCheckbox = document.getElementById('select-all-customers');
+        const customerTableBodyForCheckboxes = document.querySelector('#dynamic-risk-monitoring-page table tbody');
+
+        if (selectAllCustomersCheckbox && customerTableBodyForCheckboxes) {
+            selectAllCustomersCheckbox.addEventListener('change', function() {
+                const checkboxes = customerTableBodyForCheckboxes.querySelectorAll('.customer-checkbox');
+                checkboxes.forEach(checkbox => {
+                    checkbox.checked = this.checked;
+                });
+            });
+
+            customerTableBodyForCheckboxes.addEventListener('change', function(event) {
+                if (event.target.classList.contains('customer-checkbox')) {
+                    const allCheckboxes = customerTableBodyForCheckboxes.querySelectorAll('.customer-checkbox');
+                    const allChecked = Array.from(allCheckboxes).every(checkbox => checkbox.checked);
+                    selectAllCustomersCheckbox.checked = allChecked;
+                }
+            });
+        }
+
+        function renderRiskChart() {
+            const ctx = document.getElementById('risk-chart');
+            if (!ctx) return;
+            // Check if a chart instance already exists and destroy it to prevent duplicates
+            if (ctx.chart) {
+                ctx.chart.destroy();
+            }
+
+            const data = {
+                labels: ['1月', '2月', '3月', '4月', '5月', '6月'],
+                datasets: [{
+                    label: '风险数量',
+                    data: [45, 37, 65, 42, 55, 30],
+                    fill: true,
+                    borderColor: '#409eff',
+                    backgroundColor: 'rgba(64, 158, 255, 0.1)',
+                    tension: 0.4,
+                    pointBackgroundColor: '#409eff',
+                    pointRadius: 5,
+                    pointHoverRadius: 7
+                }]
+            };
+
+            const config = {
+                type: 'line',
+                data: data,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            min: 30,
+                            max: 65
+                        }
+                    }
+                }
+            };
+            // Store the chart instance on the canvas element to manage its lifecycle
+            ctx.chart = new Chart(ctx, config);
         }
     </script>
 </body>
