@@ -450,9 +450,11 @@
             margin-right: 8px;
         }
         .drawer-footer {
-            padding: 10px 20px;
+            padding: 15px 25px;
             border-top: 1px solid #e8e8e8;
-            text-align: right;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
         }
         .btn-cancel {
             background-color: #fff;
@@ -517,7 +519,15 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            margin-bottom: 10px;
+            margin-top: 10px;
+        }
+        .threshold-config-block .form-item {
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+        }
+        .threshold-config-block .form-item label {
+            margin-bottom: 8px;
         }
         .risk-tag {
             padding: 4px 10px;
@@ -1650,19 +1660,19 @@
             <div class="drawer-body">
                 <form class="drawer-form">
                     <div class="form-item">
-                        <label for="indicator-id">指标编号</label>
+                        <label for="indicator-id"><span style="color: red;">*</span> 指标编号</label>
                         <input type="text" id="indicator-id">
                     </div>
                     <div class="form-item">
-                        <label for="indicator-name">指标名称</label>
+                        <label for="indicator-name"><span style="color: red;">*</span> 指标名称</label>
                         <input type="text" id="indicator-name">
                     </div>
                     <div class="form-item">
-                        <label for="calculation-logic">计算公式</label>
+                        <label for="calculation-logic"><span style="color: red;">*</span> 计算公式</label>
                         <textarea id="calculation-logic" rows="4"></textarea>
                     </div>
                     <div class="form-item">
-                        <label for="indicator-level">指标层级</label>
+                        <label for="indicator-level"><span style="color: red;">*</span> 指标层级</label>
                         <select id="indicator-level">
                             <option>一级</option>
                             <option>二级</option>
@@ -1670,25 +1680,38 @@
                         </select>
                     </div>
                     <div class="form-item">
-                        <label for="parent-indicator">父级指标</label>
+                        <label for="parent-indicator"><span style="color: red;">*</span> 父级指标</label>
                         <select id="parent-indicator">
                             <option>请选择</option>
                             <!-- Options will be populated dynamically -->
                         </select>
                     </div>
                     <div class="form-item">
-                        <label for="scope">适用范围</label>
+                        <label for="scope"><span style="color: red;">*</span> 适用范围</label>
                         <select id="scope">
                             <option>全部</option>
                             <option>一般纳税人</option>
                             <option>小规模纳税人</option>
                         </select>
                     </div>
+                    <div class="form-item">
+                        <label for="risk-type">风险类型</label>
+                        <select id="risk-type">
+                            <option>请选择</option>
+                            <option>风险</option>
+                            <option>疑似</option>
+                        </select>
+                    </div>
+
+                    <div class="form-item">
+                        <label for="policy-basis">政策依据</label>
+                        <textarea id="policy-basis" rows="4" maxlength="500" placeholder="请输入政策依据..."></textarea>
+                    </div>
                 </form>
             </div>
             <div class="drawer-footer">
-                <button class="btn-export">保存</button>
                 <button class="btn-cancel" id="drawer-cancel">取消</button>
+                <button class="btn-export">保存</button>
             </div>
         </div>
     </div>
@@ -1793,21 +1816,29 @@
                     <div class="config-panel" id="threshold-config-panel">
                         <div class="threshold-config-block" id="config-增值税税负率" style="display:none;">
                             <h4>增值税税负率 (1级指标)</h4>
-                            <div class="risk-level-row"><span class="risk-tag high">高风险</span><input type="text" value="< 1%"><input type="text" value="增值税税负率严重偏低，可能存在隐匿收入"></div>
-                            <div class="risk-level-row"><span class="risk-tag medium">中风险</span><input type="text" value="< 3%"><input type="text" value="增值税税负率偏低，建议关注。"></div>
-                            <div class="risk-level-row"><span class="risk-tag low">低风险</span><input type="text" value="< 5%"><input type="text" value="增值税税负率略低于正常范围。"></div>
+                            <div class="risk-level-row"><span class="risk-tag high">高风险</span><input type="text" value="< 1%"></div>
+                            <div class="risk-level-row"><span class="risk-tag medium">中风险</span><input type="text" value="< 3%"></div>
+                            <div class="risk-level-row"><span class="risk-tag low">低风险</span><input type="text" value="< 5%"></div>
+                            <div class="form-item" style="margin-top: 10px;">
+                                <label>业务描述</label>
+                                <textarea rows="3" maxlength="500" placeholder="请输入业务描述..."></textarea>
+                            </div>
+                            <div class="form-item" style="margin-top: 10px;">
+                                <label>应对策略</label>
+                                <textarea rows="3" maxlength="500" placeholder="请输入应对策略..."></textarea>
+                            </div>
                         </div>
                         <div class="threshold-config-block" id="config-毛利率" style="display:none;">
                             <h4>毛利率 (2级指标)</h4>
-                            <div class="risk-level-row"><span class="risk-tag high">高风险</span><input type="text" value="< 10%"><input type="text" value="毛利率异常偏低，可能存在成本虚增或收入"></div>
-                            <div class="risk-level-row"><span class="risk-tag medium">中风险</span><input type="text" value="< 20%"><input type="text" value="建议核查。"></div>
-                            <div class="risk-level-row"><span class="risk-tag low">低风险</span><input type="text" value="< 30%"><input type="text" value="毛利率略低于行业平均。"></div>
+                            <div class="risk-level-row"><span class="risk-tag high">高风险</span><input type="text" value="< 10%"></div>
+                            <div class="risk-level-row"><span class="risk-tag medium">中风险</span><input type="text" value="< 20%"></div>
+                            <div class="risk-level-row"><span class="risk-tag low">低风险</span><input type="text" value="< 30%"></div>
                         </div>
                         <div class="threshold-config-block" id="config-存货周转率" style="display:none;">
                             <h4>存货周转率 (3级指标)</h4>
-                            <div class="risk-level-row"><span class="risk-tag high">高风险</span><input type="text" placeholder="例如: < 10%"><input type="text" placeholder="高风险提示内容"></div>
-                            <div class="risk-level-row"><span class="risk-tag medium">中风险</span><input type="text" placeholder="例如: < 20%"><input type="text" placeholder="中风险提示内容"></div>
-                            <div class="risk-level-row"><span class="risk-tag low">低风险</span><input type="text" placeholder="例如: < 30%"><input type="text" placeholder="低风险提示内容"></div>
+                            <div class="risk-level-row"><span class="risk-tag high">高风险</span><input type="text" placeholder="例如: < 10%"></div>
+                            <div class="risk-level-row"><span class="risk-tag medium">中风险</span><input type="text" placeholder="例如: < 20%"></div>
+                            <div class="risk-level-row"><span class="risk-tag low">低风险</span><input type="text" placeholder="例如: < 30%"></div>
                         </div>
                         <!-- Other config blocks would go here -->
                     </div>
@@ -2137,9 +2168,17 @@
                             newBlock.id = configBlockId;
                             newBlock.innerHTML = `
                                 <h4>${indicatorName} (${indicatorLevel}指标)</h4>
-                                <div class="risk-level-row"><span class="risk-tag high">高风险</span><input type="text" placeholder="例如: < 10%"><input type="text" placeholder="高风险提示内容"></div>
-                                <div class="risk-level-row"><span class="risk-tag medium">中风险</span><input type="text" placeholder="例如: < 20%"><input type="text" placeholder="中风险提示内容"></div>
-                                <div class="risk-level-row"><span class="risk-tag low">低风险</span><input type="text" placeholder="例如: < 30%"><input type="text" placeholder="低风险提示内容"></div>
+                                <div class="risk-level-row"><span class="risk-tag high">高风险</span><input type="text" placeholder="例如: < 10%"></div>
+                                <div class="risk-level-row"><span class="risk-tag medium">中风险</span><input type="text" placeholder="例如: < 20%"></div>
+                                <div class="risk-level-row"><span class="risk-tag low">低风险</span><input type="text" placeholder="例如: < 30%"></div>
+                                <div class="form-item" style="margin-top: 10px;">
+                                    <label>业务描述</label>
+                                    <textarea rows="3" maxlength="500" placeholder="请输入业务描述..."></textarea>
+                                </div>
+                                <div class="form-item" style="margin-top: 10px;">
+                                    <label>应对策略</label>
+                                    <textarea rows="3" maxlength="500" placeholder="请输入应对策略..."></textarea>
+                                </div>
                             `;
                             configPanel.appendChild(newBlock);
                         } else {
