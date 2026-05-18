@@ -1290,11 +1290,301 @@
             align-items: center;
         }
 
-        .page-filter-bar {
+        .formula-display-area {
+            border: 1px solid #dcdfe6;
+            border-radius: 4px;
+            padding: 10px;
+            min-height: 80px;
+            background-color: #f5f7fa;
+            margin-top: 5px;
+            margin-bottom: 15px;
+        }
+
+        .formula-tools {
             display: flex;
+            gap: 20px;
+        }
+
+        .atomic-indicators-list, .operators {
+            flex: 1;
+        }
+
+        .atomic-indicators-list label, .operators label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #606266;
+        }
+
+        #atomic-indicator-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            max-height: 150px;
+            overflow-y: auto;
+            border: 1px solid #e4e7ed;
+            padding: 10px;
+            border-radius: 4px;
+        }
+
+        .indicator-pill {
+            background-color: #ecf5ff;
+            color: #409eff;
+            padding: 5px 10px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 12px;
+        }
+
+        .indicator-pill:hover {
+            background-color: #d9ecff;
+        }
+
+        .operator-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .operator-btn {
+            padding: 8px 12px;
+            border: 1px solid #dcdfe6;
+            background-color: #fff;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .operator-btn:hover {
+            background-color: #f5f7fa;
+        }
+
+        .operator-btn.clear {
+            background-color: #fef0f0;
+            color: #f56c6c;
+            border-color: #fbc4c4;
+        }
+
+        .operator-btn.clear:hover {
+            background-color: #fde2e2;
+        }
+
+
+        .indicator-library-layout {
+            display: flex;
+            gap: 20px;
+        }
+
+        .indicator-sidebar {
+            width: 200px;
+            flex-shrink: 0;
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .indicator-category-menu {
+            display: flex;
+            flex-direction: column;
             gap: 10px;
-            margin-bottom: 20px;
+        }
+
+        .indicator-category-item {
+            padding: 10px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .indicator-category-item:hover {
+            background-color: #f5f7fa;
+        }
+
+        .indicator-category-item.active {
+            background-color: #ecf5ff;
+            color: #409eff;
+            font-weight: bold;
+        }
+
+        .indicator-main-content {
+            flex-grow: 1;
+        }
+
+        /* Atomic Indicator hiding logic */
+        .category-atomic .col-formula,
+        .category-atomic #formula-builder-container,
+        .category-atomic #formula-period-container,
+        .category-atomic #derived-value-container,
+        .category-atomic #derived-atomic-multi-container,
+        .category-atomic #derived-combination-calc-container,
+        .category-atomic #composite-derived-multi-container,
+        .category-atomic #composite-combination-calc-container {
+            display: none !important;
+        }
+
+        /* Derived Indicator specific logic */
+        .category-derived #formula-period-container,
+        .category-derived #formula-builder-container,
+        .category-derived #composite-derived-multi-container,
+        .category-derived #composite-combination-calc-container {
+            display: none !important;
+        }
+        
+        /* Mode-based display for Derived */
+        .category-derived.mode-single #derived-atomic-multi-container,
+        .category-derived.mode-single #derived-value-container,
+        .category-derived.mode-single #derived-aggregation-type-wrapper {
+            display: block !important;
+        }
+        .category-derived.mode-single #derived-combination-calc-container {
+            display: none !important;
+        }
+
+        .category-derived.mode-multiple #derived-atomic-multi-container,
+        .category-derived.mode-multiple #derived-aggregation-type-wrapper {
+            display: none !important;
+        }
+        .category-derived.mode-multiple #derived-value-container,
+        .category-derived.mode-multiple #derived-combination-calc-container {
+            display: block !important;
+        }
+
+        /* Composite Indicator specific logic */
+        .category-composite #derived-value-container,
+        .category-composite #derived-atomic-multi-container,
+        .category-composite #derived-combination-calc-container,
+        .category-composite #formula-builder-container,
+        .category-composite #formula-period-container {
+            display: none !important;
+        }
+        .category-composite #composite-derived-multi-container,
+        .category-composite #composite-combination-calc-container {
+            display: block !important;
+        }
+
+        /* Custom Multi-Select Styles */
+        .custom-multi-select {
+            position: relative;
+            width: 100%;
+            font-size: 14px;
+        }
+
+        .multi-select-trigger {
+            padding: 8px 12px;
+            border: 1px solid #dcdfe6;
+            border-radius: 4px;
+            background: #fff;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
             align-items: center;
+            min-height: 36px;
+        }
+
+        .multi-select-trigger:hover {
+            border-color: #c0c4cc;
+        }
+
+        .multi-select-trigger .selected-text {
+            color: #606266;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            max-width: 90%;
+        }
+
+        .multi-select-trigger .arrow {
+            font-size: 10px;
+            color: #c0c4cc;
+            transition: transform 0.3s;
+        }
+
+        .custom-multi-select.active .multi-select-trigger {
+            border-color: #409eff;
+        }
+
+        .custom-multi-select.active .arrow {
+            transform: rotate(180deg);
+        }
+
+        .multi-select-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            max-height: 250px;
+            overflow-y: auto;
+            background: #fff;
+            border: 1px solid #e4e7ed;
+            border-top: none;
+            border-radius: 0 0 4px 4px;
+            box-shadow: 0 2px 12px 0 rgba(0,0,0,0.1);
+            z-index: 2000;
+            display: none;
+            margin-top: 2px;
+        }
+
+        .custom-multi-select.active .multi-select-dropdown {
+            display: block;
+        }
+
+        .multi-select-option {
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .multi-select-option:hover {
+            background: #f5f7fa;
+        }
+
+        .multi-select-option input[type="checkbox"] {
+            margin: 0 10px 0 0;
+            cursor: pointer;
+            width: 14px;
+            height: 14px;
+        }
+
+        .multi-select-option label {
+            margin: 0;
+            cursor: pointer;
+            color: #606266;
+            font-weight: normal !important;
+            flex-grow: 1;
+        }
+
+        /* Multi-Indicator Combination Styles */
+        .multi-calc-row {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .multi-calc-col {
+            flex: 1;
+        }
+
+        .multi-calc-col label {
+            font-size: 13px;
+            color: #606266;
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        .multi-calc-col select {
+            width: 100%;
+        }
+
+        .multi-calc-example {
+            margin-top: 8px;
+            font-size: 12px;
+            color: #67c23a;
         }
     </style>
 </head>
@@ -1333,42 +1623,52 @@
                 <div class="tabs" id="tabs-container">
                 </div>
                 <div id="indicator-library-page" class="page-content active">
-                    <div class="content-body">
-                        <div class="content-toolbar">
-                            <div class="search-bar">
-                                <div class="form-item">
-                                    <label>指标名称</label>
-                                    <input type="text" placeholder="">
-                                </div>
-                                <div class="form-item">
-                                    <label>适用范围</label>
-                                    <select><option>小规模纳税人</option></select>
-                                </div>
-                                <button class="btn-search">Q 搜索</button>
+                    <div class="indicator-library-layout">
+                        <aside class="indicator-sidebar">
+                            <div class="indicator-category-menu">
+                                <div class="indicator-category-item active" data-category="atomic">原子指标</div>
+                                <div class="indicator-category-item" data-category="derived">衍生指标</div>
+                                <div class="indicator-category-item" data-category="composite">复合指标</div>
                             </div>
-                            <button class="btn-export" id="add-indicator-btn">新增指标</button>
-                        </div>
-                        <div class="table-container">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>指标编号</th>
-                                        <th>指标名称</th>
-                                        <th>计算公式</th>
-                                        <th>指标等级</th>
-                                        <th>父级指标</th>
-                                        <th>适用范围</th>
-                                        <th>创建人</th>
-                                        <th>创建时间</th>
-                                        <th>操作</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <!-- Dynamic content will be generated here -->
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="pagination-controls" id="pagination-indicator-library"></div>
+                        </aside>
+                        <main class="indicator-main-content">
+                            <div class="content-body">
+                                <div class="content-toolbar">
+                                    <div class="search-bar">
+                                        <div class="form-item">
+                                            <label>指标名称</label>
+                                            <input type="text" placeholder="">
+                                        </div>
+                                        <div class="form-item">
+                                            <label>适用范围</label>
+                                            <select><option>小规模纳税人</option></select>
+                                        </div>
+                                        <button class="btn-search">Q 搜索</button>
+                                    </div>
+                                    <button class="btn-export" id="add-indicator-btn">新增指标</button>
+                                </div>
+                                <div class="table-container">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>指标编号</th>
+                                                <th>指标名称</th>
+                                                <th>指标取值描述</th>
+                                                <th class="col-formula">指标取值</th>
+                                                <th>适用范围</th>
+                                                <th>创建人</th>
+                                                <th>创建时间</th>
+                                                <th>操作</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- Dynamic content will be generated here -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="pagination-controls" id="pagination-indicator-library"></div>
+                            </div>
+                        </main>
                     </div>
                 </div>
 
@@ -1668,44 +1968,151 @@
                         <input type="text" id="indicator-name">
                     </div>
                     <div class="form-item">
-                        <label for="calculation-logic"><span style="color: red;">*</span> 计算公式</label>
-                        <textarea id="calculation-logic" rows="4"></textarea>
+                        <label for="value-description">指标取值描述</label>
+                        <textarea id="value-description" rows="4" placeholder="请输入指标取值描述..."></textarea>
                     </div>
-                    <div class="form-item">
-                        <label for="indicator-level"><span style="color: red;">*</span> 指标层级</label>
-                        <select id="indicator-level">
-                            <option>一级</option>
-                            <option>二级</option>
-                            <option>三级</option>
-                        </select>
+                    <!-- Composite Indicator Fields -->
+                    <div class="form-item" id="composite-derived-multi-container">
+                        <label><span style="color: red;">*</span> 选择衍生指标</label>
+                        <div class="custom-multi-select" id="composite-multi-select-wrapper">
+                            <div class="multi-select-trigger" id="composite-multi-select-trigger">
+                                <span class="selected-text">请选择衍生指标</span>
+                                <span class="arrow">▼</span>
+                            </div>
+                            <div class="multi-select-dropdown" id="composite-multi-select-dropdown">
+                                <!-- Checkboxes will be populated dynamically -->
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-item">
-                        <label for="parent-indicator"><span style="color: red;">*</span> 父级指标</label>
-                        <select id="parent-indicator">
-                            <option>请选择</option>
-                            <!-- Options will be populated dynamically -->
-                        </select>
+                    <div class="form-item" id="composite-combination-calc-container">
+                        <label>指标运算组合</label>
+                        <div class="multi-calc-row">
+                            <div class="multi-calc-col">
+                                <select id="composite-multi-ind1">
+                                    <option value="">请选择指标</option>
+                                </select>
+                            </div>
+                            <div class="multi-calc-col">
+                                <select id="composite-multi-op">
+                                    <option value="-">- 相减</option>
+                                    <option value="/">/ 相除(占比/比率)</option>
+                                    <option value="+">+ 相加</option>
+                                    <option value="*">* 相乘</option>
+                                </select>
+                            </div>
+                            <div class="multi-calc-col">
+                                <select id="composite-multi-ind2">
+                                    <option value="">请选择指标</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="multi-calc-info" style="margin-top: 8px; font-size: 12px; color: #909399; background: #f8f9fa; padding: 8px; border-radius: 4px;">
+                            <i class="fas fa-info-circle"></i> 仅配置数据组合与计算逻辑；风险等级文案、行业预警阈值、判定标准统一在【行业场景配置】维护
+                        </div>
                     </div>
-                    <div class="form-item">
-                        <label for="scope"><span style="color: red;">*</span> 适用范围</label>
-                        <select id="scope">
-                            <option>全部</option>
-                            <option>一般纳税人</option>
-                            <option>小规模纳税人</option>
-                        </select>
+                    <div class="form-item" id="derived-atomic-multi-container">
+                        <label><span style="color: red;">*</span> 选择原子指标</label>
+                        <div class="custom-multi-select" id="derived-multi-select-wrapper">
+                            <div class="multi-select-trigger" id="derived-multi-select-trigger">
+                                <span class="selected-text">请选择原子指标</span>
+                                <span class="arrow">▼</span>
+                            </div>
+                            <div class="multi-select-dropdown" id="derived-multi-select-dropdown">
+                                <!-- Checkboxes will be populated dynamically -->
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-item">
-                        <label for="risk-type">风险类型</label>
-                        <select id="risk-type">
-                            <option>请选择</option>
-                            <option>风险</option>
-                            <option>疑似</option>
-                        </select>
+                    <div class="form-item" id="derived-value-container">
+                        <label><span style="color: red;">*</span> 选择时间维度</label>
+                        <div style="display: flex; flex-direction: column; gap: 10px;">
+                            <select id="derived-period">
+                                <option value="month">自然月</option>
+                                <option value="quarter">自然季度</option>
+                                <option value="year">自然年度</option>
+                                <option value="yoy">同比同期</option>
+                                <option value="qoq">环比上期</option>
+                                <option value="tax_period">纳税所属期</option>
+                            </select>
+                            <div style="display: flex; gap: 10px;">
+                                <div style="flex: 1;">
+                                    <label style="font-size: 12px; color: #909399; margin-bottom: 4px; display: block;">选择计算类型</label>
+                                    <select id="derived-taxpayer-nature">
+                                        <option value="single">单指标时间聚合</option>
+                                        <option value="multiple">多指标组合运算 (2个及以上原子指标)</option>
+                                    </select>
+                                </div>
+                                <div style="flex: 1;" id="derived-aggregation-type-wrapper">
+                                    <label style="font-size: 12px; color: #909399; margin-bottom: 4px; display: block;">聚合方式</label>
+                                    <select id="derived-aggregation-type">
+                                        <option value="sum">求和汇总</option>
+                                        <option value="avg">平均值</option>
+                                        <option value="max">最大值</option>
+                                        <option value="min">最小值</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="form-item">
-                        <label for="policy-basis">政策依据</label>
-                        <textarea id="policy-basis" rows="4" maxlength="500" placeholder="请输入政策依据..."></textarea>
+                    <div class="form-item" id="derived-combination-calc-container">
+                        <div class="multi-calc-row">
+                            <div class="multi-calc-col">
+                                <label>指标一</label>
+                                <select id="derived-multi-ind1">
+                                    <option value="">请选择指标</option>
+                                </select>
+                            </div>
+                            <div class="multi-calc-col">
+                                <label>运算符号</label>
+                                <select id="derived-multi-op">
+                                    <option value="/">/ 相除(占比/比率)</option>
+                                    <option value="+">+ 相加</option>
+                                    <option value="-">- 相减</option>
+                                    <option value="*">* 相乘</option>
+                                </select>
+                            </div>
+                            <div class="multi-calc-col">
+                                <label>指标二</label>
+                                <select id="derived-multi-ind2">
+                                    <option value="">请选择指标</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="multi-calc-example">
+                            示例：实缴税额 / 营业收入 = 月度税负率
+                        </div>
+                    </div>
+                    <div class="form-item" id="formula-builder-container">
+                        <label for="calculation-logic"><span style="color: red;">*</span> 计算公式</label>
+                        <div id="formula-display" class="formula-display-area"></div>
+                        <div class="formula-tools">
+                            <div class="atomic-indicators-list">
+                                <label>原子指标</label>
+                                <div id="atomic-indicator-pills"></div>
+                            </div>
+                            <div class="operators">
+                                <label>运算符</label>
+                                <div class="operator-buttons">
+                                    <button type="button" class="operator-btn" data-op="+">+</button>
+                                    <button type="button" class="operator-btn" data-op="-">-</button>
+                                    <button type="button" class="operator-btn" data-op="*">*</button>
+                                    <button type="button" class="operator-btn" data-op="/">/</button>
+                                    <button type="button" class="operator-btn" data-op="(">(</button>
+                                    <button type="button" class="operator-btn" data-op=")">)</button>
+                                    <button type="button" class="operator-btn clear" data-op="clear">清除</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-item" id="formula-period-container">
+                        <label for="formula-period"><span style="color: red;">*</span> 期间</label>
+                        <select id="formula-period">
+                            <option value="current_month">当月</option>
+                            <option value="last_month">上月</option>
+                            <option value="last_3_months">近3个月</option>
+                            <option value="last_6_months">近6个月</option>
+                            <option value="current_year">本年</option>
+                        </select>
                     </div>
                 </form>
             </div>
@@ -1911,11 +2318,164 @@
         const indicatorDrawerTitle = indicatorDrawer ? indicatorDrawer.querySelector('.drawer-header span') : null;
         const indicatorIdInput = document.getElementById('indicator-id');
         const indicatorNameInput = document.getElementById('indicator-name');
-        const calculationLogicTextarea = document.getElementById('calculation-logic');
-        const indicatorLevelSelect = document.getElementById('indicator-level');
-        const parentIndicatorSelect = document.getElementById('parent-indicator');
-        const scopeSelect = document.getElementById('scope');
+
+        const formulaBuilderContainer = document.getElementById('formula-builder-container');
+        const formulaPeriodSelect = document.getElementById('formula-period');
         const indicatorDrawerSaveBtn = indicatorDrawer ? indicatorDrawer.querySelector('.drawer-footer .btn-export') : null;
+
+        const derivedMultiSelectWrapper = document.getElementById('derived-multi-select-wrapper');
+        const derivedMultiSelectTrigger = document.getElementById('derived-multi-select-trigger');
+        const derivedMultiSelectDropdown = document.getElementById('derived-multi-select-dropdown');
+        const derivedTaxpayerNatureSelect = document.getElementById('derived-taxpayer-nature');
+        const derivedMultiInd1 = document.getElementById('derived-multi-ind1');
+        const derivedMultiInd2 = document.getElementById('derived-multi-ind2');
+
+        const compositeMultiSelectWrapper = document.getElementById('composite-multi-select-wrapper');
+        const compositeMultiSelectTrigger = document.getElementById('composite-multi-select-trigger');
+        const compositeMultiSelectDropdown = document.getElementById('composite-multi-select-dropdown');
+        const compositeMultiInd1 = document.getElementById('composite-multi-ind1');
+        const compositeMultiInd2 = document.getElementById('composite-multi-ind2');
+
+        // --- Custom Multi-Select Logic ---
+        function initCustomMultiSelect() {
+            // Derived Multi-Select
+            if (derivedMultiSelectTrigger) {
+                derivedMultiSelectTrigger.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    derivedMultiSelectWrapper.classList.toggle('active');
+                });
+            }
+
+            // Composite Multi-Select
+            if (compositeMultiSelectTrigger) {
+                compositeMultiSelectTrigger.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    compositeMultiSelectWrapper.classList.toggle('active');
+                });
+            }
+
+            document.addEventListener('click', (e) => {
+                if (derivedMultiSelectWrapper && !derivedMultiSelectWrapper.contains(e.target)) {
+                    derivedMultiSelectWrapper.classList.remove('active');
+                }
+                if (compositeMultiSelectWrapper && !compositeMultiSelectWrapper.contains(e.target)) {
+                    compositeMultiSelectWrapper.classList.remove('active');
+                }
+            });
+
+            [derivedMultiSelectDropdown, compositeMultiSelectDropdown].forEach(dropdown => {
+                if (dropdown) {
+                    dropdown.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                    });
+                }
+            });
+
+            if (derivedTaxpayerNatureSelect) {
+                derivedTaxpayerNatureSelect.addEventListener('change', updateDerivedMode);
+            }
+        }
+
+        function updateDerivedMode() {
+            if (!indicatorDrawer || !derivedTaxpayerNatureSelect) return;
+            const mode = derivedTaxpayerNatureSelect.value;
+            indicatorDrawer.classList.remove('mode-single', 'mode-multiple');
+            indicatorDrawer.classList.add('mode-' + mode);
+        }
+
+        function updateMultiSelectText(trigger, dropdown, placeholder) {
+            const checkboxes = dropdown.querySelectorAll('input[type="checkbox"]:checked');
+            const selectedText = trigger.querySelector('.selected-text');
+            if (checkboxes.length === 0) {
+                selectedText.textContent = placeholder;
+            } else if (checkboxes.length <= 2) {
+                selectedText.textContent = Array.from(checkboxes).map(cb => cb.value).join(', ');
+            } else {
+                selectedText.textContent = `已选择 ${checkboxes.length} 个指标`;
+            }
+        }
+
+        function populateIndicatorSelects() {
+            if (!derivedMultiSelectDropdown || !compositeMultiSelectDropdown) return;
+            derivedMultiSelectDropdown.innerHTML = '';
+            compositeMultiSelectDropdown.innerHTML = '';
+            
+            if (derivedMultiInd1) derivedMultiInd1.innerHTML = '<option value="">请选择指标</option>';
+            if (derivedMultiInd2) derivedMultiInd2.innerHTML = '<option value="">请选择指标</option>';
+            if (compositeMultiInd1) compositeMultiInd1.innerHTML = '<option value="">请选择指标</option>';
+            if (compositeMultiInd2) compositeMultiInd2.innerHTML = '<option value="">请选择指标</option>';
+            
+            const allIndicators = pageData['indicator-library'] || [];
+            const atomicIndicators = allIndicators.filter(item => item.type === 'atomic');
+            const derivedIndicators = allIndicators.filter(item => item.type === 'derived');
+
+            // Populate Derived multi-select (with atomic indicators)
+            atomicIndicators.forEach(ind => {
+                const optionDiv = document.createElement('div');
+                optionDiv.className = 'multi-select-option';
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.value = ind.name;
+                checkbox.id = `derived-cb-${ind.id}`;
+                checkbox.addEventListener('change', () => updateMultiSelectText(derivedMultiSelectTrigger, derivedMultiSelectDropdown, '请选择原子指标'));
+                const label = document.createElement('label');
+                label.htmlFor = `derived-cb-${ind.id}`;
+                label.textContent = ind.name;
+                optionDiv.appendChild(checkbox);
+                optionDiv.appendChild(label);
+                derivedMultiSelectDropdown.appendChild(optionDiv);
+                
+                if (derivedMultiInd1) {
+                    const opt1 = document.createElement('option');
+                    opt1.value = ind.name;
+                    opt1.textContent = ind.name;
+                    derivedMultiInd1.appendChild(opt1);
+                }
+                if (derivedMultiInd2) {
+                    const opt2 = document.createElement('option');
+                    opt2.value = ind.name;
+                    opt2.textContent = ind.name;
+                    derivedMultiInd2.appendChild(opt2);
+                }
+            });
+
+            // Populate Composite multi-select (with derived indicators)
+            derivedIndicators.forEach(ind => {
+                const optionDiv = document.createElement('div');
+                optionDiv.className = 'multi-select-option';
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.value = ind.name;
+                checkbox.id = `composite-cb-${ind.id}`;
+                checkbox.addEventListener('change', () => updateMultiSelectText(compositeMultiSelectTrigger, compositeMultiSelectDropdown, '请选择衍生指标'));
+                const label = document.createElement('label');
+                label.htmlFor = `composite-cb-${ind.id}`;
+                label.textContent = ind.name;
+                optionDiv.appendChild(checkbox);
+                optionDiv.appendChild(label);
+                compositeMultiSelectDropdown.appendChild(optionDiv);
+
+                // Populate composite multi ind dropdowns
+                if (compositeMultiInd1) {
+                    const opt1 = document.createElement('option');
+                    opt1.value = ind.name;
+                    opt1.textContent = ind.name;
+                    compositeMultiInd1.appendChild(opt1);
+                }
+                if (compositeMultiInd2) {
+                    const opt2 = document.createElement('option');
+                    opt2.value = ind.name;
+                    opt2.textContent = ind.name;
+                    compositeMultiInd2.appendChild(opt2);
+                }
+            });
+
+            updateMultiSelectText(derivedMultiSelectTrigger, derivedMultiSelectDropdown, '请选择原子指标');
+            updateMultiSelectText(compositeMultiSelectTrigger, compositeMultiSelectDropdown, '请选择衍生指标');
+        }
+
+        // Initialize custom multi-select
+        initCustomMultiSelect();
 
         // Scene Drawer
         const sceneDrawerOverlay = document.getElementById('scene-drawer-overlay');
@@ -1964,39 +2524,48 @@
                 indicatorDrawerTitle.textContent = '新增指标';
                 indicatorIdInput.value = '';
                 indicatorNameInput.value = '';
-                calculationLogicTextarea.value = '';
-                indicatorLevelSelect.value = '一级'; // Default value, adjust as needed
-                parentIndicatorSelect.value = '请选择'; // Default value
-                scopeSelect.value = '全部'; // Default value
-                indicatorDrawerSaveBtn.style.display = 'block'; // Show save button by default
+                indicatorDrawerSaveBtn.style.display = 'block';
 
-                // Set all fields to editable by default
+                // Set all fields to editable by default for 'add' mode
                 indicatorIdInput.readOnly = false;
                 indicatorNameInput.readOnly = false;
-                calculationLogicTextarea.readOnly = false;
-                indicatorLevelSelect.disabled = false;
-                parentIndicatorSelect.disabled = false;
-                scopeSelect.disabled = false;
+
+
+                populateIndicatorSelects();
+
+                if (mode === 'add') {
+                    indicatorDrawer.classList.remove('category-atomic', 'category-derived', 'category-composite');
+                    indicatorDrawer.classList.add('category-' + activeIndicatorCategory);
+                    
+                    if (activeIndicatorCategory === 'derived') {
+                        derivedTaxpayerNatureSelect.value = 'single';
+                        updateDerivedMode();
+                    }
+                }
 
                 if (mode === 'view' || mode === 'edit') {
                     // Populate form with indicatorData
                     indicatorIdInput.value = indicatorData.id || '';
                     indicatorNameInput.value = indicatorData.name || '';
-                    calculationLogicTextarea.value = indicatorData.logic || '';
-                    indicatorLevelSelect.value = indicatorData.level || '一级';
-                    parentIndicatorSelect.value = indicatorData.parent || '请选择';
-                    scopeSelect.value = indicatorData.scope || '全部';
+                    
+                    indicatorDrawer.classList.remove('category-atomic', 'category-derived', 'category-composite');
+                    const category = indicatorData.type || 'atomic';
+                    indicatorDrawer.classList.add('category-' + category);
+
+                    if (category === 'derived') {
+                        // For demo, we assume based on formula if it's single or multiple
+                        // In a real app, 'mode' would be a field in the data
+                        const isMultiple = indicatorData.formula && (indicatorData.formula.includes('/') || indicatorData.formula.includes('*'));
+                        derivedTaxpayerNatureSelect.value = isMultiple ? 'multiple' : 'single';
+                        updateDerivedMode();
+                    }
 
                     if (mode === 'view') {
                         indicatorDrawerTitle.textContent = '查看指标';
                         // Set all fields to read-only
                         indicatorIdInput.readOnly = true;
                         indicatorNameInput.readOnly = true;
-                        calculationLogicTextarea.readOnly = true;
-                        indicatorLevelSelect.disabled = true;
-                        parentIndicatorSelect.disabled = true;
-                        scopeSelect.disabled = true;
-                        indicatorDrawerSaveBtn.style.display = 'none'; // Hide save button
+                        indicatorDrawerSaveBtn.style.display = 'none';
                     } else if (mode === 'edit') {
                         indicatorDrawerTitle.textContent = '编辑指标';
                     }
@@ -2011,6 +2580,23 @@
             }
         }
 
+        function populateAtomicIndicators() {
+            const container = document.getElementById('atomic-indicator-pills');
+            if (!container) return;
+
+            container.innerHTML = ''; // Clear existing pills
+
+            const atomicIndicators = pageData['indicator-library'].filter(item => item.type === 'atomic');
+
+            atomicIndicators.forEach(indicator => {
+                const pill = document.createElement('div');
+                pill.className = 'indicator-pill';
+                pill.textContent = indicator.name;
+                pill.dataset.indicatorName = `[${indicator.name}]`;
+                container.appendChild(pill);
+            });
+        }
+
         if (openIndicatorDrawerBtn) openIndicatorDrawerBtn.addEventListener('click', () => openIndicatorDrawer('add'));
         if (closeIndicatorDrawerBtn) closeIndicatorDrawerBtn.addEventListener('click', closeIndicatorDrawer);
         if (cancelIndicatorDrawerBtn) cancelIndicatorDrawerBtn.addEventListener('click', closeIndicatorDrawer);
@@ -2022,21 +2608,15 @@
 
         // --- Indicator Action Buttons Logic ---
         document.getElementById('indicator-library-page').addEventListener('click', function(event) {
-            const target = event.target;
-            if (target.classList.contains('indicator-action-link')) {
+            if (event.target.classList.contains('indicator-action-link')) {
                 event.preventDefault();
-                const action = target.dataset.action;
-                const row = target.closest('tr');
+                const action = event.target.dataset.action;
+                const row = event.target.closest('tr');
                 if (row) {
-                    const cells = row.querySelectorAll('td');
-                    const indicatorData = {
-                        id: cells[0].textContent.trim(),
-                        name: cells[1].textContent.trim(),
-                        logic: cells[2].textContent.trim(),
-                        level: cells[3].textContent.trim(),
-                        parent: cells[4].textContent.trim(),
-                        scope: cells[5].textContent.trim(),
-                    };
+                    const indicatorId = row.querySelector('td').textContent.trim();
+                    const indicatorData = pageData['indicator-library'].find(item => item.id === indicatorId);
+
+                    if (!indicatorData) return;
 
                     switch (action) {
                         case 'view':
@@ -2047,7 +2627,8 @@
                             break;
                         case 'delete':
                             if (confirm(`确定要删除指标: ${indicatorData.name} 吗？`)) {
-                                row.remove();
+                                pageData['indicator-library'] = pageData['indicator-library'].filter(item => item.id !== indicatorId);
+                                renderPage('indicator-library');
                             }
                             break;
                     }
@@ -2438,11 +3019,22 @@
         };
 
         // --- Pagination Logic ---
+        let activeIndicatorCategory = 'atomic'; // Default category
+
         function renderPage(pageId) {
             const state = paginationState[pageId];
-            const data = pageData[pageId];
-            const tableBody = document.querySelector(`#${pageId}-page table tbody`);
+            let data = pageData[pageId];
+            const pageEl = document.getElementById(`${pageId}-page`);
+            const tableBody = pageEl.querySelector(`table tbody`);
             const controlsContainer = document.getElementById(`pagination-${pageId}`);
+
+            if (pageId === 'indicator-library') {
+                data = pageData[pageId].filter(item => item.type === activeIndicatorCategory);
+                
+                // Toggle category class for CSS-based hiding
+                pageEl.classList.remove('category-atomic', 'category-derived', 'category-composite');
+                pageEl.classList.add('category-' + activeIndicatorCategory);
+            }
 
             if (!tableBody || !controlsContainer) return;
 
@@ -2466,7 +3058,15 @@
             // Render table rows
             let rowsHtml = '';
             if (pageId === 'indicator-library') {
-                rowsHtml = pageItems.map(d => `<tr><td>${d.id}</td><td>${d.name}</td><td>${d.formula}</td><td>${d.level}</td><td>${d.parent}</td><td>${d.scope}</td><td>${d.creator}</td><td>${d.date}</td><td><a href="#" class="indicator-action-link" data-action="view">查看</a> <a href="#" class="indicator-action-link" data-action="edit">编辑</a> <a href="#" class="indicator-action-link" data-action="delete">删除</a></td></tr>`).join('');
+                const isAtomic = activeIndicatorCategory === 'atomic';
+                rowsHtml = pageItems.map(d => {
+                    let cells = `<td>${d.id}</td><td>${d.name}</td><td>${d.description || '-'}</td>`;
+                    if (!isAtomic) {
+                        cells += `<td>${d.formula}</td>`;
+                    }
+                    cells += `<td>${d.scope}</td><td>${d.creator}</td><td>${d.date}</td><td><a href="#" class="indicator-action-link" data-action="view">查看</a> <a href="#" class="indicator-action-link" data-action="edit">编辑</a> <a href="#" class="indicator-action-link" data-action="delete">删除</a></td>`;
+                    return `<tr>${cells}</tr>`;
+                }).join('');
             } else {
                 rowsHtml = pageItems.map(item => item.html).join('');
             }
@@ -2541,26 +3141,34 @@
 
             // Data for indicator-library
             const indicatorBaseData = [
-                { id: 'ZB001', name: '资产负债率', formula: '(总负债 / 总资产) * 100%', level: '一级', parent: '-', scope: '一般纳税人', creator: '张三', date: '2026-03-20 10:00:00' },
-                { id: 'ZB002', name: '销售增长率', formula: '((本期销售额 - 上期销售额) / 上期销售额) * 100%', level: '一级', parent: '-', scope: '小规模纳税人', creator: '李四', date: '2026-03-21 11:30:00' },
-                { id: 'ZB003', name: '流动比率', formula: '流动资产 / 流动负债', level: '二级', parent: '资产负债率', scope: '一般纳税人', creator: '王五', date: '2026-03-22 14:00:00' },
-                { id: 'ZB004', name: '速动比率', formula: '(流动资产 - 存货) / 流动负债', level: '三级', parent: '流动比率', scope: '小规模纳税人', creator: '赵六', date: '2026-03-23 09:00:00' }
+                { id: 'ZB001', name: '资产负债率', description: '反映企业负债水平的指标', formula: '(总负债 / 总资产) * 100%', level: '一级', parent: '-', scope: '一般纳税人', creator: '张三', date: '2026-03-20 10:00:00', type: 'atomic' },
+                { id: 'ZB002', name: '销售增长率', description: '反映企业销售额变动情况的指标', formula: '((本期销售额 - 上期销售额) / 上期销售额) * 100%', level: '一级', parent: '-', scope: '小规模纳税人', creator: '李四', date: '2026-03-21 11:30:00', type: 'atomic' },
+                { id: 'ZB003', name: '流动比率', description: '反映企业短期偿债能力的指标', formula: '流动资产 / 流动负债', level: '二级', parent: '资产负债率', scope: '一般纳税人', creator: '王五', date: '2026-03-22 14:00:00', type: 'atomic' },
+                { id: 'ZB004', name: '速动比率', description: '反映企业即期偿债能力的指标', formula: '(流动资产 - 存货) / 流动负债', level: '三级', parent: '流动比率', scope: '小规模纳税人', creator: '赵六', date: '2026-03-23 09:00:00', type: 'atomic' }
             ];
             pageData['indicator-library'] = indicatorBaseData;
         }
 
         function addIndicatorDemoData() {
-            if (pageData['indicator-library'].length > 4) return; // Demo data already added
+            if (pageData['indicator-library'].some(item => item.type === 'derived')) return; // Demo data already added
 
             const parentIndicatorData = [
-                { id: 'P001', name: '盈利能力分析', formula: '综合计算', level: '一级', parent: '-', scope: '全部', creator: '系统', date: '2025-01-01 09:00:00' },
-                { id: 'P002', name: '资产运营效率', formula: '综合计算', level: '一级', parent: '-', scope: '全部', creator: '系统', date: '2025-01-01 09:00:00' },
-                { id: 'P003', name: '税务合规性', formula: '综合计算', level: '一级', parent: '-', scope: '全部', creator: '系统', date: '2025-01-01 09:00:00' },
-                { id: 'P004', name: '现金流健康度', formula: '综合计算', level: '一级', parent: '-', scope: '全部', creator: '系统', date: '2025-01-01 09:00:00' },
-                { id: 'P005', name: '偿债能力分析', formula: '综合计算', level: '一级', parent: '-', scope: '全部', creator: '系统', date: '2025-01-01 09:00:00' },
-                { id: 'P006', name: '成本控制水平', formula: '综合计算', level: '一级', parent: '-', scope: '全部', creator: '系统', date: '2025-01-01 09:00:00' }
+                { id: 'P001', name: '盈利能力分析', formula: '综合计算', level: '一级', parent: '-', scope: '全部', creator: '系统', date: '2025-01-01 09:00:00', type: 'composite' },
+                { id: 'P002', name: '资产运营效率', formula: '综合计算', level: '一级', parent: '-', scope: '全部', creator: '系统', date: '2025-01-01 09:00:00', type: 'composite' },
+                { id: 'P003', name: '税务合规性', formula: '综合计算', level: '一级', parent: '-', scope: '全部', creator: '系统', date: '2025-01-01 09:00:00', type: 'composite' },
+                { id: 'P004', name: '现金流健康度', formula: '综合计算', level: '一级', parent: '-', scope: '全部', creator: '系统', date: '2025-01-01 09:00:00', type: 'composite' },
+                { id: 'P005', name: '偿债能力分析', formula: '综合计算', level: '一级', parent: '-', scope: '全部', creator: '系统', date: '2025-01-01 09:00:00', type: 'composite' },
+                { id: 'P006', name: '成本控制水平', formula: '综合计算', level: '一级', parent: '-', scope: '全部', creator: '系统', date: '2025-01-01 09:00:00', type: 'composite' }
             ];
             pageData['indicator-library'].push(...parentIndicatorData);
+
+            // Add some Derived Indicators
+            const derivedIndicators = [
+                { id: 'D001', name: '净资产收益率(ROE)', formula: '单指标时间聚合 + 自然月 + 净利润', level: '二级', parent: '盈利能力分析', scope: '全部', creator: '系统', date: '2025-02-01 10:00:00', type: 'derived' },
+                { id: 'D002', name: '总资产周转率', formula: '多指标组合运算 + 自然季度 + 营业收入', level: '二级', parent: '资产运营效率', scope: '全部', creator: '系统', date: '2025-02-02 11:00:00', type: 'derived' },
+                { id: 'D003', name: '存货周转天数', formula: '单指标时间聚合 + 自然年度 + 存货周转率', level: '三级', parent: '存货周转率', scope: '全部', creator: '系统', date: '2025-02-03 12:00:00', type: 'derived' }
+            ];
+            pageData['indicator-library'].push(...derivedIndicators);
 
             const indicatorNames = ["销售收入异常波动", "毛利率偏低", "费用占收入比过高", "存货周转率下降", "应收账款账龄过长", "预付账款长期挂账", "大额现金交易", "增值税税负率异常", "企业所得税贡献率低", "印花税申报异常"];
             const formulas = ["(本期销售额 - 上期销售额) / 上期销售额", "(主营业务收入 - 主营业务成本) / 主营业务收入 * 100%", "(销售费用 + 管理费用 + 财务费用) / 营业收入 * 100%", "营业成本 / 平均存货余额", "应收账款周转天数", "预付账款 / (营业成本 / 365)", "SUM(单笔大于5万现金收支)", "当期应纳增值税 / 当期销售收入 * 100%", "当期应纳所得税 / 利润总额 * 100%", "SUM(应税凭证金额) * 税率"];
@@ -2583,7 +3191,7 @@
                     const scope = scopes[i % scopes.length];
                     const creator = creators[i % creators.length];
                     const date = `2025-01-02 10:00:00`;
-                    const newIndicator = { id: indicatorId, name: indicatorName, formula, level, parent, scope, creator, date };
+                    const newIndicator = { id: indicatorId, name: indicatorName, description: '自动生成的演示数据描述', formula, level, parent, scope, creator, date, type: 'atomic' };
                     demoRows.push(newIndicator);
                     level2Indicators.push(newIndicator);
                 }
@@ -2600,7 +3208,7 @@
                     const scope = scopes[i % scopes.length];
                     const creator = creators[i % creators.length];
                     const date = `2025-01-03 10:00:00`;
-                    demoRows.push({ id: indicatorId, name: indicatorName, formula, level, parent, scope, creator, date });
+                    demoRows.push({ id: indicatorId, name: indicatorName, description: '自动生成的演示数据描述', formula, level, parent, scope, creator, date, type: 'atomic' });
                 }
             });
 
@@ -2837,6 +3445,19 @@
             const initialPageId = firstMenuItem.getAttribute('href').substring(1);
             const initialTabName = firstMenuItem.textContent;
             createTab(initialPageId, initialTabName);
+        }
+
+        // --- Indicator Category Logic ---
+        const indicatorCategoryMenu = document.querySelector('.indicator-category-menu');
+        if (indicatorCategoryMenu) {
+            indicatorCategoryMenu.addEventListener('click', (e) => {
+                if (e.target.classList.contains('indicator-category-item')) {
+                    activeIndicatorCategory = e.target.dataset.category;
+                    indicatorCategoryMenu.querySelectorAll('.indicator-category-item').forEach(item => item.classList.remove('active'));
+                    e.target.classList.add('active');
+                    renderPage('indicator-library');
+                }
+            });
         }
 
         // --- Batch Checkbox Logic ---
