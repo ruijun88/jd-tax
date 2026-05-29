@@ -1466,6 +1466,21 @@
             display: block !important;
         }
 
+        /* Composite Indicator Level Logic */
+        .category-atomic #composite-level-container,
+        .category-atomic #composite-parent-container,
+        .category-derived #composite-level-container,
+        .category-derived #composite-parent-container {
+            display: none !important;
+        }
+        .category-composite #composite-level-container {
+            display: block !important;
+        }
+        /* Parent container visibility is handled by JS but we need to ensure it's hidden for other categories */
+        .category-composite #composite-parent-container {
+            display: none; /* Default hidden, shown by JS when level > 1 */
+        }
+
         /* Custom Multi-Select Styles */
         .custom-multi-select {
             position: relative;
@@ -1967,6 +1982,21 @@
                         <label for="indicator-name"><span style="color: red;">*</span> 指标名称</label>
                         <input type="text" id="indicator-name">
                     </div>
+                    <!-- Composite Indicator Level -->
+                    <div class="form-item" id="composite-level-container">
+                        <label for="indicator-level"><span style="color: red;">*</span> 指标层级</label>
+                        <select id="indicator-level">
+                            <option value="1">1级指标</option>
+                            <option value="2">2级指标</option>
+                            <option value="3">3级指标</option>
+                        </select>
+                    </div>
+                    <div class="form-item" id="composite-parent-container">
+                        <label for="parent-indicator"><span style="color: red;">*</span> 父级指标</label>
+                        <select id="parent-indicator">
+                            <option value="">请选择父级指标</option>
+                        </select>
+                    </div>
                     <div class="form-item">
                         <label for="value-description">指标取值描述</label>
                         <textarea id="value-description" rows="4" placeholder="请输入指标取值描述..."></textarea>
@@ -2336,6 +2366,10 @@
         const compositeMultiInd1 = document.getElementById('composite-multi-ind1');
         const compositeMultiInd2 = document.getElementById('composite-multi-ind2');
 
+        const compositeLevelSelect = document.getElementById('indicator-level');
+        const compositeParentContainer = document.getElementById('composite-parent-container');
+        const compositeParentSelect = document.getElementById('parent-indicator');
+
         // --- Custom Multi-Select Logic ---
         function initCustomMultiSelect() {
             // Derived Multi-Select
@@ -2374,6 +2408,17 @@
             if (derivedTaxpayerNatureSelect) {
                 derivedTaxpayerNatureSelect.addEventListener('change', updateDerivedMode);
             }
+
+            if (compositeLevelSelect) {
+                compositeLevelSelect.addEventListener('change', () => {
+                    const level = compositeLevelSelect.value;
+                    if (level === '2' || level === '3') {
+                        compositeParentContainer.style.display = 'block';
+                    } else {
+                        compositeParentContainer.style.display = 'none';
+                    }
+                });
+            }
         }
 
         function updateDerivedMode() {
@@ -2404,10 +2449,22 @@
             if (derivedMultiInd2) derivedMultiInd2.innerHTML = '<option value="">请选择指标</option>';
             if (compositeMultiInd1) compositeMultiInd1.innerHTML = '<option value="">请选择指标</option>';
             if (compositeMultiInd2) compositeMultiInd2.innerHTML = '<option value="">请选择指标</option>';
+            if (compositeParentSelect) compositeParentSelect.innerHTML = '<option value="">请选择父级指标</option>';
             
             const allIndicators = pageData['indicator-library'] || [];
             const atomicIndicators = allIndicators.filter(item => item.type === 'atomic');
             const derivedIndicators = allIndicators.filter(item => item.type === 'derived');
+            const compositeIndicators = allIndicators.filter(item => item.type === 'composite');
+
+            // Populate Composite parent-indicator (with composite indicators)
+            compositeIndicators.forEach(ind => {
+                if (compositeParentSelect) {
+                    const opt = document.createElement('option');
+                    opt.value = ind.name;
+                    opt.textContent = ind.name;
+                    compositeParentSelect.appendChild(opt);
+                }
+            });
 
             // Populate Derived multi-select (with atomic indicators)
             atomicIndicators.forEach(ind => {
@@ -2524,11 +2581,16 @@
                 indicatorDrawerTitle.textContent = '新增指标';
                 indicatorIdInput.value = '';
                 indicatorNameInput.value = '';
+                if (compositeLevelSelect) compositeLevelSelect.value = '1';
+                if (compositeParentSelect) compositeParentSelect.value = '';
+                if (compositeParentContainer) compositeParentContainer.style.display = 'none';
                 indicatorDrawerSaveBtn.style.display = 'block';
 
                 // Set all fields to editable by default for 'add' mode
                 indicatorIdInput.readOnly = false;
                 indicatorNameInput.readOnly = false;
+                if (compositeLevelSelect) compositeLevelSelect.disabled = false;
+                if (compositeParentSelect) compositeParentSelect.disabled = false;
 
 
                 populateIndicatorSelects();
@@ -2548,6 +2610,20 @@
                     indicatorIdInput.value = indicatorData.id || '';
                     indicatorNameInput.value = indicatorData.name || '';
                     
+                    if (compositeLevelSelect) {
+                        const levelStr = indicatorData.level || '1';
+                        // Map '一级' to '1', etc. if necessary, but the data seems to have '一级'
+                        const levelMap = { '一级': '1', '二级': '2', '三级': '3' };
+                        compositeLevelSelect.value = levelMap[levelStr] || levelStr;
+                        
+                        if (compositeLevelSelect.value === '2' || compositeLevelSelect.value === '3') {
+                            compositeParentContainer.style.display = 'block';
+                            if (compositeParentSelect) compositeParentSelect.value = indicatorData.parent || '';
+                        } else {
+                            compositeParentContainer.style.display = 'none';
+                        }
+                    }
+                    
                     indicatorDrawer.classList.remove('category-atomic', 'category-derived', 'category-composite');
                     const category = indicatorData.type || 'atomic';
                     indicatorDrawer.classList.add('category-' + category);
@@ -2565,9 +2641,13 @@
                         // Set all fields to read-only
                         indicatorIdInput.readOnly = true;
                         indicatorNameInput.readOnly = true;
+                        if (compositeLevelSelect) compositeLevelSelect.disabled = true;
+                        if (compositeParentSelect) compositeParentSelect.disabled = true;
                         indicatorDrawerSaveBtn.style.display = 'none';
                     } else if (mode === 'edit') {
                         indicatorDrawerTitle.textContent = '编辑指标';
+                        if (compositeLevelSelect) compositeLevelSelect.disabled = false;
+                        if (compositeParentSelect) compositeParentSelect.disabled = false;
                     }
                 }
             }
