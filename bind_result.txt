@@ -1,0 +1,15 @@
+{
+  "ok": false,
+  "error": {
+    "type": "lark-channel",
+    "message": "cannot read /Users/shiruijun/.lark-channel/config.json: open /Users/shiruijun/.lark-channel/config.json: no such file or directory",
+    "hint": "verify lark-channel-bridge is installed and configured"
+  },
+  "_notice": {
+    "update": {
+      "current": "1.0.30",
+      "latest": "1.0.77",
+      "message": "lark-cli 1.0.77 available, current 1.0.30, run: lark-cli update"
+    }
+  }
+}

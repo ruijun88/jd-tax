@@ -1,0 +1,19 @@
+{
+  "ok": false,
+  "error": {
+    "type": "hermes",
+    "message": "failed to read Hermes config: open /Users/shiruijun/.hermes/.env: no such file or directory",
+    "hint": "verify Hermes is installed and configured at /Users/shiruijun/.hermes/.env"
+  },
+  "_notice": {
+    "update": {
+      "current": "1.0.30",
+      "latest": "1.0.77",
+      "message": "lark-cli 1.0.77 available, current 1.0.30, run: lark-cli update"
+    }
+  }
+}
+⚠️ 你正在从应用身份切换到用户身份 —— 切换后 AI 将以你的名义在飞书中执行所有操作（读写文档、搜索消息、修改日程等）。⚠️ 请勿将此机器人分享给他人或拉入群聊中使用，以免泄露你的飞书数据。
+配置成功！lark-cli 已可在 OpenClaw 中使用。
+注意：这是一次性同步，后续 Agent 配置变更不会自动更新到 lark-cli。如需重新同步，请执行 `lark-cli config bind`
+{"app_id":"cli_a93148011cb8dccf","config_path":"/Users/shiruijun/.lark-cli/openclaw/config.json","identity":"user-default","message":"已绑定应用 cli_a93148011cb8dccf 到 OpenClaw。请接着在此 OpenClaw 对话中运行 `lark-cli auth login --recommend`。该命令会在 stderr 打出 verification_url 后阻塞等待用户授权；请将此链接原样发给用户在其浏览器中完成授权（不要自己调 browser_navigate 之类的工具打开，授权必须在用户的浏览器里完成），命令会在用户授权完成后自动返回。","ok":true,"replaced":true,"workspace":"openclaw"}

@@ -1,0 +1,15 @@
+Download a file from Drive to local
+
+Usage:
+  lark-cli drive +download [flags]
+
+Flags:
+      --as string           identity type: user | bot
+      --dry-run             print request without executing
+      --file-token string   file token
+  -h, --help                help for +download
+  -q, --jq string           jq expression to filter JSON output
+      --output string       local save path
+      --overwrite           overwrite existing output file
+
+Risk: read

@@ -1,0 +1,16 @@
+Downloading: G6XS...ynkb
+{
+  "ok": true,
+  "identity": "user",
+  "data": {
+    "saved_path": "/Users/shiruijun/Documents/jd-tax/tmp_lark/report.pdf",
+    "size_bytes": 16626333
+  },
+  "_notice": {
+    "update": {
+      "current": "1.0.30",
+      "latest": "1.0.77",
+      "message": "lark-cli 1.0.77 available, current 1.0.30, run: lark-cli update"
+    }
+  }
+}

@@ -11,14 +11,10 @@
             "id": "dffad3531731931a",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "财小哥税务风险管控平台PRD.md",
-                "mode": "source",
-                "source": false
-              },
+              "type": "empty",
+              "state": {},
               "icon": "lucide-file",
-              "title": "财小哥税务风险管控平台PRD"
+              "title": "新标签页"
             }
           }
         ]
@@ -180,7 +176,7 @@
       "bases:新建数据库": false
     }
   },
-  "active": "dffad3531731931a",
+  "active": "5bd892f6ae094ea2",
   "lastOpenFiles": [
     "财小哥税务风险管控平台PRD.md",
     "欢迎.md"

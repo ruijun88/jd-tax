@@ -1,0 +1,19 @@
+{
+  "ok": false,
+  "identity": "user",
+  "error": {
+    "type": "api_error",
+    "code": 3380002,
+    "message": "Unsupported document type 'file'. Only docx is supported.",
+    "detail": {
+      "log_id": "20260727182706B87700E6C31C49751E74"
+    }
+  },
+  "_notice": {
+    "update": {
+      "current": "1.0.30",
+      "latest": "1.0.77",
+      "message": "lark-cli 1.0.77 available, current 1.0.30, run: lark-cli update"
+    }
+  }
+}

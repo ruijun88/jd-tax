@@ -1,0 +1,24 @@
+{
+  "code": 0,
+  "data": {
+    "node": {
+      "creator": "ou_cf3309cefda6749226a40cb0affe00f1",
+      "has_child": false,
+      "node_create_time": "1785145330",
+      "node_creator": "ou_cf3309cefda6749226a40cb0affe00f1",
+      "node_token": "HcX2wQe0UiIcxbkv4jYcMNfUnjT",
+      "node_type": "origin",
+      "obj_create_time": "1785145330",
+      "obj_edit_time": "1785145349",
+      "obj_token": "G6XSbnZA8oZyFOxy3hRcwyBynkb",
+      "obj_type": "file",
+      "origin_node_token": "HcX2wQe0UiIcxbkv4jYcMNfUnjT",
+      "origin_space_id": "7613366567211896033",
+      "owner": "ou_cf3309cefda6749226a40cb0affe00f1",
+      "parent_node_token": "",
+      "space_id": "7613366567211896033",
+      "title": "财税合规检测报告（税务细化版）某建筑有限公司脱敏样例.pdf"
+    }
+  },
+  "msg": "success"
+}
